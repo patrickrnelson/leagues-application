@@ -33,11 +33,11 @@ function LoginForm() {
         </h3>
       )}
       <div>
-        <label htmlFor="username">
-          Username:
+        <label htmlFor="email">
+          Email:
           <input
             type="text"
-            name="username"
+            name="email"
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}

@@ -2,10 +2,9 @@
 
 CREATE TABLE "user" (
     "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "email" VARCHAR (256) NOT NULL,
+    "name" VARCHAR (80) NOT NULL,
+    "username" VARCHAR (256) UNIQUE NOT NULL,
     "phone" VARCHAR (64) NOT NULL,
-    "handicap" INTEGER,
     "authLevel" INTEGER,
     "password" VARCHAR (1000) NOT NULL
 );
@@ -20,32 +19,35 @@ CREATE TABLE "league" (
 CREATE TABLE "teams" (
   "id" SERIAL PRIMARY KEY,
   "name" VARCHAR (256) NOT NULL,
-  "captain" INTEGER,
-  "is_paid" BOOLEAN DEFAULT FALSE,
-  "league_id" INT REFERENCES "league"
+  "captainId" INTEGER,
+  "leagueId" INT REFERENCES "league"
+);
+
+CREATE TABLE "locations" (
+  "id" SERIAL PRIMARY KEY,
+  "name" VARCHAR (256)
 );
 
 CREATE TABLE "climbs" (
   "id" SERIAL PRIMARY KEY,
-  "location" VARCHAR (256) NOT NULL,
+  "locationId" INT REFERENCES "locations",
   "color" VARCHAR (256) NOT NULL,
   "level" INTEGER,
   "score" INTEGER,
-  "climb_date" DATE,
-  "is_submitted" BOOLEAN DEFAULT FALSE,
-  "week" VARCHAR (256),
-  "user_id" INT REFERENCES "user"
+  "climbDate" DATE,
+  "isSubmitted" BOOLEAN DEFAULT FALSE,
+  "userId" INT REFERENCES "user"
 );
 
-CREATE TABLE "users_teams" (
+CREATE TABLE "usersTeams" (
   "id" SERIAL PRIMARY KEY,
-  "user_id" INT REFERENCES "user",
-  "team_id" INT REFERENCES "teams"
+  "userId" INT REFERENCES "user",
+  "teamId" INT REFERENCES "teams"
 );
 
-CREATE TABLE "scores" (
+CREATE TABLE "leagueTeams" (
   "id" SERIAL PRIMARY KEY, 
-  "team_id" INT REFERENCES "teams",
-  "total_scores" INTEGER,
-  "week" VARCHAR (256)
+  "teamId" INT REFERENCES "teams",
+  "leagueId" INT REFERENCES "league",
+  "isPaid" BOOLEAN DEFAULT FALSE
 );
