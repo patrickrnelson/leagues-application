@@ -1,8 +1,11 @@
 import React from 'react';
 
+import Header from '../Header/Header'
+
 function ClimbingSession() {
   return (
     <div className="container">
+      <Header />
       <h2>Week 1 Climbing Session</h2>
       <h4>Handicap: Determined by this weeks submission</h4>
       <button>Add a Climb</button>

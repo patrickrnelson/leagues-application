@@ -1,8 +1,11 @@
 import React from 'react';
 
+import Header from '../Header/Header'
+
 function ClimberPage() {
   return (
     <div className="container">
+      <Header />
       <h2>Patrick</h2>
       <button>Patrick's Info</button>
       <table>
