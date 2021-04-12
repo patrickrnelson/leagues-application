@@ -3,7 +3,7 @@ import React from 'react';
 function AdminClimber() {
   return (
     <div className="container">
-      <p>Climber Profile</p>
+      <h1>Climber Profile</h1>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React from 'react';
 function AdminEdit() {
   return (
     <div className="container">
-      <p>Edit League</p>
+      <h1>Edit League</h1>
     </div>
   );
 }

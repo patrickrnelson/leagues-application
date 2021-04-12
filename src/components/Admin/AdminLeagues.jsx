@@ -3,7 +3,7 @@ import React from 'react';
 function AdminLeagues() {
   return (
     <div className="container">
-      <p>Leagues</p>
+      <h1>Leagues</h1>
     </div>
   );
 }
