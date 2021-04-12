@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -54,10 +54,10 @@ function HamburgerNav () {
           </IconButton>
         </Grid>
         <Grid item xs={9}>
-          <Link id="recommendationsLink" onClick={() => history.push('/')}>Home</Link>
+          <Link id="recommendationsLink" onClick={() => history.push('/climb/session')}>Climb Session</Link>
         </Grid>
         <Grid item xs={9}>
-          <Link id="recommendationsLink" onClick={() => history.push('/searchbeers')}>Search all Beers</Link>
+          <Link id="recommendationsLink" onClick={() => history.push('/team')}>Team</Link>
         </Grid>
         <Grid item xs={9}>
           <Link id="myBeersLink" onClick={() => history.push('/mybeers')}>My Beers</Link>

@@ -51,6 +51,54 @@ function App() {
             <RulesPage />
           </Route>
 
+          {/* Admin - leagues view */}
+          <ProtectedRoute
+            exact
+            path="/admin/leagues"
+          >
+            <AdminLeagues />
+          </ProtectedRoute>
+
+          {/* Admin - create a league */}
+          <ProtectedRoute
+            exact
+            path="/admin/leagues/new"
+          >
+            <AdminCreate />
+          </ProtectedRoute>
+
+          {/* Admin - edit a league */}
+          <ProtectedRoute
+            exact
+            path="/admin/leagues/edit"
+          >
+            <AdminEdit />
+          </ProtectedRoute>
+
+          {/* Admin - view climbers*/}
+          <ProtectedRoute
+            exact
+            path="/admin/climbers"
+          >
+            <AdminClimber />
+          </ProtectedRoute>
+
+          {/* Admin - view teams*/}
+          <ProtectedRoute
+            exact
+            path="/admin/teams"
+          >
+            <AdminTeams />
+          </ProtectedRoute>
+
+          {/* Homepage - not on a team */}
+          <ProtectedRoute
+            exact
+            path="/home"
+          >
+            <HomePage />
+          </ProtectedRoute>
+
           {/* Create a team page */}
           <ProtectedRoute
             exact
@@ -72,7 +120,7 @@ function App() {
             exact
             path="/team"
           >
-            <MyTeam />
+            <TeamPage />
           </ProtectedRoute>
 
           {/* Climber Details */}
@@ -80,15 +128,30 @@ function App() {
             exact
             path="/climber"
           >
-            <ClimberDetails />
+            <ClimberPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path="/climber/captain"
+          >
+            <CaptainClimberPage />
           </ProtectedRoute>
 
           {/* Climber contact */}
           <ProtectedRoute
             exact
-            path="/climber/contact"
+            path="/climber/profile"
           >
-            <ClimberContactInfo />
+            <ClimberProfile />
+          </ProtectedRoute>
+
+          {/* Climber Profile - Edit */}
+          <ProtectedRoute
+            exact
+            path="/climber/profile/edit"
+          >
+            <ClimberProfileEdit />
           </ProtectedRoute>
 
           {/* Climb Session */}
@@ -96,7 +159,7 @@ function App() {
             exact
             path="/climb/session"
           >
-            <ClimbSession />
+            <ClimbingSession />
           </ProtectedRoute>
 
           {/* Add a climb */}
@@ -104,7 +167,23 @@ function App() {
             exact
             path="/climb/add"
           >
-            <AddNewClimb />
+            <AddClimb />
+          </ProtectedRoute>
+
+          {/* Review a climb session */}
+          <ProtectedRoute
+            exact
+            path="/climb/session/review"
+          >
+            <ReviewSession />
+          </ProtectedRoute>
+
+          {/* League leaderboard */}
+          <ProtectedRoute
+            exact
+            path="/leaderboard"
+          >
+            <Leaderboard />
           </ProtectedRoute>
 
           {/* For protected routes, the view could show one of several things on the same route.
@@ -149,7 +228,7 @@ function App() {
             // - if logged in, redirects to "/user"
             // - else shows LandingPage at "/home"
             exact
-            path="/home"
+            path="/login"
             authRedirect="/home"
           >
             <LandingPage />
