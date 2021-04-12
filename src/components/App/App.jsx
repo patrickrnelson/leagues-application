@@ -35,14 +35,77 @@ function App() {
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
 
-          {/* Visiting localhost:3000/about will show the about page. */}
+          {/* About Page - Unprotected */}
           <Route
-            // shows AboutPage at all times (logged in or not)
             exact
             path="/about"
           >
             <AboutPage />
           </Route>
+
+          {/* Rules Page - Unprotected */}
+          <Route
+            exact
+            path="/rules"
+          >
+            <RulesPage />
+          </Route>
+
+          {/* Create a team page */}
+          <ProtectedRoute
+            exact
+            path="/team/create"
+          >
+            <CreateTeam />
+          </ProtectedRoute>
+
+          {/* Join a team page */}
+          <ProtectedRoute
+            exact
+            path="/team/join"
+          >
+            <JoinTeam />
+          </ProtectedRoute>
+
+          {/* My team */}
+          <ProtectedRoute
+            exact
+            path="/team"
+          >
+            <MyTeam />
+          </ProtectedRoute>
+
+          {/* Climber Details */}
+          <ProtectedRoute
+            exact
+            path="/climber"
+          >
+            <ClimberDetails />
+          </ProtectedRoute>
+
+          {/* Climber contact */}
+          <ProtectedRoute
+            exact
+            path="/climber/contact"
+          >
+            <ClimberContactInfo />
+          </ProtectedRoute>
+
+          {/* Climb Session */}
+          <ProtectedRoute
+            exact
+            path="/climb/session"
+          >
+            <ClimbSession />
+          </ProtectedRoute>
+
+          {/* Add a climb */}
+          <ProtectedRoute
+            exact
+            path="/climb/add"
+          >
+            <AddNewClimb />
+          </ProtectedRoute>
 
           {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
@@ -51,17 +114,9 @@ function App() {
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/user"
+            path="/home"
           >
-            <UserPage />
-          </ProtectedRoute>
-
-          <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-            exact
-            path="/info"
-          >
-            <InfoPage />
+            <HomePage />
           </ProtectedRoute>
 
           {/* When a value is supplied for the authRedirect prop the user will
@@ -95,7 +150,7 @@ function App() {
             // - else shows LandingPage at "/home"
             exact
             path="/home"
-            authRedirect="/user"
+            authRedirect="/home"
           >
             <LandingPage />
           </ProtectedRoute>
