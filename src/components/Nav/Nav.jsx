@@ -22,6 +22,10 @@ function Nav() {
       <Link to="/home">
         <h2 className="nav-title">Logo Here</h2>
       </Link>
+
+      {user.id && (
+            <LogOutButton className="navLink" />
+      )}
     </div>
   );
 }
