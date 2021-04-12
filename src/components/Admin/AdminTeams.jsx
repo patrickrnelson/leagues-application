@@ -1,6 +1,6 @@
 import React from 'react';
 
-function AdminList() {
+function AdminTeams() {
   return (
     <div className="container">
       <h1>List of Teams</h1>
@@ -9,4 +9,4 @@ function AdminList() {
 }
 
 
-export default AdminList;
+export default AdminTeams;
