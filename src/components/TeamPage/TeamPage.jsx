@@ -15,10 +15,14 @@ function TeamPage() {
           <tr>
             <td> Patrick </td>
             <td> 45 </td>
+          </tr>
+          <tr>
             <td> Zach </td>
             <td> 47 </td>
+          </tr>
             <td> John </td>
             <td> 44 </td>
+          <tr>
             <td> Total </td>
             <td> 136 </td>
           </tr>
