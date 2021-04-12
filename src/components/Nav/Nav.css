@@ -5,7 +5,7 @@
   align-items: center;
 
   margin: 0 0 30px;
-  background-color: #00acb0;
+  background-color: #fcfcfc;
   overflow: hidden;
 }
 
@@ -13,18 +13,19 @@
   text-decoration: none;
 }
 
+/* This is the home button / logo */
 .nav-title {
   font-size: 24px;
   font-weight: 700;
-  color: #f2f2f2;
+  color: #b753ff; 
   padding-left: 10px;
   margin: 0;
 }
-
+/* these are the nav links. | wont need this part. */
 .navLink {
   display: inline-block;
-  color: #f2f2f2;
-  background-color: #00acb0;
+  color: #0349f8;
+  background-color: #fcfcfc;
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;
@@ -38,5 +39,5 @@
 }
 
 .navLink:hover {
-  background-color: #008183;
+  background-color: #b0b0b0;
 }
