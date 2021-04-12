@@ -77,16 +77,28 @@ VALUES ('Johnny', 'myemail4@myemail.com', '555-555-5555', 'passcode');
 INSERT INTO "user" ("name", "username", "phone", "password")
 VALUES ('Zach', 'myemail5@myemail.com', '555-555-5555', 'passcode');
 
+INSERT INTO "user" ("name", "username", "phone", "password")
+VALUES ('Jon', 'myemail6@myemail.com', '555-555-5555', 'passcode');
+
 -- Team
 
 INSERT INTO "teams" ("name", "captainId", "leagueId", "accessCode")
 VALUES ('Boulder Brigade', '1', '1', 'egdav15ea2v5e12af');
 
+INSERT INTO "teams" ("name", "captainId", "leagueId", "accessCode")
+VALUES ('Stepping Stones', '6', '1', 'fe123da58ef15gn5u');
+
 INSERT INTO "leagueTeams" ("teamId", "leagueId", "isPaid")
 VALUES ('1', '1', 'TRUE');
 
+INSERT INTO "leagueTeams" ("teamId", "leagueId", "isPaid")
+VALUES ('2', '1', 'FALSE');
+
 INSERT INTO "usersTeams" ("userId", "teamId")
 VALUES ('1', '1'), ('2', '1'), ('3', '1'), ('4', '1'), ('5', '1');
+
+INSERT INTO "usersTeams" ("userId", "teamId")
+VALUES ('6', '2');
 
 -- Locations
 
@@ -106,4 +118,3 @@ VALUES ('1', 'red', '6', '5', '04-23-2021', '1'),
 		('3', 'blue', '3', '1', '04-23-2021', '4'),
 		('4', 'green', '7', '12', '04-23-2021', '5'),
 		('1', 'blue', '5', '4', '04-23-2021', '5');
-		
