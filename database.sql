@@ -21,7 +21,7 @@ CREATE TABLE "teams" (
   "name" VARCHAR (256) NOT NULL,
   "captainId" INTEGER,
   "leagueId" INT REFERENCES "league",
-  "access_code" TEXT
+  "accessCode" TEXT
 );
 
 CREATE TABLE "locations" (
