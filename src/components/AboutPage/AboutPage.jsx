@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Header from '../Header/Header'
+
 // Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -18,7 +20,8 @@ function AboutPage() {
 
   return (
     <div className="container">
-      <h1>About</h1>
+      <Header />
+      <h2>About</h2>
       <List>
         <ListItem>
           * SIX WEEK SEASON

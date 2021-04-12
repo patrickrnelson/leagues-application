@@ -1,8 +1,11 @@
 import React from 'react';
 
+import Header from '../Header/Header'
+
 function TeamPage() {
   return (
     <div className="container">
+      <Header />
       <h2>Team Cullen</h2>
       <h3>Summer League 2021</h3>
       <div>Drop Down Here</div>
