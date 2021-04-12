@@ -54,18 +54,24 @@ function HamburgerNav () {
           </IconButton>
         </Grid>
         <Grid item xs={9}>
-          <Link id="recommendationsLink" onClick={() => history.push('/climb/session')}>Climb Session</Link>
+          <Link onClick={() => history.push('/climb/session')}>Climb Session</Link>
         </Grid>
         <Grid item xs={9}>
-          <Link id="recommendationsLink" onClick={() => history.push('/team')}>Team</Link>
+          <Link onClick={() => history.push('/team')}>Team</Link>
         </Grid>
         <Grid item xs={9}>
-          <Link id="myBeersLink" onClick={() => history.push('/mybeers')}>My Beers</Link>
+          <Link onClick={() => history.push('/leaderboard')}>Leaderboard</Link>
         </Grid>
         <Grid item xs={9}>
-          <Link id="wantToTryLink" onClick={() => history.push('/wanttotry')}>I Want to Try</Link>
+          <Link onClick={() => history.push('/climber/profile')}>Profile</Link>
         </Grid>
-        <Button onClick={handleLogout} className={classes.logOut}>Log Out</Button>
+        <Grid item xs={9}>
+          <Link onClick={() => history.push('/rules')}>Rules</Link>
+        </Grid>
+        <Grid item xs={9}>
+          <Link onClick={() => history.push('/about')}>About</Link>
+        </Grid>
+        {/* <Button onClick={handleLogout} className={classes.logOut}>Log Out</Button> */}
       </Grid>
     </div>
   ) // end list

@@ -1,8 +1,11 @@
 import React from 'react';
 
+import Header from '../Header/Header'
+
 function AddClimb() {
   return (
     <div className="container">
+      <Header />
       <h2>Week 1</h2>
       <h4>Add a Climb</h4>
       <h5>Color Dropdown</h5>

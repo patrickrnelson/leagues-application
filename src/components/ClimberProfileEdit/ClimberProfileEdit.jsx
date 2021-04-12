@@ -1,8 +1,11 @@
 import React from 'react';
 
+import Header from '../Header/Header'
+
 function ClimberProfileEdit() {
   return (
     <div className="container">
+      <Header />
       <label for="nameEditInput">Name:</label>
       <input type="text" id="nameEditInput" placeholder="Patrick"></input>
       <label for="emailEditInput">Name:</label>

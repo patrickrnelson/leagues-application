@@ -1,8 +1,11 @@
 import React from 'react';
 
+import Header from '../Header/Header'
+
 function Leaderboard() {
   return (
     <div className="container">
+      <Header />
       <h2>Spring League 2021</h2>
       <h3>Leaderboard</h3>
       <h4>Dropdown</h4>
