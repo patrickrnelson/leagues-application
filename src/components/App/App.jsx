@@ -14,9 +14,25 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
-import UserPage from '../UserPage/UserPage';
-import InfoPage from '../InfoPage/InfoPage';
+import AddClimb from '../AddClimb/AddClimb';
+import AdminClimber from '../Admin/AdminClimber';
+import AdminCreate from '../Admin/AdminCreate';
+import AdminEdit from '../Admin/AdminEdit';
+import AdminLeagues from '../Admin/AdminLeagues';
+import AdminTeams from '../Admin/AdminTeams';
+import CaptainClimberPage from '../CaptainClimberPage/CaptainClimberPage';
+import ClimberPage from '../ClimberPage/ClimberPage';
+import ClimberProfile from '../ClimberProfile/ClimberProfile';
+import ClimberProfileEdit from '../ClimberProfileEdit/ClimberProfileEdit';
+import ClimbingSession from '../ClimbingSession/ClimbingSession';
+import CreateTeam from '../CreateTeam/CreateTeam';
+import HomePage from '../HomePage/HomePage';
+import JoinTeam from '../JoinTeam/JoinTeam';
 import LandingPage from '../LandingPage/LandingPage';
+import Leaderboard from '../Leaderboard/Leaderboard';
+import ReviewSession from '../ReviewSession/ReviewSession';
+import RulesPage from '../RulesPage/RulesPage';
+import TeamPage from '../TeamPage/TeamPage';
 
 import './App.css';
 
