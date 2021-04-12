@@ -20,7 +20,8 @@ CREATE TABLE "teams" (
   "id" SERIAL PRIMARY KEY,
   "name" VARCHAR (256) NOT NULL,
   "captainId" INTEGER,
-  "leagueId" INT REFERENCES "league"
+  "leagueId" INT REFERENCES "league",
+  "access_code" TEXT
 );
 
 CREATE TABLE "locations" (
