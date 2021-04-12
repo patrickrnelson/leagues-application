@@ -7,7 +7,7 @@ function CreateTeam() {
   const [teamInfo, setTeamInfo] = useState('');
 
   useEffect(() => {
-
+    
   })
 
   return (
