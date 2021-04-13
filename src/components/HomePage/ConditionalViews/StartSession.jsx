@@ -1,7 +1,8 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
+import { useState } from 'react';
 
-// This will show when the user is a captain and they haven't submitted scores this week
-function CaptainStartSession() {
+function StartSession() {
 
   return (
     <div className="container">
@@ -9,9 +10,10 @@ function CaptainStartSession() {
       <h3>Week 1</h3>
       <h4>Team Name</h4>
       <button>Start Session</button>
+      {/* Show if user is captain */}
       <button>Initiate Bye Week</button>
     </div>
   );
 }
 
-export default CaptainStartSession;
+export default StartSession;
