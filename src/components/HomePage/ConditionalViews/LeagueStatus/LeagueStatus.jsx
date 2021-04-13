@@ -5,9 +5,9 @@ import JoinLeague from './JoinLeague';
 import NoLeague from './NoLeague';
 import NotInLeague from './NotInLeagueUser'
 
-function HomePage() {
+function LeagueStatus() {
 
-  const [isCaptain, setIsCaptain] = useState(true);
+  const [isCaptain, setIsCaptain] = useState(false);
   const [openLeague, setOpenLeague] = useState(false);
 
   const ConditionalLeagueDisplay = () => {
@@ -27,4 +27,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default LeagueStatus;

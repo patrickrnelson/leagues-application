@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 function StartSession() {
 
-  const [isCaptain, setIsCaptain] = useState(false);
+  const [isCaptain, setIsCaptain] = useState(true);
 
   return (
     <div className="container">

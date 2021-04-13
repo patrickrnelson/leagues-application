@@ -14,25 +14,25 @@ import StartSession from './ConditionalViews/StartSession';
 
 function HomePage() {
 
-  const [userTeam, setUserTeam] = useState(true)
-  const [inLeague, setInLeague] = useState(true)
-  const [isPaid, setIsPaid] = useState(true)
-  const [leagueStarted, setLeagueStarted] = useState(true)
-  const [isByeWeek, setIsByeWeek] = useState(true);
-  const [climbsAreSubmitted, setClimbsAreSubmitted] = useState(true);
+  const [isOnTeam, setIsOnTeam] = useState(false)
+  const [inLeague, setInLeague] = useState(false)
+  const [isPaid, setIsPaid] = useState(false)
+  const [isLeagueStarted, setIsLeagueStarted] = useState(false)
+  const [isByeWeek, setIsByeWeek] = useState(false);
+  const [climbsAreSubmitted, setClimbsAreSubmitted] = useState(false);
 
   const ConditionalDisplay = () => {
-    if (!userTeam) {
+    if (!isOnTeam) {
       return <JoinCreateTeam />;
     } else if (!inLeague) {
       return <LeagueStatus />;
     } else if (!isPaid) {
       return <NotPaid />;
-    } else if (!leagueStarted) {
+    } else if (!isLeagueStarted) {
       return <LeagueNotStarted />;
     } else if (!isByeWeek) {
       return <ByeWeek />
-    } else if (!climbsAreSubmitted) {
+    } else if (climbsAreSubmitted) {
       return <ClimbsSubmitted />;
     } else {
       return <StartSession />
