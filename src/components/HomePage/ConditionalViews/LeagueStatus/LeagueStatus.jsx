@@ -11,10 +11,13 @@ function LeagueStatus() {
   const [openLeague, setOpenLeague] = useState(false);
 
   const ConditionalLeagueDisplay = () => {
+    // if there isn't an open league display NoLeague page
     if (!openLeague) {
       return <NoLeague />;
+      // if they are the captain display JoinLeague page
     } else if (isCaptain) {
       return <JoinLeague />;
+      // else display NotInLeague page
     } else {
       return <NotInLeague />
     }
