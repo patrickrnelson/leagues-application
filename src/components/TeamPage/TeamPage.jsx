@@ -1,18 +1,25 @@
 import React from 'react';
 
 import Header from '../Header/Header'
+import './TeamPage.css'
 
 function TeamPage() {
   return (
-    <div className="container">
+    <div className="teamContainer">
       <Header />
-      <h2>Team Cullen</h2>
-      <h3>Summer League 2021</h3>
-      <div>Drop Down Here</div>
-      <table>
+      <h2 className="teamName">Team Cullen</h2>
+      <h3 className="leagueName">Summer League 2021</h3>
+      <select>
+        <option>Week 1</option>
+        <option>Week 2</option>
+        <option>Week 3</option>
+      </select>
+      <table className="teamTable">
         <thead>
-          <tr> Climber </tr>
-          <tr> Total Score </tr>
+          <tr>
+            <td> Climber </td>
+            <td> Total Score </td>
+          </tr>
         </thead>
         <tbody>
           <tr>
