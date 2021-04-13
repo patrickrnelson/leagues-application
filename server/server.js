@@ -27,9 +27,9 @@ app.use(passport.session());
 
 /* Routes */
 app.use('/api/user', userRouter);
-app.use('api/team', teamRouter);
-app.use('api/climb', climbRouter);
-app.use('api/league', leagueRouter);
+app.use('/api/team', teamRouter);
+app.use('/api/climb', climbRouter);
+app.use('/api/league', leagueRouter);
 
 // Serve static files
 app.use(express.static('build'));
