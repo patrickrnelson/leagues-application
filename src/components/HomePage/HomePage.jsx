@@ -19,13 +19,7 @@ import UserStartSession from './ConditionalViews/UserStartSession';
 function HomePage() {
   const history = useHistory();
   return (
-    <div className="container">
-      <Header />
-      <h2>Welcome!</h2>
-      <p>To get started create a team or use the code your captain gave you to join their team</p>
-      <button onClick={(() => history.push('/team/create'))}>Create Team</button>
-      <button onClick={(() => history.push('/team/join'))}>Join Team</button>
-    </div>
+    <div>inhome</div>
   );
 }
 
