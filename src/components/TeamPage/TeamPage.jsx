@@ -7,7 +7,7 @@ import './TeamPage.css'
 function TeamPage() {
   const dispatch = useDispatch();
 
-  const teams = useSelector(store => store.teams);
+  const climberTeams = useSelector(store => store.teams);
   const user = useSelector(store => store.user)
 
   const [userTeam, setUserTeam] = useState('')
@@ -15,15 +15,15 @@ function TeamPage() {
 
   useEffect(() => {
     dispatch({
-      type: 'FETCH_TEAMS'
+      type: 'FETCH_CLIMBER_TEAMS'
     });
     findUserTeam();
   }, [])
 
   const findUserTeam = () => {
-    for(let team of teams) {
-      if (team.userId === user.id) {
-        setUserTeam(team.teamName)
+    for(let climber of climberTeams) {
+      if (climber.userId === user.id) {
+        setUserTeam(climber.teamName)
       }
     }
   }
@@ -46,11 +46,11 @@ function TeamPage() {
           </tr>
         </thead>
         <tbody>
-          {teams.map((team) => {
-            if(team.teamName === userTeam) {
+          {climberTeams.map((climber) => {
+            if(climber.teamName === userTeam) {
               return (
                 <tr>
-                  <td>{team.username}</td>
+                  <td>{climber.username}</td>
                   <td>SCORE</td>
                 </tr>
               )
