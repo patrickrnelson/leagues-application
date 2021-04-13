@@ -4,14 +4,15 @@ import { useState } from 'react';
 
 function StartSession() {
 
+  const [isCaptain, setIsCaptain] = useState(false);
+
   return (
     <div className="container">
       <h2>Climb Session</h2>
       <h3>Week 1</h3>
       <h4>Team Name</h4>
       <button>Start Session</button>
-      {/* Show if user is captain */}
-      <button>Initiate Bye Week</button>
+      {isCaptain && <button>Initiate Bye Week</button>}
     </div>
   );
 }

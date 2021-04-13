@@ -5,26 +5,39 @@ import HamburgerNav from '../HamburgerNav/HamburgerNav'
 import Header from '../Header/Header'
 
 import JoinCreateTeam from './ConditionalViews/JoinCreateTeam';
+import LeagueStatus from './ConditionalViews/LeagueStatus/LeagueStatus';
 import NotPaid from './ConditionalViews/NotPaid';
+import LeagueNotStarted from './ConditionalViews/LeagueNotStarted';
 import ByeWeek from './ConditionalViews/ByeWeek';
 import ClimbsSubmitted from './ConditionalViews/ClimbsSubmitted';
-import LeagueNotStarted from './ConditionalViews/LeagueNotStarted';
 import StartSession from './ConditionalViews/StartSession';
-import LeagueStatus from './ConditionalViews/LeagueStatus/LeagueStatus';
 
 function HomePage() {
 
   const [userTeam, setUserTeam] = useState(true)
-  const [inLeague, setInLeague] = useState(false)
+  const [inLeague, setInLeague] = useState(true)
+  const [isPaid, setIsPaid] = useState(true)
+  const [leagueStarted, setLeagueStarted] = useState(true)
+  const [isByeWeek, setIsByeWeek] = useState(true);
+  const [climbsAreSubmitted, setClimbsAreSubmitted] = useState(true);
 
   const ConditionalDisplay = () => {
     if (!userTeam) {
       return <JoinCreateTeam />;
     } else if (!inLeague) {
       return <LeagueStatus />;
+    } else if (!isPaid) {
+      return <NotPaid />;
+    } else if (!leagueStarted) {
+      return <LeagueNotStarted />;
+    } else if (!isByeWeek) {
+      return <ByeWeek />
+    } else if (!climbsAreSubmitted) {
+      return <ClimbsSubmitted />;
+    } else {
+      return <StartSession />
     }
   }
-  
 
   return (
     <div className="container">
