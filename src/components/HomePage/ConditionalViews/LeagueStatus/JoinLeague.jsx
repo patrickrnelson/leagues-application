@@ -1,6 +1,6 @@
 import React from 'react';
 
-// This will show when the user is a captain and there is an open league
+// this will show when the user is on a team but not in a league
 function JoinLeague() {
 
   return (

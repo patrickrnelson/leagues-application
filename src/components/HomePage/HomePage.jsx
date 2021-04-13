@@ -7,26 +7,24 @@ import JoinCreateTeam from './ConditionalViews/JoinCreateTeam';
 import NotPaid from './ConditionalViews/NotPaid';
 import ByeWeek from './ConditionalViews/ByeWeek';
 import ClimbsSubmitted from './ConditionalViews/ClimbsSubmitted';
-import JoinLeague from './ConditionalViews/JoinLeague';
 import LeagueNotStarted from './ConditionalViews/LeagueNotStarted';
-import NoLeague from './ConditionalViews/NoLeague';
-import NotInLeague from './ConditionalViews/NotInLeagueUser';
 import StartSession from './ConditionalViews/StartSession';
+import LeagueStatus from './ConditionalViews/LeagueStatus/LeagueStatus';
 
 function HomePage() {
 
   const [userTeam, setUserTeam] = useState('')
 
-  let ConditionalDisplay;
+  let ConditionalDisplay = <JoinCreateTeam />
 
-  if (userTeam === '') {
-    ConditionalDisplay = <JoinCreateTeam />
+  if (userTeam !== '') {
+    ConditionalDisplay = 
   }
 
   return (
     <div className="container">
       <Header />
-      <Display />
+      <ConditionalDisplay />
     </div>
   );
 }
