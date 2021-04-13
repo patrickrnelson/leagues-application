@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import HamburgerNav from '../HamburgerNav/HamburgerNav'
 import Header from '../Header/Header'
@@ -13,13 +14,17 @@ import LeagueStatus from './ConditionalViews/LeagueStatus/LeagueStatus';
 
 function HomePage() {
 
-  const [userTeam, setUserTeam] = useState('')
+  const [userTeam, setUserTeam] = useState(true)
+  const [inLeague, setInLeague] = useState(false)
 
-  let ConditionalDisplay = <JoinCreateTeam />
-
-  if (userTeam !== '') {
-    ConditionalDisplay = 
+  const ConditionalDisplay = () => {
+    if (!userTeam) {
+      return <JoinCreateTeam />;
+    } else if (!inLeague) {
+      return <LeagueStatus />;
+    }
   }
+  
 
   return (
     <div className="container">
