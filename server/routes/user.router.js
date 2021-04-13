@@ -9,10 +9,31 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 // Handles Ajax request for user information if user is authenticated
-router.get('/', rejectUnauthenticated, (req, res) => {
+router.get('/login', rejectUnauthenticated, (req, res) => {
   // Send back user object from the session (previously queried from the database)
   res.send(req.user);
 });
+
+router.get('/conditional', (req, res) => {
+
+  let queryText = `
+    SELECT "user".id AS "userId", "teams".id AS "teamId", "teams"."captainId", "teams"."name" AS "teamName", "leagueTeams"."isPaid", "league"."name" AS "leagueName", "league"."start", "league"."end", "leagueTeams"."byeWeek", "climbs"."isSubmitted" from "user"
+    FULL OUTER JOIN "usersTeams" ON "user".id = "usersTeams"."userId"
+    FULL OUTER JOIN "teams" ON "usersTeams"."teamId" = "teams".id
+    FULL OUTER JOIN "leagueTeams" ON "teams".id = "leagueTeams"."teamId" 
+    FULL OUTER JOIN "climbs" ON "user".id = "climbs"."userId"
+    FULL OUTER JOIN "league" ON "leagueTeams"."leagueId" = "league".id
+    WHERE "user".id = $1;
+  `
+  pool.query(queryText, [req.user.id])
+    .then((dbRes) => { 
+      res.send(dbRes.rows);
+    })
+    .catch((err) => {
+      console.log('error getting conditional data', err);
+      res.sendStatus(500);
+    })
+})
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
