@@ -38,6 +38,7 @@ function RegisterForm() {
             type="text"
             name="Name"
             value={name}
+            minlength="2"
             required
             onChange={(event) => setName(event.target.value)}
           />

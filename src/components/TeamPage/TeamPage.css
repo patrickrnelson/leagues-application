@@ -1,0 +1,32 @@
+.teamContainer {
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.teamName {
+  margin: 0;
+  font-size: 28px;
+}
+
+.leagueName {
+  font-weight: normal;
+  font-style: italic;
+  margin-top: 5px;
+  margin-bottom: 50px;
+}
+
+.teamTable {
+  width: 80%;
+  margin: 20px auto;
+  font-size: 20px;
+  margin-bottom: 75px;
+}
+
+.teamTable thead {
+  font-weight: bold;
+}
+
+.teamTable td {
+  padding: 5px 0;
+}

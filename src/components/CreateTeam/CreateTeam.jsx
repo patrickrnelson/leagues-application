@@ -16,10 +16,10 @@ function CreateTeam() {
     dispatch({
       type: 'CREATE_TEAM',
       payload: {
-        teamName,
+        teamName: teamName,
       },
     });
-    
+    history.push('/team');
   }
 
   return (
@@ -33,6 +33,8 @@ function CreateTeam() {
           type="text" 
           placeholder="Team Name"
           value={teamName}
+          minlength="2"
+          maxlength="24"
           required
           onChange={(event) => setTeamName(event.target.value)}/>
         <button>Create Team</button>
