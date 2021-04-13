@@ -6,7 +6,7 @@ function* fetchClimberTeams() {
 
     // gets the characteristics from the DB
     let climberTeams = yield axios.get(`/api/team/all`);
-    console.log('GET climber teams', teams.data);
+    console.log('GET climber teams', climberTeams.data);
 
     // SET the characteristics in the reducer
     yield put({ type: 'SET_CLIMBER_TEAMS', payload: climberTeams.data });
