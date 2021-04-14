@@ -24,9 +24,6 @@ function HomePage() {
   }, [dispatch])
 
   // Store state variables to determine conditional rendering
-  const [isOnTeam, setIsOnTeam] = useState(false);
-  const [inLeague, setInLeague] = useState(false);
-  const [isPaid, setIsPaid] = useState(false);
   const [isLeagueStarted, setIsLeagueStarted] = useState(false);
   const [isByeWeek, setIsByeWeek] = useState(false);
   const [climbsAreSubmitted, setClimbsAreSubmitted] = useState(false);

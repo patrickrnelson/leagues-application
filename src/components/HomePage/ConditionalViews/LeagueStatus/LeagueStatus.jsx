@@ -7,8 +7,18 @@ import NotInLeague from './NotInLeagueUser'
 
 function LeagueStatus() {
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: 'FETCH_CONDITIONAL'
+    })
+  }, [dispatch])
+  
   const [isCaptain, setIsCaptain] = useState(false);
   const [openLeague, setOpenLeague] = useState(false);
+
+  const conditionalData = useSelector(store => store.conditional);
 
   const ConditionalLeagueDisplay = () => {
     // if there isn't an open league display NoLeague page
