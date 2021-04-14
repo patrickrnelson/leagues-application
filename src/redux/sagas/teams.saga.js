@@ -16,8 +16,19 @@ function* fetchClimberTeams() {
   }
 }
 
+function* postNewTeam(action) {
+  console.log('postNewTeam', action.payload);
+  try {
+    yield axios.post('/api/team', action.payload);
+  }
+  catch (error) {
+    console.log('Error posting new team', error)
+  }
+}
+
 function* teamsSaga() {
   yield takeLatest('FETCH_CLIMBER_TEAMS', fetchClimberTeams);
+  yield takeLatest('CREATE_TEAM', postNewTeam);
 }
 
 export default teamsSaga;

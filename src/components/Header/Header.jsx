@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
@@ -102,7 +103,9 @@ function Header () {
 
   return (
     <header className='header'>
+      <Link to="/home">
       <img src = 'https://origins.nu/wp-content/uploads/pngfind.com-tree-logo-png-2660740-1.png' width='50px'/>
+      </Link>
       <h1 className='headerTitle'>Nature of the North</h1>
       {/* This section handles the hamburger menu and drawer */}
       <IconButton className='hamburgerIcon' onClick={toggleDrawer} >
