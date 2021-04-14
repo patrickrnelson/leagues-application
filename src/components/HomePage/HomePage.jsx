@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import moment from 'moment';
 
 import HamburgerNav from '../HamburgerNav/HamburgerNav'
 import Header from '../Header/Header'
@@ -24,7 +24,6 @@ function HomePage() {
   }, [dispatch])
 
   // Store state variables to determine conditional rendering
-  const [isLeagueStarted, setIsLeagueStarted] = useState(false);
   const [isByeWeek, setIsByeWeek] = useState(false);
   const [climbsAreSubmitted, setClimbsAreSubmitted] = useState(false);
 
@@ -41,7 +40,7 @@ function HomePage() {
     } else if (conditionalData[0].isPaid === null) {
       return <NotPaid />;
       // If the league has not started display LeagueNotStarted Page
-    } else if (!isLeagueStarted) {
+    } else if (!moment(conditionalData[0].start).isSameOrBefore()) {
       return <LeagueNotStarted />;
     } else if (isByeWeek) {
       // if they are on their bye week display ByeWeek page
