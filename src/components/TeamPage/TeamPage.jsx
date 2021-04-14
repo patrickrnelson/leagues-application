@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+
 import Header from '../Header/Header'
 import './TeamPage.css'
 
 function TeamPage() {
   const dispatch = useDispatch();
+  
 
   const climberTeams = useSelector(store => store.teams);
   const user = useSelector(store => store.user)
 
   const [userTeam, setUserTeam] = useState('')
-
 
   useEffect(() => {
     dispatch({

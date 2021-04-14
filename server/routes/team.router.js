@@ -26,18 +26,6 @@ router.get('/all', (req, res) => {
     })
 });
 
-/**
- * POST route template
- */
-/* 
-      BEGIN;
-      INSERT INTO "teams" ("name", "captainId", "accessCode")
-      VALUES ('Unicorns', 1, '6D43QW')
-      RETURNING "teams".id;
-      INSERT INTO "leagueTeams"("teamId", "leagueId")
-      VALUES (3, 1);
-      COMMIT;
-*/
 router.post('/', async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
