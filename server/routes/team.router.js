@@ -5,9 +5,6 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
-/**
- * GET route template
- */
 router.get('/all', (req, res) => {
   console.log('in teams GET router');
   let queryText = `

@@ -41,6 +41,7 @@ function App() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
+    dispatch({ type: 'FETCH_CONDITIONAL'});
   }, [dispatch]);
 
   return (
