@@ -9,7 +9,6 @@ function LeagueStatus() {
 
   const dispatch = useDispatch();
 
-  const [isCaptain, setIsCaptain] = useState(false);
   const [openLeague, setOpenLeague] = useState(true);
 
   const conditionalData = useSelector(store => store.conditional);

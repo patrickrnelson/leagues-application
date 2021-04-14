@@ -29,20 +29,46 @@ function HomePage() {
 
   const conditionalData = useSelector(store => store.conditional);
 
+  let from = new Date(conditionalData[0].start).getTime();
+  let to = new Date(conditionalData[0].end).getTime();
+  let week = 604800000;
+  let day = 86400000;
+  let allWeeks = [];
+  let current =  1;
+
+  let weeks = (to-from)/day/7
+
+  for (let i = 0; i < weeks; i++){
+    allWeeks.push(new Date(from += week).toLocaleDateString())
+  }
+
+  console.log(JSON.stringify(allWeeks))
+
+  let weekCalc = 0;
+
+  for (let i = 0; i < allWeeks.length; i++) {
+    if (moment().isSameOrBefore(allWeeks[i])) {
+    weekCalc = i;
+    break;
+    }
+  }
+
+  console.log('weekCalc', weekCalc);
+
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
     if (conditionalData[0].teamId === null) {
       return <JoinCreateTeam />;
-      // if user's team is not in a league display LeagueStatus page
+      // if user's team is not in a league display LeagueStatus page - also check if current date is after league end date
     } else if (conditionalData[0].leagueName === null) {
       return <LeagueStatus />;
       // if they are in a league but have not paid display NotPaid page
-    } else if (conditionalData[0].isPaid === null) {
+    } else if (conditionalData[0].isPaid === false) {
       return <NotPaid />;
       // If the league has not started display LeagueNotStarted Page
     } else if (!moment(conditionalData[0].start).isSameOrBefore()) {
       return <LeagueNotStarted />;
-    } else if (isByeWeek) {
+    } else if (conditionalData[0].byeWeek !== null && moment(conditionalData[0].ByeWeek).isSameOrBefore(allWeeks[weekCalc])) {
       // if they are on their bye week display ByeWeek page
       return <ByeWeek />
       // if they submitted their climbs then display ClimbsSubmitted page
