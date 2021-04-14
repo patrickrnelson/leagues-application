@@ -49,7 +49,8 @@ CREATE TABLE "leagueTeams" (
   "id" SERIAL PRIMARY KEY, 
   "teamId" INT REFERENCES "teams",
   "leagueId" INT REFERENCES "league",
-  "isPaid" BOOLEAN DEFAULT FALSE
+  "isPaid" BOOLEAN DEFAULT FALSE,
+  "byeWeek" DATE
 );
 
 --- Test Data
@@ -57,7 +58,9 @@ CREATE TABLE "leagueTeams" (
 -- League
 
 INSERT INTO "league" ("name", "start", "end")
-VALUES ('Cullen', '04-12-2021', '06-07-2021');
+VALUES ('Cullen', '04-12-2021', '06-07-2021'),
+        ('Fall', '10-12-2020', '12-10-2020'),
+        ('Spring', '3-10-2020', '05-08-2020');
 
 -- User
 
@@ -102,7 +105,7 @@ VALUES ('6', '2');
 -- Locations
 
 INSERT INTO "locations" ("name")
-VALUES ('overhang'), ('slight overhang'), ('left barrel'), ('right barrel'), ('slab');
+VALUES ('Overhang'), ('Slight Overhang'), ('Left barrel'), ('Right Barrel'), ('Slab');
 
 -- climbs
 

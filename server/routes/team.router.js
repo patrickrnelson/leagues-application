@@ -5,11 +5,8 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
-/**
- * GET route template
- */
 router.get('/all', (req, res) => {
-  console.log('in teams GET router');
+  // console.log('in teams GET router');
   let queryText = `
     SELECT "user".name as userName, "usersTeams"."userId", "usersTeams"."teamId", "teams".name as "teamName"
     FROM "user"
@@ -26,18 +23,22 @@ router.get('/all', (req, res) => {
     })
 });
 
-/**
- * POST route template
- */
-/* 
-      BEGIN;
-      INSERT INTO "teams" ("name", "captainId", "accessCode")
-      VALUES ('Unicorns', 1, '6D43QW')
-      RETURNING "teams".id;
-      INSERT INTO "leagueTeams"("teamId", "leagueId")
-      VALUES (3, 1);
-      COMMIT;
-*/
+router.get('/access', (req, res) => {
+  let queryText=`
+    SELECT "teams".id as "ID", "teams"."accessCode" as "accessCode" 
+    FROM "teams";
+  `
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch(err => {
+      console.log('Error getting access codes', err);
+      res.sendStatus(500)
+    })
+})
+
 router.post('/', async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
@@ -67,5 +68,21 @@ router.post('/', async (req, res) => {
     connection.release()
   }
 });
+
+router.post('/join/:id', rejectUnauthenticated, (req, res) => {
+  let queryText =`
+    INSERT INTO "usersTeams" ("userId", "teamId")
+    VALUES ($1, $2)
+  ;`
+  pool
+    .query(queryText, [req.user.id, req.params.id])
+    .then((result) => {
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      console.log('Error in joining team', err)
+      res.sendStatus(500)
+    })
+})
 
 module.exports = router;

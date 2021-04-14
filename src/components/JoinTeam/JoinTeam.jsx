@@ -5,20 +5,23 @@ import { useHistory } from 'react-router-dom';
 import Header from '../Header/Header'
 
 function CreateTeam() {
-  const [teamCode, setTeamCode] = useState('')
+  const selectedTeam = useSelector((state) => state?.selectedTeam);
+  const [teamCode, setTeamCode] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // useEffect to get all team id's and access codes
+  useEffect(() => {
+    dispatch({ type: 'FETCH_TEAM_ACCESS' });
+  }, [dispatch]);
+
   const joinTeam = (event) => {
     event.preventDefault();
+    if (teamCode.toUpperCase() === selectedTeam.accessCode) {
 
-    dispatch({
-      type: 'JOIN_TEAM',
-      payload: {
-        teamCode: teamCode
-      }
-    });
+      dispatch({type: 'JOIN_TEAM', payload: selectedTeam.id });
     history.pushState('/team');
+    }
   }
 
   return (
