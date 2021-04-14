@@ -49,9 +49,11 @@ CREATE TABLE "leagueTeams" (
   "id" SERIAL PRIMARY KEY, 
   "teamId" INT REFERENCES "teams",
   "leagueId" INT REFERENCES "league",
-  "isPaid" BOOLEAN DEFAULT FALSE
+  "isPaid" BOOLEAN DEFAULT FALSE,
+  "byeWeek" DATE
 );
 
+DROP TABLE "leagueTeams";
 --- Test Data
 
 -- League

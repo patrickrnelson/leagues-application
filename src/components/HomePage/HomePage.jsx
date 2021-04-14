@@ -10,7 +10,6 @@ import LeagueStatus from './ConditionalViews/LeagueStatus/LeagueStatus';
 import NotPaid from './ConditionalViews/NotPaid';
 import LeagueNotStarted from './ConditionalViews/LeagueNotStarted';
 import ByeWeek from './ConditionalViews/ByeWeek';
-import ClimbsSubmitted from './ConditionalViews/ClimbsSubmitted';
 import StartSession from './ConditionalViews/StartSession';
 
 function HomePage() {
@@ -23,37 +22,33 @@ function HomePage() {
     })
   }, [dispatch])
 
-  // Store state variables to determine conditional rendering
-  const [isByeWeek, setIsByeWeek] = useState(false);
-  const [climbsAreSubmitted, setClimbsAreSubmitted] = useState(false);
-
+  // Grab our conditionalData from the store
   const conditionalData = useSelector(store => store.conditional);
 
+  // grab our start date and end date
   let from = new Date(conditionalData[0].start).getTime();
   let to = new Date(conditionalData[0].end).getTime();
   let week = 604800000;
   let day = 86400000;
   let allWeeks = [];
   let current =  1;
-
+  // determine the number of weeks in the league
   let weeks = (to-from)/day/7
 
+  // loop over weeks array to add each end of  week date to allWeeks array
   for (let i = 0; i < weeks; i++){
     allWeeks.push(new Date(from += week).toLocaleDateString())
   }
 
-  console.log(JSON.stringify(allWeeks))
-
+  // Loop to determine the index of the week so we can check if today is before the end of that week
+  // this is so we can render the bye week page
   let weekCalc = 0;
-
   for (let i = 0; i < allWeeks.length; i++) {
     if (moment().isSameOrBefore(allWeeks[i])) {
     weekCalc = i;
     break;
     }
   }
-
-  console.log('weekCalc', weekCalc);
 
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
@@ -68,12 +63,9 @@ function HomePage() {
       // If the league has not started display LeagueNotStarted Page
     } else if (!moment(conditionalData[0].start).isSameOrBefore()) {
       return <LeagueNotStarted />;
-    } else if (conditionalData[0].byeWeek !== null && moment(conditionalData[0].ByeWeek).isSameOrBefore(allWeeks[weekCalc])) {
       // if they are on their bye week display ByeWeek page
+    } else if (conditionalData[0].byeWeek !== null && moment(conditionalData[0].ByeWeek).isSameOrBefore(allWeeks[weekCalc])) {
       return <ByeWeek />
-      // if they submitted their climbs then display ClimbsSubmitted page
-    } else if (climbsAreSubmitted) {
-      return <ClimbsSubmitted />;
     } else {
       // else return StartSession page  
       return <StartSession />
