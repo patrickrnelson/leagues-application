@@ -5,9 +5,6 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
-/**
- * GET route template
- */
 router.get('/all', (req, res) => {
   console.log('in teams GET router');
   let queryText = `
@@ -26,40 +23,6 @@ router.get('/all', (req, res) => {
     })
 });
 
- router.post('/', async (req, res) => {
-  let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
-  const connection = await pool.connect();
-  // console.log('what is my access code?', accessCode);
-  // console.log('name', req.body.teamName);
-  // console.log('user id', req.user.id);
-  try {
-    await connection.query(`BEGIN`);
-    await connection.query(`
-      INSERT INTO "teams" ("name", "captainId", "accessCode")
-      VALUES ($1, $2, $3)
-      RETURNING *
-    `, [req.body.teamName, req.user.id, accessCode]);
-    await connection.query(`COMMIT`);
-    res.send(200)
-  }
-  catch (err) {
-    console.error('error creating team', err);
-    await connection.query('ROLLBACK');
-    res.sendStatus(500);
-  }
-  finally {
-    connection.release()
-  }
-});
-/* 
-      BEGIN;
-      INSERT INTO "teams" ("name", "captainId", "accessCode")
-      VALUES ('Unicorns', 1, '6D43QW')
-      RETURNING "teams".id;
-      INSERT INTO "leagueTeams"("teamId", "leagueId")
-      VALUES (3, 1);
-      COMMIT;
-*/
 router.post('/', async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
