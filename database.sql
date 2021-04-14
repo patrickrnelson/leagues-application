@@ -53,6 +53,7 @@ CREATE TABLE "leagueTeams" (
   "byeWeek" DATE
 );
 
+DROP TABLE "leagueTeams";
 --- Test Data
 
 -- League
