@@ -49,4 +49,26 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.put('/', rejectUnauthenticated, (req, res) => {
+  let name = req.body.name
+  let username = req.body.username
+  let phone = req.body.phone
+
+  let queryText = `
+    UPDATE "user" 
+    SET "name" = $1, "username" = $2, "phone" = $3
+    WHERE "user".id = $4;
+  `
+
+  pool.query(queryText, [name, username, phone, req.user.id])
+    .then(() => { 
+      console.log('Successful user PUT');
+      res.sendStatus(201)
+    })
+    .catch((err) => {
+      console.log('Error in user PUT', err);
+      res.sendStatus(500);
+    })
+})
+
 module.exports = router;

@@ -24,8 +24,21 @@ function* fetchUser() {
   }
 }
 
+function* editUserProfile(action) {
+  console.log('in edit user Saga');
+  try {
+    yield axios.put('/api/user', action.payload)
+
+    yield put({ type: 'FETCH_USER'})
+  }
+  catch(err) {
+    console.log('Error editing user profile', err);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('EDIT_USER_PROFILE', editUserProfile)
 }
 
 export default userSaga;
