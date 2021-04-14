@@ -15,6 +15,14 @@ import StartSession from './ConditionalViews/StartSession';
 
 function HomePage() {
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: 'FETCH_CONDITIONAL'
+    })
+  }, [dispatch])
+
   // Store state variables to determine conditional rendering
   const [isOnTeam, setIsOnTeam] = useState(false);
   const [inLeague, setInLeague] = useState(false);
@@ -23,15 +31,17 @@ function HomePage() {
   const [isByeWeek, setIsByeWeek] = useState(false);
   const [climbsAreSubmitted, setClimbsAreSubmitted] = useState(false);
 
+  const conditionalData = useSelector(store => store.conditional);
+
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
-    if (!isOnTeam) {
+    if (conditionalData[0].teamId === undefined) {
       return <JoinCreateTeam />;
       // if user's team is not in a league display LeagueStatus page
-    } else if (!inLeague) {
+    } else if (conditionalData[0].teamId === undefined) {
       return <LeagueStatus />;
       // if they are in a league but have not paid display NotPaid page
-    } else if (!isPaid) {
+    } else if (conditionalData[0].isPaid === false) {
       return <NotPaid />;
       // If the league has not started display LeagueNotStarted Page
     } else if (!isLeagueStarted) {
