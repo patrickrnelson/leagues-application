@@ -32,29 +32,27 @@ function LoginForm() {
           {errors.loginMessage}
         </h3>
       )}
-      <div>
-        <label htmlFor="email">
-          Email:
+      <div className="emailInput loginInputs">
+        <label htmlFor="email">Email:</label>
           <input
             type="text"
             name="email"
+            id="email"
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}
           />
-        </label>
       </div>
-      <div>
-        <label htmlFor="password">
-          Password:
+      <div className="passwordInput loginInputs">
+        <label htmlFor="password">Password:</label>
           <input
             type="password"
             name="password"
+            id="password"
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
       </div>
       <div>
         <input className="btn" type="submit" name="submit" value="Log In" />
