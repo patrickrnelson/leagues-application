@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -9,6 +10,7 @@ import './AddClimb.css'
 
 function AddClimb() {
   const history = useHistory();
+  const dispatch = useDispatch();
   
   const [color, setColor] = useState('')
   const [location, setLocation] = useState('')
@@ -16,7 +18,7 @@ function AddClimb() {
   const [attempts, setAttempts] = useState(0)
 
   let colors = ['Black', 'Blue', 'Green', 'Red', 'White', 'Yellow']
-  let locations = ['Barrel', 'Kilter Board', 'Overhang', 'Slab', 'Slight Overhang']
+  let locations = ['left barrel', 'overhang', 'right barrel', 'slab', 'slight overhang'] // 'kilter board',
   let difficulties = ['V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12']
 
   const handleAddClimb = () => {
@@ -27,10 +29,14 @@ function AddClimb() {
         payload: {
           color: color,
           location: location,
-          difficulty: difficulty.substring(1),
+          difficulty: difficulty.substring(1), // Removes the 'V' so we send only a number to the DB
           attempts: attempts
-        }
+        },
+        // onComplete: () => {
+        //   history.push('/climb/session')
+        // }
       })
+      history.push('/climb/session')
     }
     else {
       alert('Please select all inputs')

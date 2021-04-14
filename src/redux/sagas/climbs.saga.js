@@ -1,18 +1,16 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* addNewClimb() {
+function* addNewClimb(action) {
   try {
+    // POST a new climb to the DB
+    yield axios.post(`/api/climb/add`, action.payload);
 
-    // gets the characteristics from the DB
-    let climberTeams = yield axios.get(`/api/team/all`);
-    console.log('GET climber teams', climberTeams.data);
-
-    // SET the characteristics in the reducer
-    yield put({ type: 'SET_CLIMBER_TEAMS', payload: climberTeams.data });
+    // Maybe want to FETCH after the post??
+    // yield put({ type: 'FETCH_CLIMBS' });
 
   } catch (error) {
-    console.log('Error getting teams', error);
+    console.log('Error POSTing new climb', error);
   }
 }
 
