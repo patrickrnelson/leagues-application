@@ -23,6 +23,7 @@ router.get('/all', (req, res) => {
     })
 });
 
+<<<<<<< HEAD
 router.get('/access', (req, res) => {
   let queryText=`
     SELECT "teams".id as "ID", "teams"."accessCode" as "accessCode" 
@@ -39,6 +40,8 @@ router.get('/access', (req, res) => {
     })
 })
 
+=======
+>>>>>>> 38c36f030577980bd70c13b698a3698409aca785
 router.post('/', async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
