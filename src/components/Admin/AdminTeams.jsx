@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -7,7 +7,16 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
 
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 200
+  }
+}))
+
 function AdminTeams() {
+
+  const classes = useStyles()
 
   const [value, setValue] = React.useState('')
 
@@ -27,7 +36,7 @@ function AdminTeams() {
       <h1>Teams</h1>
     </Grid>
     <Grid>
-      <FormControl>
+      <FormControl className={classes.formControl}>
         <InputLabel>Team List</InputLabel>
         <Select
           labelId='teams'
