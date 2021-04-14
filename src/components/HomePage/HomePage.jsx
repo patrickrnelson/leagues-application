@@ -35,13 +35,13 @@ function HomePage() {
 
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
-    if (conditionalData[0].teamId === undefined) {
+    if (conditionalData[0].teamId === null) {
       return <JoinCreateTeam />;
       // if user's team is not in a league display LeagueStatus page
-    } else if (conditionalData[0].teamId === undefined) {
+    } else if (conditionalData[0].leagueName === null) {
       return <LeagueStatus />;
       // if they are in a league but have not paid display NotPaid page
-    } else if (conditionalData[0].isPaid === false) {
+    } else if (conditionalData[0].isPaid === null) {
       return <NotPaid />;
       // If the league has not started display LeagueNotStarted Page
     } else if (!isLeagueStarted) {
