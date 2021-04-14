@@ -9,14 +9,8 @@ function LeagueStatus() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({
-      type: 'FETCH_CONDITIONAL'
-    })
-  }, [dispatch])
-  
   const [isCaptain, setIsCaptain] = useState(false);
-  const [openLeague, setOpenLeague] = useState(false);
+  const [openLeague, setOpenLeague] = useState(true);
 
   const conditionalData = useSelector(store => store.conditional);
 
@@ -25,7 +19,7 @@ function LeagueStatus() {
     if (!openLeague) {
       return <NoLeague />;
       // if they are the captain display JoinLeague page
-    } else if (isCaptain) {
+    } else if (conditionalData[0].captainId === conditionalData[0].userId) {
       return <JoinLeague />;
       // else display NotInLeague page
     } else {
