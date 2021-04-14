@@ -27,7 +27,15 @@ router.get('/all', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
-  // POST route code here
+  let queryText = `
+    BEGIN;
+    INSERT INTO "teams" ("name", "captainId", "accessCode")
+    VALUES ('Unicorns', 1, '6D43QW')
+    RETURNING "teams".id;
+    INSERT INTO "leagueTeams"("teamId", "leagueId")
+    VALUES (3, 1);
+    COMMIT;
+  `
 });
 
 module.exports = router;
