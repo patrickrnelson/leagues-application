@@ -34,7 +34,7 @@ CREATE TABLE "climbs" (
   "color" VARCHAR (256) NOT NULL,
   "level" INTEGER,
   "attempts" INTEGER,
-  "climbDate" DATE,
+  "climbDate" DATE NOT NULL DEFAULT CURRENT_DATE,
   "isSubmitted" BOOLEAN DEFAULT FALSE,
   "userId" INT REFERENCES "users"
 );
