@@ -23,12 +23,11 @@ router.get('/all', (req, res) => {
     })
 });
 
-<<<<<<< HEAD
 router.get('/access', (req, res) => {
   let queryText=`
     SELECT "teams".id as "ID", "teams"."accessCode" as "accessCode" 
     FROM "teams";
-  `
+  `;
   pool
     .query(queryText)
     .then((result) => {
@@ -40,14 +39,12 @@ router.get('/access', (req, res) => {
     })
 })
 
-=======
->>>>>>> 38c36f030577980bd70c13b698a3698409aca785
 router.post('/', async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
-  console.log('what is my access code?', accessCode);
-  console.log('name', req.body.teamName);
-  console.log('user id', req.user.id);
+  // console.log('what is my access code?', accessCode);
+  // console.log('name', req.body.teamName);
+  // console.log('user id', req.user.id);
   try {
     await connection.query(`BEGIN`);
     let dbRes = await connection.query(`
@@ -73,6 +70,8 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/join/:id', rejectUnauthenticated, (req, res) => {
+  console.log('what is my id', req.params.id);
+  console.log('what is my user', req.user.id);
   let queryText =`
     INSERT INTO "usersTeams" ("userId", "teamId")
     VALUES ($1, $2)
