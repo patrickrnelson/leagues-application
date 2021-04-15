@@ -32,6 +32,19 @@ function Leaderboard() {
           <option>{league.name}</option>
         )})}
       </select>
+      <table>
+        <thead>
+          <tr> 
+            <td></td> 
+            <td>Team</td>
+            <td>Score</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td> 1 </td>
+            <td> Team 2 </td>
+            <td> 53 </td>
           </tr>
           <tr>
             <td> 2 </td>
