@@ -16,7 +16,7 @@ function* fetchClimbs() {
 function* addNewClimb(action) {
   try {
     // POST a new climb to the DB
-    yield axios.post(`/api/climb/add`, action.payload);
+    yield axios.post(`/api/climb`, action.payload);
 
     yield put({ type: 'FETCH_CLIMBS' });
 
