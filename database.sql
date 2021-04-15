@@ -105,7 +105,7 @@ VALUES ('6', '2');
 -- Locations
 
 INSERT INTO "locations" ("name")
-VALUES ('Overhang'), ('Slight Overhang'), ('Left barrel'), ('Right Barrel'), ('Slab');
+VALUES ('Overhang'), ('Slight Overhang'), ('Left Barrel'), ('Right Barrel'), ('Slab');
 
 -- climbs
 
