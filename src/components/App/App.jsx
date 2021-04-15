@@ -41,12 +41,12 @@ function App() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
+    dispatch({ type: 'FETCH_CONDITIONAL'});
   }, [dispatch]);
 
   return (
     <Router>
       <div>
-        <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -244,8 +244,7 @@ function App() {
             // - if logged in, redirects to "/user"
             // - else shows LandingPage at "/home"
             exact
-            path="/login"
-            authRedirect="/home"
+            path="/home"
           >
             <LandingPage />
           </ProtectedRoute>

@@ -1,18 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+
+import Header from '../Header/Header'
+import './TeamPage.css'
 
 function TeamPage() {
+  const dispatch = useDispatch();
+  
+
+  const climberTeams = useSelector(store => store.teams);
+  const user = useSelector(store => store.user)
+
+  const [userTeam, setUserTeam] = useState('')
+
+  useEffect(() => {
+    dispatch({
+      type: 'FETCH_CLIMBER_TEAMS'
+    });
+    findUserTeam();
+  }, [])
+
+  const findUserTeam = () => {
+    for(let climber of climberTeams) {
+      if (climber.userId === user.id) {
+        setUserTeam(climber.teamName)
+      }
+    }
+  }
+
   return (
-    <div className="container">
-      <h2>Team Cullen</h2>
-      <h3>Summer League 2021</h3>
-      <div>Drop Down Here</div>
-      <table>
+    <div className="teamContainer">
+      <Header />
+      <h2 className="teamName">{userTeam}</h2>
+      <h3 className="leagueName">Summer League 2021</h3>
+      <select>
+        <option>Week 1</option>
+        <option>Week 2</option>
+        <option>Week 3</option>
+      </select>
+      <table className="teamTable">
         <thead>
-          <tr> Climber </tr>
-          <tr> Total Score </tr>
+          <tr>
+            <td> Climber </td>
+            <td> Total Score </td>
+          </tr>
         </thead>
         <tbody>
-          <tr>
+          {climberTeams.map((climber) => {
+            if(climber.teamName === userTeam) {
+              return (
+                <tr>
+                  <td>{climber.username}</td>
+                  <td>SCORE</td>
+                </tr>
+              )
+            }
+          })}
+          {/* <tr>
             <td> Patrick </td>
             <td> 45 </td>
           </tr>
@@ -25,7 +70,7 @@ function TeamPage() {
           <tr>
             <td> Total </td>
             <td> 136 </td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
       <button>Team Code</button>

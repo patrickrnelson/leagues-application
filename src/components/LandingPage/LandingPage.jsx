@@ -21,29 +21,26 @@ function LandingPage() {
       <p>Climbing League</p>
 
       <div className="grid">
-        <div className="grid-col grid-col_8">
-          
-        </div>
-        <div className="grid-col grid-col_4">
+        <div className="grid-col grid-col_10">
           {formChange ? (
-            <>
+          <>
             <LoginForm />
             <center >
-            <h4 className ="form-change">Not a Member?</h4>
-            <button className="btn btn_sizeSm" onClick={onRegister}>
-              Register
-            </button>
-          </center>
+              <h4 className ="form-change">Not a Member?</h4>
+              <button className="btn btn_sizeSm" onClick={onRegister}>
+                Register
+              </button>
+            </center>
           </>
           ) : (
-            <>
+          <>
             <RegisterForm />
             <center >
-            <h4 className ="form-change">Already a Member?</h4>
-            <button className="btn btn_sizeSm" onClick={onRegister}>
-              Login
-            </button>
-          </center>
+              <h4 className ="form-change">Already a Member?</h4>
+              <button className="btn btn_sizeSm" onClick={onRegister}>
+                Login
+              </button>
+            </center>
           </>
           )}
         </div>

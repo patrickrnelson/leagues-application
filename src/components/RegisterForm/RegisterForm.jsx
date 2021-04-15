@@ -31,47 +31,44 @@ function RegisterForm() {
           {errors.registrationMessage}
         </h3>
       )}
-      <div>
-        <label htmlFor="name">
-          Name:
+      <div className="nameInput registerInputs">
+        <label htmlFor="name">Name:</label>
           <input
             type="text"
             name="Name"
+            id="name"
             value={name}
+            minlength="2"
             required
             onChange={(event) => setName(event.target.value)}
           />
-        </label>
       </div>
-      <div>
-        <label htmlFor="email">
-          Email:
+      <div className="emailInput registerInputs">
+        <label htmlFor="email">Email:</label>
           <input
             type="text"
             name="email"
+            id="email"
             value={username}
             required
             onChange={(event) => setUsername(event.target.value)}
           />
-        </label>
       </div>
-      <div>
-        <label htmlFor="phone number">
-          Phone Number:
+      <div className="phoneInput registerInputs">
+        <label htmlFor="phone number">Phone Number:</label>
           <input
             type="tel"
             name="phone number"
+            id="phone number"
             placeholder="000-000-0000"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             value={phoneNumber}
             required
             onChange={(event) => setPhoneNumber(event.target.value)}
           />
-        </label>
       </div>
-      <div>
-        <label htmlFor="password">
-          Password:
+      <div className="passwordInput registerInputs">
+        <label htmlFor="password">Password:</label>
           <input
             type="password"
             name="password"
@@ -79,7 +76,6 @@ function RegisterForm() {
             required
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
       </div>
       <div>
         <input className="btn" type="submit" name="submit" value="Register" />

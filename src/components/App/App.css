@@ -97,6 +97,10 @@ Form Treatment
 -------------------------------------------------------------------------------- */
 
 .formPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 400px;
   max-width: 100%;
@@ -105,6 +109,20 @@ Form Treatment
   background-color: #efefef;
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+}
+
+.registerInputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginInputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 input {

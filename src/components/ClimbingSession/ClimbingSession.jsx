@@ -1,19 +1,27 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+
+import Header from '../Header/Header'
 
 function ClimbingSession() {
+  const history = useHistory();
+
   return (
     <div className="container">
+      <Header />
       <h2>Week 1 Climbing Session</h2>
       <h4>Handicap: Determined by this weeks submission</h4>
-      <button>Add a Climb</button>
+      <button onClick={() => history.push('/climb/add')}>Add a Climb</button>
       <h4>My Climbs</h4>
       <table>
         <thead>
-          <tr> Color </tr>
-          <tr> Location </tr>
-          <tr> Difficulty </tr>
-          <tr> Score </tr>
-          <tr> Attempts </tr>
+          <tr> 
+            <td>Color</td> 
+            <td>Location</td>
+            <td>Difficulty</td> 
+            <td>Score</td>  
+            <td>Attempts</td> 
+          </tr>
         </thead>
         <tbody>
           <tr>

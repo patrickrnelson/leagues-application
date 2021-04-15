@@ -1,8 +1,11 @@
 import React from 'react';
 
+import Header from '../Header/Header'
+
 function CaptainClimberPage() {
   return (
     <div className="container">
+      <Header />
       <h2>Patrick</h2>
       <button>Patrick's Info</button>
       <button>Remove team member</button>
