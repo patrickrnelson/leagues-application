@@ -1,6 +1,6 @@
 -- create database 'notn'
 
-CREATE TABLE "user" (
+CREATE TABLE "users" (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR (80) NOT NULL,
     "username" VARCHAR (256) UNIQUE NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE "user" (
     "password" VARCHAR (1000) NOT NULL
 );
 
-CREATE TABLE "league" (
+CREATE TABLE "leagues" (
   "id" SERIAL PRIMARY KEY,
   "name" VARCHAR (256),
   "start" DATE,
@@ -34,63 +34,66 @@ CREATE TABLE "climbs" (
   "color" VARCHAR (256) NOT NULL,
   "level" INTEGER,
   "attempts" INTEGER,
-  "climbDate" DATE,
+  "climbDate" DATE NOT NULL DEFAULT CURRENT_DATE,
   "isSubmitted" BOOLEAN DEFAULT FALSE,
-  "userId" INT REFERENCES "user"
+  "userId" INT REFERENCES "users"
 );
 
 CREATE TABLE "usersTeams" (
   "id" SERIAL PRIMARY KEY,
-  "userId" INT REFERENCES "user",
+  "userId" INT REFERENCES "users",
   "teamId" INT REFERENCES "teams"
 );
 
-CREATE TABLE "leagueTeams" (
+CREATE TABLE "leaguesTeams" (
   "id" SERIAL PRIMARY KEY, 
   "teamId" INT REFERENCES "teams",
-  "leagueId" INT REFERENCES "league",
-  "isPaid" BOOLEAN DEFAULT FALSE
+  "leagueId" INT REFERENCES "leagues",
+  "isPaid" BOOLEAN DEFAULT FALSE,
+  "byeWeek" DATE
 );
 
 --- Test Data
 
 -- League
 
-INSERT INTO "league" ("name", "start", "end")
-VALUES ('Cullen', '04-12-2021', '06-07-2021');
+INSERT INTO "leagues" ("name", "start", "end")
+VALUES ('Cullen', '04-12-2021', '06-07-2021'),
+        ('Fall', '10-12-2020', '12-10-2020'),
+        ('Spring', '3-10-2020', '05-08-2020');
 
 -- User
 
-INSERT INTO "user" ("name", "username", "phone", "password")
+INSERT INTO "users" ("name", "username", "phone", "password")
 VALUES ('Alvin', 'myemail1@myemail.com', '555-555-5555', 'passcode');
 
-INSERT INTO "user" ("name", "username", "phone", "password")
+INSERT INTO "users" ("name", "username", "phone", "password")
 VALUES ('Patrick', 'myemail2@myemail.com', '555-555-5555', 'passcode');
 
-INSERT INTO "user" ("name", "username", "phone", "password")
+INSERT INTO "users" ("name", "username", "phone", "password")
 VALUES ('John', 'myemail3@myemail.com', '555-555-5555', 'passcode');
 
-INSERT INTO "user" ("name", "username", "phone", "password")
+INSERT INTO "users" ("name", "username", "phone", "password")
 VALUES ('Johnny', 'myemail4@myemail.com', '555-555-5555', 'passcode');
 
-INSERT INTO "user" ("name", "username", "phone", "password")
+INSERT INTO "users" ("name", "username", "phone", "password")
 VALUES ('Zach', 'myemail5@myemail.com', '555-555-5555', 'passcode');
 
-INSERT INTO "user" ("name", "username", "phone", "password")
+INSERT INTO "users" ("name", "username", "phone", "password")
 VALUES ('Jon', 'myemail6@myemail.com', '555-555-5555', 'passcode');
 
 -- Team
 
-INSERT INTO "teams" ("name", "captainId", "leagueId", "accessCode")
-VALUES ('Boulder Brigade', '1', '1', 'egdav15ea2v5e12af');
+INSERT INTO "teams" ("name", "captainId", "accessCode")
+VALUES ('Boulder Brigade', '1', 'HKGKDN');
 
-INSERT INTO "teams" ("name", "captainId", "leagueId", "accessCode")
-VALUES ('Stepping Stones', '6', '1', 'fe123da58ef15gn5u');
+INSERT INTO "teams" ("name", "captainId", "accessCode")
+VALUES ('Stepping Stones', '6', 'EKFNEG');
 
-INSERT INTO "leagueTeams" ("teamId", "leagueId", "isPaid")
+INSERT INTO "leaguesTeams" ("teamId", "leagueId", "isPaid")
 VALUES ('1', '1', 'TRUE');
 
-INSERT INTO "leagueTeams" ("teamId", "leagueId", "isPaid")
+INSERT INTO "leaguesTeams" ("teamId", "leagueId", "isPaid")
 VALUES ('2', '1', 'FALSE');
 
 INSERT INTO "usersTeams" ("userId", "teamId")
@@ -102,7 +105,7 @@ VALUES ('6', '2');
 -- Locations
 
 INSERT INTO "locations" ("name")
-VALUES ('overhang'), ('slight overhang'), ('left barrel'), ('right barrel'), ('slab');
+VALUES ('Overhang'), ('Slight Overhang'), ('Left Barrel'), ('Right Barrel'), ('Slab');
 
 -- climbs
 

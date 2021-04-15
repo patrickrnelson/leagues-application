@@ -13,7 +13,7 @@ function* fetchUser() {
     // allow the server session to recognize the user
     // If a user is logged in, this will return their information
     // from the server session (req.user)
-    const response = yield axios.get('/api/user', config);
+    const response = yield axios.get('/api/user/login', config);
 
     // now that the session has given us a user object
     // with an id and username set the client-side user object to let
@@ -24,8 +24,35 @@ function* fetchUser() {
   }
 }
 
+function* fetchConditional() {
+  
+  try {
+
+    const response = yield axios.get('/api/user/conditional');
+    
+    yield put ({ type: 'SET_CONDITIONAL', payload: response.data});
+  } catch (error) {
+    console.log('Conditional request failed', error)
+  }
+}
+
+function* editUserProfile(action) {
+  console.log('in edit user Saga');
+  try {
+    yield axios.put('/api/user', action.payload)
+
+    yield put({ type: 'FETCH_USER'})
+  }
+  catch(err) {
+    console.log('Error editing user profile', err);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('FETCH_CONDITIONAL', fetchConditional);
+  yield takeLatest('EDIT_USER_PROFILE', editUserProfile);
 }
+
 
 export default userSaga;

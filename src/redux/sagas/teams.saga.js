@@ -16,7 +16,18 @@ function* fetchClimberTeams() {
   }
 }
 
-function* postNewTeam(action) {
+function* fetchTeamAccessCodes() {
+  try {
+    let teamAccess = yield axios.get(`/api/team/access`);
+    console.log('get teams access codes', teamAccess.data);
+    yield put({ type: 'SET_ACCESS_CODES', payload: teamAccess.data });
+  }
+  catch (error) {
+    console.log('Error getting access codes', error);
+  }
+}
+
+function* createTeam(action) {
   console.log('postNewTeam', action.payload);
   try {
     yield axios.post('/api/team', action.payload);
@@ -25,6 +36,7 @@ function* postNewTeam(action) {
     console.log('Error posting new team', error)
   }
 }
+
 
 function* getLeagueViewInfo() {
 
@@ -36,13 +48,26 @@ function* getLeagueViewInfo() {
   catch (error) {
     console.log('Error getting the league info', error)
   }
+}
+
+function* joinTeam(action) {
+  console.log('join team', action.payload);
+  try{
+    yield axios.post(`/api/team/join/${action.payload}`);
+  }
+  catch (error) {
+    console.log('Error joining team', error)
+  }
 
 }
 
 function* teamsSaga() {
   yield takeLatest('FETCH_CLIMBER_TEAMS', fetchClimberTeams);
-  yield takeLatest('CREATE_TEAM', postNewTeam);
   yield takeLatest('FETCH_LEAGUE', getLeagueViewInfo);
+  yield takeLatest('FETCH_TEAM_ACCESS', fetchTeamAccessCodes);
+  yield takeLatest('CREATE_TEAM', createTeam);
+  yield takeLatest('JOIN_TEAM', joinTeam);
+
 }
 
 export default teamsSaga;

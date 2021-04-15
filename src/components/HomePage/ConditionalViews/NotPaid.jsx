@@ -6,7 +6,7 @@ function NotPaid() {
   return (
     <div className="container">
       <h2>Welcome!</h2>
-      <p>Your team had not paid. Please pay in order to proceed</p>
+      <p>Your team has not paid. Please pay in order to proceed</p>
       <p>If you have paid please contact Nature of the North so your status can be updated</p>
     </div>
   );

@@ -1,40 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Header from '../Header/Header'
+import './ClimbingSession.css'
 
 function ClimbingSession() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const user = useSelector(store => store.user)
+  const climbs = useSelector(store => store.climbs)
+
+  useEffect(() => {
+    dispatch({
+      type: 'FETCH_CLIMBS'
+    });
+  }, [])
+
   return (
     <div className="container">
       <Header />
       <h2>Week 1 Climbing Session</h2>
       <h4>Handicap: Determined by this weeks submission</h4>
-      <button>Add a Climb</button>
+      <button onClick={() => history.push('/climb/add')}>Add a Climb</button>
       <h4>My Climbs</h4>
-      <table>
-        <thead>
-          <tr> Color </tr>
-          <tr> Location </tr>
-          <tr> Difficulty </tr>
-          <tr> Score </tr>
-          <tr> Attempts </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td> Red </td>
-            <td> Overhang </td>
-            <td> V7 </td>
-            <td> 5 </td>
-            <td> 3 </td>
-          </tr>
-          <tr>
-            <td> Blue </td>
-            <td> Slab </td>
-            <td> V8 </td>
-            <td> 6 </td>
-            <td> 2 </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="climbsContainer">
+        <table className="climbsTable">
+          <thead>
+            <tr> 
+              <td>Color</td> 
+              <td>Location</td>
+              <td>Attempts</td> 
+              <td>Level</td> 
+              <td>Score</td>  
+            </tr>
+          </thead>
+          <tbody>
+            {climbs.map((climb) => climb.userId === user.id ? 
+              <tr>  
+              <td> {climb.color} </td>
+              <td> {climb.locationName} </td>
+              <td> {climb.attempts} </td>
+              <td> {climb.level} </td>
+              <td> 1 </td>
+            </tr>
+            :
+            <div></div>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

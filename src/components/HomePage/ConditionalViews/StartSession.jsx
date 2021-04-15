@@ -4,6 +4,9 @@ import { useState } from 'react';
 
 function StartSession() {
 
+  const conditionalData = useSelector(store => store.conditional);
+
+
   const [isCaptain, setIsCaptain] = useState(true);
   const [byeWeekAvailable, setByeWeekAvailable] = useState(true);
 
@@ -14,7 +17,7 @@ function StartSession() {
       <h4>Team Name</h4>
       <button>Start Session</button>
       {/* Check if user is a captain and if they are display bye week button */}
-      {isCaptain && byeWeekAvailable && <button>Initiate Bye Week</button>}
+      {conditionalData[0].captainId === conditionalData[0].userId && conditionalData[0].byeWeek === null && <button>Initiate Bye Week</button>}
     </div>
   );
 }
