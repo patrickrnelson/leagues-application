@@ -41,6 +41,19 @@ router.get('/access', (req, res) => {
     })
 })
 
+router.get('/leagueTeam/:id', (req, res) => {
+  console.log('test1', req.body);
+  let queryText = `SELECT * FROM teams WHERE "teams"."leagueId" = $1`;
+  pool.query(queryText, [req.params.id])
+  .then((result) => {
+    res.send(result.rows);
+  })
+  .catch(err => {
+    console.log('error getting teams', err);
+    res.sendStatus(500)
+  })
+})
+
 router.post('/', async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
