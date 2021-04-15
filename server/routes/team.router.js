@@ -5,7 +5,7 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
-router.get('/all', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
   // console.log('in teams GET router');
   let queryText = `
     SELECT "users".name as userName, 
@@ -26,7 +26,7 @@ router.get('/all', (req, res) => {
     })
 });
 
-router.get('/access', (req, res) => {
+router.get('/access', rejectUnauthenticated, (req, res) => {
   let queryText=`
     SELECT "teams".id as "ID", "teams"."accessCode" as "accessCode" 
     FROM "teams";
@@ -42,7 +42,7 @@ router.get('/access', (req, res) => {
     })
 })
 
-router.get('/leagueTeam/:id', (req, res) => {
+router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
   console.log('test1', req.body);
   let queryText = `SELECT * FROM teams WHERE "teams"."leagueId" = $1`;
   pool.query(queryText, [req.params.id])
@@ -55,7 +55,7 @@ router.get('/leagueTeam/:id', (req, res) => {
   })
 })
 
-router.post('/', async (req, res) => {
+router.post('/', rejectUnauthenticated, async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
   // console.log('what is my access code?', accessCode);
