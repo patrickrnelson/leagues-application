@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* fetchClimberTeams() {
+function* fetchTeams() {
   try {
 
     // gets the characteristics from the DB
@@ -48,7 +48,7 @@ function* joinTeam(action) {
 }
 
 function* teamsSaga() {
-  yield takeLatest('FETCH_CLIMBER_TEAMS', fetchClimberTeams);
+  yield takeLatest('FETCH_TEAMS', fetchTeams);
   yield takeLatest('FETCH_TEAM_ACCESS', fetchTeamAccessCodes);
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);

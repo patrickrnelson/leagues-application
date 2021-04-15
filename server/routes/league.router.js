@@ -6,7 +6,19 @@ const router = express.Router();
  * GET route template
  */
 router.get('/', (req, res) => {
-  // GET route code here
+  let queryText = `
+    SELECT * FROM "leagues"
+    JOIN "leaguesTeams" ON "leaguesTeams"."leagueId" = "leagues".id;
+  `
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch(err => {
+      console.log('Error in Leagues GET', err);
+      res.sendStatus(500)
+    })
 });
 
 /**

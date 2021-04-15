@@ -16,11 +16,11 @@ function HomePage() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({
-      type: 'FETCH_CONDITIONAL'
-    })
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'FETCH_CONDITIONAL'
+  //   })
+  // }, [dispatch])
 
   // Grab our conditionalData from the store
   const conditionalData = useSelector(store => store.conditional);

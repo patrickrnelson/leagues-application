@@ -8,10 +8,12 @@ const {
 router.get('/all', (req, res) => {
   // console.log('in teams GET router');
   let queryText = `
-    SELECT "users".name as userName, "usersTeams"."userId", "usersTeams"."teamId", "teams".name as "teamName"
+    SELECT "users".name as userName, 
+      "usersTeams"."userId", "usersTeams"."teamId", 
+      "teams".name as "teamName", "teams".id as "teamId", "teams"."captainId", "teams"."accessCode"
     FROM "users"
     JOIN "usersTeams" ON "users".id = "usersTeams"."userId"
-    JOIN "teams" ON "teams".id = "usersTeams"."teamId"`
+    JOIN "teams" ON "teams".id = "usersTeams"."teamId";`
   pool
     .query(queryText)
     .then((result) => {
