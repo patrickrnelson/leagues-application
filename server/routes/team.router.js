@@ -8,9 +8,9 @@ const {
 router.get('/all', (req, res) => {
   // console.log('in teams GET router');
   let queryText = `
-    SELECT "user".name as userName, "usersTeams"."userId", "usersTeams"."teamId", "teams".name as "teamName"
-    FROM "user"
-    JOIN "usersTeams" ON "user".id = "usersTeams"."userId"
+    SELECT "users".name as userName, "usersTeams"."userId", "usersTeams"."teamId", "teams".name as "teamName"
+    FROM "users"
+    JOIN "usersTeams" ON "users".id = "usersTeams"."userId"
     JOIN "teams" ON "teams".id = "usersTeams"."teamId"`
   pool
     .query(queryText)
@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
       RETURNING *
     `, [req.body.teamName, req.user.id, accessCode]);
     await connection.query(`
-      INSERT INTO "leagueTeams" ("teamId", "leagueId")
+      INSERT INTO "leaguesTeams" ("teamId", "leagueId")
       VALUES ($1, $2)
     `, [dbRes.rows[0].id, 1]) //need to update how to capture leagueId later
     await connection.query(`COMMIT`);
@@ -70,8 +70,8 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/join/:id', rejectUnauthenticated, (req, res) => {
-  console.log('what is my id', req.params.id);
-  console.log('what is my user', req.user.id);
+  // console.log('what is my id', req.params.id);
+  // console.log('what is my user', req.user.id);
   let queryText =`
     INSERT INTO "usersTeams" ("userId", "teamId")
     VALUES ($1, $2)
