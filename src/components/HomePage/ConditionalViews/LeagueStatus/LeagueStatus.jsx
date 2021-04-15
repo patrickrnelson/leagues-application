@@ -11,15 +11,11 @@ function LeagueStatus() {
   const conditionalData = useSelector(store => store.conditional);
   const leagueData = useSelector(store => store.leaguesReducer);
 
-  console.log('leagueData', leagueData)
-
   let openLeague = '';
 
   for (let i = 0; i < leagueData.length; i++) {
     if (moment().isSameOrBefore(leagueData[i].start)) {
-      console.log('leagueData[i]', leagueData[i])        
       openLeague = leagueData[i];
-      console.log('openLeague', openLeague)
       break;
     }
   }

@@ -10,7 +10,7 @@ function JoinLeague(props) {
     <div className="container">
       <h2>{props.leagueData.name} League is open</h2>
       <h3>League Dates: {moment(props.leagueData.start).format("dddd, MMMM Do YYYY")} - {moment(props.leagueData.end).format("dddd, MMMM Do YYYY")}</h3>
-      <h3>Joining period ends 05/08/2021</h3>
+      <h3>Joining period ends {moment(props.leagueData.start).add(7, 'd').format("dddd, MMMM Do YYYY")}</h3>
       <button>Join League</button>
     </div>
   );
