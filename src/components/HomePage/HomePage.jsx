@@ -68,7 +68,7 @@ function HomePage() {
       return <ByeWeek />
     } else {
       // else return StartSession page  
-      return <StartSession />
+      return <StartSession weekCalc={weekCalc} />
     }
   }
 
