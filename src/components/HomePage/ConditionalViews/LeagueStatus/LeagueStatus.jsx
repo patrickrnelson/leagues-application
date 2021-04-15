@@ -12,7 +12,7 @@ function LeagueStatus() {
   const [isOpenLeague, setIsOpenLeague] = useState(true);
 
   const conditionalData = useSelector(store => store.conditional);
-  const leagueData = useSelector(store => store.leaguesReducer);
+  const leagueData = useSelector(store => store.leagueReducer);
 
   useEffect(() => {
     console.log('leagueData', leagueData)
@@ -26,8 +26,8 @@ function LeagueStatus() {
     for (let i = 0; i < leagueData.length; i++) {
       if (moment().isSameOrBefore(leagueData[i].start)) {
         console.log('leagueData[i]', leagueData[i])        
-        // openLeague = leagueData[i];
-        // console.log('openLeague', openLeague)
+        openLeague = leagueData[i];
+        console.log('openLeague', openLeague)
         break;
       }
     }
