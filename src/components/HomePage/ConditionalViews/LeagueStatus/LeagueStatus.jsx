@@ -14,9 +14,8 @@ function LeagueStatus() {
   let openLeague = '';
 
   for (let i = 0; i < leagueData.length; i++) {
-    if (moment().isSameOrBefore(leagueData[i].start)) {
+    if (moment().isSameOrBefore(moment(leagueData[i].start).add(7, 'd'))) {
       openLeague = leagueData[i];
-      break;
     }
   }
 
