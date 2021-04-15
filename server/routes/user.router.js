@@ -17,13 +17,13 @@ router.get('/login', rejectUnauthenticated, (req, res) => {
 router.get('/conditional', (req, res) => {
 
   let queryText = `
-    SELECT "user".id AS "userId", "teams".id AS "teamId", "teams"."captainId", "teams"."name" AS "teamName", "leagueTeams"."isPaid", "league"."name" AS "leagueName", "league"."start", "league"."end", "leagueTeams"."byeWeek", "climbs"."isSubmitted" from "user"
-    FULL OUTER JOIN "usersTeams" ON "user".id = "usersTeams"."userId"
+    SELECT "users".id AS "userId", "teams".id AS "teamId", "teams"."captainId", "teams"."name" AS "teamName", "leaguesTeams"."isPaid", "leagues"."name" AS "leagueName", "leagues"."start", "leagues"."end", "leaguesTeams"."byeWeek", "climbs"."isSubmitted" from "users"
+    FULL OUTER JOIN "usersTeams" ON "users".id = "usersTeams"."userId"
     FULL OUTER JOIN "teams" ON "usersTeams"."teamId" = "teams".id
-    FULL OUTER JOIN "leagueTeams" ON "teams".id = "leagueTeams"."teamId" 
-    FULL OUTER JOIN "climbs" ON "user".id = "climbs"."userId"
-    FULL OUTER JOIN "league" ON "leagueTeams"."leagueId" = "league".id
-    WHERE "user".id = $1;
+    FULL OUTER JOIN "leaguesTeams" ON "teams".id = "leaguesTeams"."teamId" 
+    FULL OUTER JOIN "climbs" ON "users".id = "climbs"."userId"
+    FULL OUTER JOIN "leagues" ON "leaguesTeams"."leagueId" = "leagues".id
+    WHERE "users".id = $1;
   `
   pool.query(queryText, [req.user.id])
     .then((dbRes) => { 
@@ -44,7 +44,7 @@ router.post('/register', (req, res, next) => {
   const phone = req.body.phoneNumber;
   const password = encryptLib.encryptPassword(req.body.password);
 
-  const queryText = `INSERT INTO "user" (name, username, phone, password)
+  const queryText = `INSERT INTO "users" (name, username, phone, password)
     VALUES ($1, $2, $3, $4) RETURNING id`;
   pool
     .query(queryText, [name, username, phone, password])
@@ -76,9 +76,9 @@ router.put('/', rejectUnauthenticated, (req, res) => {
   let phone = req.body.phone
 
   let queryText = `
-    UPDATE "user" 
+    UPDATE "users" 
     SET "name" = $1, "username" = $2, "phone" = $3
-    WHERE "user".id = $4;
+    WHERE "users".id = $4;
   `
 
   pool.query(queryText, [name, username, phone, req.user.id])
