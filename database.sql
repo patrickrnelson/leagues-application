@@ -88,7 +88,7 @@ INSERT INTO "teams" ("name", "captainId", "accessCode")
 VALUES ('Boulder Brigade', '1', 'HKGKDN');
 
 INSERT INTO "teams" ("name", "captainId", "accessCode")
-VALUES ('Stepping Stones', '6' 'EKFNEG');
+VALUES ('Stepping Stones', '6', 'EKFNEG');
 
 INSERT INTO "leaguesTeams" ("teamId", "leagueId", "isPaid")
 VALUES ('1', '1', 'TRUE');
