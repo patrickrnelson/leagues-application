@@ -1,0 +1,16 @@
+.climbsContainer {
+  align-items: center;
+  text-align: center;
+}
+
+.climbsTable {
+  width: 100%;
+}
+
+.climbsTable thead {
+  font-weight: bold;
+}
+
+.climbsTable td {
+  padding: 5px 0;
+}

@@ -9,7 +9,20 @@ const router = express.Router();
  * GET route template
  */
 router.get('/', (req, res) => {
-  // GET route code here
+  queryText = `
+    SELECT "climbs".id as "climbId", "climbs".attempts, "climbs"."climbDate", "climbs".color, "climbs"."isSubmitted", "climbs".level,
+    "climbs"."userId", "locations".name AS "locationName"
+    FROM "climbs"
+    JOIN "locations" ON "climbs"."locationId" = "locations".id;
+  `
+  pool.query(queryText)
+  .then((dbRes) => {
+    res.send(dbRes.rows)
+  })
+  .catch((err) => {
+    console.log('Error in GET all climbs');
+    res.sendStatus(500);
+  })
 });
 
 /**
@@ -28,6 +41,13 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
     VALUES ((SELECT "locations"."id" FROM "locations" WHERE "locations"."name" = $1), $2, $3, $4, $5);
   `
   pool.query(queryText, [location, color, difficulty, attempts, req.user.id])
+  .then(() => {
+    res.sendStatus(201)
+  })
+  .catch((err) => {
+    console.log('Error in new climb POST');
+    res.sendStatus(500)
+  })
 });
 
 module.exports = router;
