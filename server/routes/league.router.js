@@ -7,6 +7,15 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   // GET route code here
+  const queryText = `SELECT * FROM "league" ORDER BY "league".start DESC`
+  pool.query(queryText)
+  .then((result) => {
+    res.send(result.rows)
+  })
+  .catch((err) => {
+    console.log('get error', err);
+    res.sendStatus(500);
+  })
 });
 
 /**

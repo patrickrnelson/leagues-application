@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Grid, makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,6 +13,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+
+
+
 
 
 
@@ -46,6 +50,15 @@ const rows = [
 ];
 
 function AdminTeams() {
+  useEffect(() => {
+    dispatch({type: 'FETCH_LEAGUE'});
+  }, []);
+
+  const dispatch = useDispatch();
+
+  const leagues = useSelector(store => store.leagueReducer)
+  const leagueTeams = useSelector(store => store.leagueTeamReducer)
+
   const classes = useStyles();
 
   const [value, setValue] = React.useState('');
@@ -53,6 +66,14 @@ function AdminTeams() {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+
+  const handleLeagueSelected = (id) => {
+    console.log('leagueTeams', leagueTeams);
+    dispatch({
+      type: 'FETCH_LEAGUE_TEAMS',
+      payload: id
+    })
+  } 
   return (
     <Grid
       container
@@ -65,6 +86,11 @@ function AdminTeams() {
       <Grid item xs={6}>
         <h1>Teams</h1>
       </Grid>
+      <Grid item xs={6}>
+          {leagueTeams.map(team => {
+            <h1 key={team.id}>{team.name}</h1>
+          })}
+        </Grid>
       <Grid>
         <FormControl className={classes.formControl}>
           <InputLabel>Team List</InputLabel>
@@ -74,11 +100,12 @@ function AdminTeams() {
             value={value}
             onChange={handleChange}
           >
-            <MenuItem value={'League1'}>Fall League 2020</MenuItem>
-            <MenuItem value={'League2'}>Spring League 2021</MenuItem>
-            <MenuItem value={'League3'}>Fall League 2021</MenuItem>
-            <MenuItem value={'Team4'}>Team4</MenuItem>
-            <MenuItem value={'Team5'}>Team5</MenuItem>
+            {leagues.map(league => {
+              return (
+                <MenuItem onClick={() => handleLeagueSelected(league.id)} value={league.id}>{league.name}</MenuItem>
+              )
+            })}
+            
           </Select>
         </FormControl>
       </Grid>
@@ -113,36 +140,6 @@ function AdminTeams() {
         </Table>
       </TableContainer>
 
-      {/* <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow> */}
-              {/* <TableCell></TableCell> */}
-              {/* <TableCell align="right">Week</TableCell>
-              <TableCell align="right">1</TableCell>
-              <TableCell align="right">2</TableCell>
-              <TableCell align="right">3</TableCell>
-              <TableCell align="right">4</TableCell>
-              <TableCell align="right">5</TableCell>
-              <TableCell align="right">6</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}> */}
-                {/* <TableCell></TableCell> */}
-                {/* <TableCell align="right">{row.climber}</TableCell>
-                <TableCell align="right">{row.color}</TableCell>
-                <TableCell align="right">{row.location}</TableCell>
-                <TableCell align="right">{row.difficulty}</TableCell>
-                <TableCell align="right">{row.score}</TableCell>
-                <TableCell align="right">{row.attempts}</TableCell>
-                <TableCell align="right">{row.date}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer> */}
 
       <br></br>
 
