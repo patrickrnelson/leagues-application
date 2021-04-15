@@ -20,18 +20,9 @@ const teamsReducer = (state =
   }
 };
 
-const leagueReducer = ( state = [], action) => {
-  if(action.type === 'FETCH_LEAGUE_INFO'){
-    return action.payload
-  }
-  return state;
-}; // end leagueReducer 
-
-
 // user will be on the redux state at:
 // state.user
-export default combineReducers({
-  teamsReducer,
-  leagueReducer
+export default teamsReducer;
 
-})
+
+
