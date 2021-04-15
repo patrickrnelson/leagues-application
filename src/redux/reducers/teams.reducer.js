@@ -7,7 +7,7 @@ const teamsReducer = (state =
   }
   ], action) => {
   switch (action.type) {
-    case 'SET_CLIMBER_TEAMS':
+    case 'SET_TEAMS':
       return action.payload;
     default:
       return state;

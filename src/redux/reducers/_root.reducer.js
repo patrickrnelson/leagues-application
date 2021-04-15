@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
   conditional, // will give us all of the conditional rendering information for home page
   climbs, // will give us all of the climbs
   teamAccess,
-  leagueTeamReducer
+  leagueTeamReducer,
   leaguesReducer,
 });
 

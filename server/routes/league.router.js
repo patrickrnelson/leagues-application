@@ -8,8 +8,25 @@ const router = express.Router();
 router.get('/', (req, res) => {
   let queryText = `
     SELECT * FROM "leagues"
-    JOIN "leaguesTeams" ON "leaguesTeams"."leagueId" = "leagues".id
     ORDER BY "leagues".start DESC;
+  `
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch(err => {
+      console.log('Error in Leagues GET', err);
+      res.sendStatus(500)
+    })
+});
+
+router.get('/teams', (req, res) => {
+  let queryText = `
+    SELECT "teams".name AS "teamName", "teams".id AS "teamId","leaguesTeams"."isPaid", "leagues".name AS "leagueName", "leagues".id AS "leagueId"
+    FROM "leagues"
+    JOIN "leaguesTeams" ON "leaguesTeams"."leagueId" = "leagues".id
+    JOIN "teams" ON "leaguesTeams"."teamId" = "teams".id;
   `
   pool
     .query(queryText)

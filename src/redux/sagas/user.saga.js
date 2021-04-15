@@ -23,7 +23,8 @@ function* fetchUser() {
       put({ type: 'FETCH_CONDITIONAL' }),
       put({ type: 'FETCH_CLIMBS' }),
       put({ type: 'FETCH_TEAMS' }),
-      put({ type: 'FETCH_LEAGUES' })
+      put({ type: 'FETCH_LEAGUES' }),
+      put({ type: 'FETCH_LEAGUE_TEAMS' })
     ]);
   } catch (error) {
     console.log('User get request failed', error);
