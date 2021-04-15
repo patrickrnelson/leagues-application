@@ -94,6 +94,7 @@ function AdminTeams() {
               <TableCell>5</TableCell>
               <TableCell>6</TableCell>
               <TableCell>7</TableCell>
+              <TableCell>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -104,8 +105,9 @@ function AdminTeams() {
               <TableCell>45</TableCell>
               <TableCell>45</TableCell>
               <TableCell>45</TableCell>
+              <TableCell>Bye</TableCell>
               <TableCell>45</TableCell>
-              <TableCell>45</TableCell>
+              <TableCell>270</TableCell>
             </TableRow>
           </TableBody>
         </Table>
