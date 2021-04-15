@@ -14,7 +14,7 @@ function StartSession(props) {
   return (
     <div className="container">
       <h2>Climb Session</h2>
-      <h3>{props.weekCalc + 1}</h3>
+      <h3>Week {props.weekCalc + 1}</h3>
       <h4>{conditionalData[0].teamName}</h4>
       <button onClick={() => history.push('/climb/session')}>Start Session</button>
       {/* Check if user is a captain and if they are display bye week button */}
