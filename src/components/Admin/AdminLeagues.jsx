@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './AdminCreate.css';
 import { Grid } from '@material-ui/core';
+import {useDispatch, useSelector} from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function AdminLeagues() {
-  return (
+
+  const leaguesInfo = useSelector ((store) => store.leagueReducer);
+
+  useEffect(() => {
+    dispatchEvent({
+      type: 'FETCH_LEAGUE'
+    })
+  },[]);
+
+
+  // return (
+
+    // iLeagues stands for individual leagues 
+    {leaguesInfo.map((iLeagues) => {
+      return(
+        <div key={iLeagues.id} >
+          <p>{iLeagues.name}</p>
+       
+      
+  
     <Grid
       container
       item
@@ -81,12 +103,12 @@ function AdminLeagues() {
 
         <Grid item xs={2}>
           {/* Start Date */}
-          <p>05/03/2021</p>
+          <p>03/22/2021</p>
         </Grid>
 
         <Grid item xs={2} >
           {/* End Date */}
-          <p>05/03/2021</p>
+          <p>05/27/2021</p>
         </Grid>
 
         <Grid item xs={2} >
@@ -109,7 +131,16 @@ function AdminLeagues() {
       </Grid>
 
     </Grid>
-  );
+
+    
+    </div>
+    ) 
+  })} 
+    
+  // );
+
+
+
 }
 
 

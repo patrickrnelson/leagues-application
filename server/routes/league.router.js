@@ -3,12 +3,13 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 /**
- * GET route template
+ * GET leagues
  */
 router.get('/', (req, res) => {
   let queryText = `
     SELECT * FROM "leagues"
-    JOIN "leaguesTeams" ON "leaguesTeams"."leagueId" = "leagues".id;
+    JOIN "leaguesTeams" ON "leaguesTeams"."leagueId" = "leagues".id
+    ORDER BY "leagues".start DESC;
   `
   pool
     .query(queryText)
