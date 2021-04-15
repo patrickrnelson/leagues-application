@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchUser() {
@@ -19,20 +19,14 @@ function* fetchUser() {
     // with an id and username set the client-side user object to let
     // the client-side code know the user is logged in
     yield put({ type: 'SET_USER', payload: response.data });
+    yield all([
+      put({ type: 'FETCH_CONDITIONAL' }),
+      put({ type: 'FETCH_CLIMBS' }),
+      put({ type: 'FETCH_TEAMS' }),
+      put({ type: 'FETCH_LEAGUES' })
+    ]);
   } catch (error) {
     console.log('User get request failed', error);
-  }
-}
-
-function* fetchConditional() {
-  
-  try {
-
-    const response = yield axios.get('/api/user/conditional');
-
-    yield put ({ type: 'SET_CONDITIONAL', payload: response.data});
-  } catch (error) {
-    console.log('Conditional request failed', error)
   }
 }
 
@@ -50,7 +44,6 @@ function* editUserProfile(action) {
 
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
-  yield takeLatest('FETCH_CONDITIONAL', fetchConditional);
   yield takeLatest('EDIT_USER_PROFILE', editUserProfile);
 }
 

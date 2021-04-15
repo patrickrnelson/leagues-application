@@ -4,7 +4,8 @@ import registrationSaga from './registration.saga';
 import teamsSaga from './teams.saga';
 import userSaga from './user.saga';
 import climbsSaga from './climbs.saga';
-import leagueSaga from './league.saga';
+import leaguesSaga from './leagues.saga';
+import conditionalSaga from './conditional.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -20,6 +21,7 @@ export default function* rootSaga() {
     teamsSaga(),
     userSaga(),
     climbsSaga(),
-    leagueSaga()
+    leaguesSaga(),
+    conditionalSaga(),
   ]);
 }
