@@ -3,25 +3,23 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 /**
- * GET route template
+ * GET leagues
  */
 router.get('/', (req, res) => {
-  // GET route code here
-  const queryText = `
-    SELECT *
-    FROM "league"
-    ORDER BY "league".start DESC
-    ;
-  ` ; // this is going to grab all of the leagues and put in order of most recent of start date.
-  pool.query(queryText)
-  .then( result => {
-    res.send(result.rows);
-  })
-  .catch(error => {
-    console.log('ERROR: in league.router GET', error);
-    res.sendStatus(500)
-  })
-
+  let queryText = `
+    SELECT * FROM "leagues"
+    JOIN "leaguesTeams" ON "leaguesTeams"."leagueId" = "leagues".id
+    ORDER BY "leagues".start DESC;
+  `
+  pool
+    .query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch(err => {
+      console.log('Error in Leagues GET', err);
+      res.sendStatus(500)
+    })
 });
 
 /**

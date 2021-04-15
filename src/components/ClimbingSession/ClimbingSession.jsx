@@ -12,12 +12,6 @@ function ClimbingSession() {
   const user = useSelector(store => store.user)
   const climbs = useSelector(store => store.climbs)
 
-  useEffect(() => {
-    dispatch({
-      type: 'FETCH_CLIMBS'
-    });
-  }, [])
-
   return (
     <div className="container">
       <Header />

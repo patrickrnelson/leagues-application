@@ -8,10 +8,12 @@ const {
 router.get('/all', (req, res) => {
   // console.log('in teams GET router');
   let queryText = `
-    SELECT "users".name as userName, "usersTeams"."userId", "usersTeams"."teamId", "teams".name as "teamName"
+    SELECT "users".name as userName, 
+      "usersTeams"."userId", "usersTeams"."teamId", 
+      "teams".name as "teamName", "teams".id as "teamId", "teams"."captainId", "teams"."accessCode"
     FROM "users"
     JOIN "usersTeams" ON "users".id = "usersTeams"."userId"
-    JOIN "teams" ON "teams".id = "usersTeams"."teamId"`
+    JOIN "teams" ON "teams".id = "usersTeams"."teamId";`
   pool
     .query(queryText)
     .then((result) => {
@@ -37,6 +39,19 @@ router.get('/access', (req, res) => {
       console.log('Error getting access codes', err);
       res.sendStatus(500)
     })
+})
+
+router.get('/leagueTeam/:id', (req, res) => {
+  console.log('test1', req.body);
+  let queryText = `SELECT * FROM teams WHERE "teams"."leagueId" = $1`;
+  pool.query(queryText, [req.params.id])
+  .then((result) => {
+    res.send(result.rows);
+  })
+  .catch(err => {
+    console.log('error getting teams', err);
+    res.sendStatus(500)
+  })
 })
 
 router.post('/', async (req, res) => {

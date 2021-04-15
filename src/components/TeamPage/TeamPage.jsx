@@ -15,9 +15,6 @@ function TeamPage() {
   const [userTeam, setUserTeam] = useState('')
 
   useEffect(() => {
-    dispatch({
-      type: 'FETCH_CLIMBER_TEAMS'
-    });
     findUserTeam();
   }, [])
 

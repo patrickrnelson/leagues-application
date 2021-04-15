@@ -43,7 +43,6 @@ router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const phone = req.body.phoneNumber;
   const password = encryptLib.encryptPassword(req.body.password);
-  console.log('what is my id', req.user.id);
 
   const queryText = `INSERT INTO "users" (name, username, phone, password)
     VALUES ($1, $2, $3, $4) RETURNING id`;
