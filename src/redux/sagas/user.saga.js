@@ -29,7 +29,7 @@ function* fetchConditional() {
   try {
 
     const response = yield axios.get('/api/user/conditional');
-
+    
     yield put ({ type: 'SET_CONDITIONAL', payload: response.data});
   } catch (error) {
     console.log('Conditional request failed', error)

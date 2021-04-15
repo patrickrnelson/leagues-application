@@ -16,7 +16,6 @@ function ClimbingSession() {
     dispatch({
       type: 'FETCH_CLIMBS'
     });
-    
   }, [])
 
   return (
