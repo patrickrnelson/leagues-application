@@ -15,6 +15,7 @@ function TeamPage() {
   const [userTeam, setUserTeam] = useState('')
 
   useEffect(() => {
+    console.log('climberTeams', climberTeams);
     findUserTeam();
   }, [])
 

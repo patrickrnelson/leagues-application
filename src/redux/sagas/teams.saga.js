@@ -62,6 +62,7 @@ function* joinTeam(action) {
   catch (error) {
     console.log('Error joining team', error)
   }
+}
 
 // function* fetchTeams(action) {
 //   console.log('getting teams', action.payload);
@@ -74,8 +75,7 @@ function* joinTeam(action) {
 // }
 
 function* teamsSaga() {
-
-  yield takeLatest('FETCH_CLIMBER_TEAMS', fetchTeams);
+  yield takeLatest('FETCH_TEAMS', fetchTeams);
   yield takeLatest('FETCH_TEAM_ACCESS', fetchTeamAccessCodes);
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);
