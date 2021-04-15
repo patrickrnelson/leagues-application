@@ -26,9 +26,23 @@ function* postNewTeam(action) {
   }
 }
 
+function* getLeagueViewInfo() {
+
+  try{
+    let leagueInfo = yield axios.get(`/api/league`)
+    console.log('Get League info', leagueInfo.data);
+    yield put ({type: 'FETCH_LEAGUE_INFO', payload: leagueInfo.data});
+  }
+  catch (error) {
+    console.log('Error getting the league info', error)
+  }
+
+}
+
 function* teamsSaga() {
   yield takeLatest('FETCH_CLIMBER_TEAMS', fetchClimberTeams);
   yield takeLatest('CREATE_TEAM', postNewTeam);
+  yield takeLatest('FETCH_LEAGUE', getLeagueViewInfo);
 }
 
 export default teamsSaga;
