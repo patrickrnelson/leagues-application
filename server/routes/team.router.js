@@ -13,7 +13,8 @@ router.get('/all', (req, res) => {
       "teams".name as "teamName", "teams".id as "teamId", "teams"."captainId", "teams"."accessCode"
     FROM "users"
     JOIN "usersTeams" ON "users".id = "usersTeams"."userId"
-    JOIN "teams" ON "teams".id = "usersTeams"."teamId";`
+    JOIN "teams" ON "teams".id = "usersTeams"."teamId"
+    ;`
   pool
     .query(queryText)
     .then((result) => {
@@ -68,9 +69,9 @@ router.post('/', async (req, res) => {
       RETURNING *
     `, [req.body.teamName, req.user.id, accessCode]);
     await connection.query(`
-      INSERT INTO "leaguesTeams" ("teamId", "leagueId")
+      INSERT INTO "usersTeams" ("teamId", "userId")
       VALUES ($1, $2)
-    `, [dbRes.rows[0].id, 1]) //need to update how to capture leagueId later
+    `, [dbRes.rows[0].id, req.user.id]) //need to update how to capture leagueId later
     await connection.query(`COMMIT`);
     res.send(200)
   }
