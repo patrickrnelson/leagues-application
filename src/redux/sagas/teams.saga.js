@@ -43,6 +43,8 @@ function* joinTeam(action) {
   console.log('join team', action.payload);
   try{
     yield axios.post(`/api/team/join/${action.payload}`);
+
+    yield put({ type: 'FETCH_TEAMS'})
   }
   catch (error) {
     console.log('Error joining team', error)
