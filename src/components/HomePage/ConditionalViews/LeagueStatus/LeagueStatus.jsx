@@ -8,39 +8,29 @@ import NotInLeague from './NotInLeagueUser'
 
 function LeagueStatus() {
 
-  // Still need to setup router to get League info so we can see if there is an open league
-  const [isOpenLeague, setIsOpenLeague] = useState(true);
-
   const conditionalData = useSelector(store => store.conditional);
-  const leagueData = useSelector(store => store.leagueReducer);
+  const leagueData = useSelector(store => store.leaguesReducer);
 
-  useEffect(() => {
-    console.log('leagueData', leagueData)
-    checkIfLeagueIsOpen();
-  }, [])
-
+  console.log('leagueData', leagueData)
 
   let openLeague = '';
 
-  let checkIfLeagueIsOpen = () => {
-    for (let i = 0; i < leagueData.length; i++) {
-      if (moment().isSameOrBefore(leagueData[i].start)) {
-        console.log('leagueData[i]', leagueData[i])        
-        openLeague = leagueData[i];
-        console.log('openLeague', openLeague)
-        break;
-      }
+  for (let i = 0; i < leagueData.length; i++) {
+    if (moment().isSameOrBefore(leagueData[i].start)) {
+      console.log('leagueData[i]', leagueData[i])        
+      openLeague = leagueData[i];
+      console.log('openLeague', openLeague)
+      break;
     }
   }
 
-
   const ConditionalLeagueDisplay = () => {
     // if there isn't an open league display NoLeague page
-    if (!isOpenLeague) {
+    if (openLeague === '') {
       return <NoLeague />;
       // if they are the captain display JoinLeague page
     } else if (conditionalData[0].captainId === conditionalData[0].userId) {
-      return <JoinLeague />;
+      return <JoinLeague leagueData={openLeague} />;
       // else display NotInLeague page
     } else {
       return <NotInLeague />

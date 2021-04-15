@@ -62,6 +62,7 @@ function* joinTeam(action) {
   catch (error) {
     console.log('Error joining team', error)
   }
+}
 
 // function* fetchTeams(action) {
 //   console.log('getting teams', action.payload);
