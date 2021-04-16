@@ -7,27 +7,39 @@ import { Grid } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+
 function AdminLeagues() {
 
-  const leaguesInfo = useSelector ((store) => store.leagueReducer);
+ const dispatch = useDispatch();
+
+  const leaguesInfo = useSelector ((store) => store.leaguesReducer);
+
+  console.log('leaguesInfo', leaguesInfo);
 
   useEffect(() => {
-    dispatchEvent({
-      type: 'FETCH_LEAGUE'
+    dispatch({
+      type: 'FETCH_LEAGUES'
     })
   },[]);
 
 
-  // return (
+  function handleEdit() {
+    
+
+  }
+
+
+  function handleDelete() {
+
+
+  }
+
+
+
+  return (
 
     // iLeagues stands for individual leagues 
-    {leaguesInfo.map((iLeagues) => {
-      return(
-        <div key={iLeagues.id} >
-          <p>{iLeagues.name}</p>
-       
-      
-  
+
     <Grid
       container
       item
@@ -61,83 +73,89 @@ function AdminLeagues() {
           </Button>
       </Grid>
 
-    <Grid 
-    container
-    item
-    xs={12}
-    direction="row"
-    //space-around
-    justify="center"
-    alignItems="center"
-    >
-      <Grid item xs={2} >
-        <h2>League</h2>
-      </Grid>
-
-      <Grid item xs={2} >
-        <h2>Start Date</h2>
-      </Grid>
-
-      <Grid item xs={2} >
-        <h2>End Date</h2>
-      </Grid>
-
-      <Grid item xs={2} >
-        <h2>Status</h2>
-      </Grid>
-    </Grid>
-
       <Grid 
       container
       item
       xs={12}
       direction="row"
-      // space-around
+      //space-around
       justify="center"
       alignItems="center"
       >
-        <Grid item xs={2}>
-          {/* Season League */}
-          <h3>Spring League 2021</h3>
-        </Grid>
-
-        <Grid item xs={2}>
-          {/* Start Date */}
-          <p>03/22/2021</p>
+        <Grid item xs={2} >
+          <h2>League</h2>
         </Grid>
 
         <Grid item xs={2} >
+          <h2>Start Date</h2>
+        </Grid>
+
+        <Grid item xs={2} >
+          <h2>End Date</h2>
+        </Grid>
+
+        <Grid item xs={2} >
+          <h2>Status</h2>
+        </Grid>
+      </Grid>
+
+      {leaguesInfo.map((iLeagues) => {
+        return(
+        <Grid 
+        container
+        item
+        xs={12}
+        direction="row"
+        // space-around
+        justify="center"
+        alignItems="center"
+        >
+
+
+        <Grid item xs={2} key={iLeagues.name} >
+          {/* Season League */}
+          <h3>{iLeagues.name}</h3>
+        </Grid>
+
+        <Grid item xs={2} key={iLeagues.start} >
+          {/* Start Date */}
+          <p>{iLeagues.start}</p>
+        </Grid>
+
+        <Grid item xs={2} key={iLeagues.end} >
           {/* End Date */}
-          <p>05/27/2021</p>
+          <p>{iLeagues.end}</p>
         </Grid>
 
         <Grid item xs={2} >
           {/* Status */}
           <p>In Progress</p>
-        </Grid>
+        </Grid>  
+
+
 
         <Grid item={2}>
-          <Button variant="outlined" color="primary">
+          <Button variant="outlined" color="primary" onClick={handleEdit} >
               Edit
           </Button>
         </Grid>
 
         <Grid item={2}>
-          <Button variant="outlined" color="secondary">
+          <Button variant="outlined" color="secondary" onClick={handleDelete} >
               Delete
           </Button>
         </Grid>
 
       </Grid>
 
+      ) 
+      })} 
+
     </Grid>
 
+  
     
-    </div>
-    ) 
-  })} 
-    
-  // );
+  );
 
 
 

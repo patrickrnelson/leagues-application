@@ -3,8 +3,26 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './AdminCreate.css';
 import { Grid } from '@material-ui/core';
+import {useDispatch, useSelector} from 'react-redux';
+import { useState } from 'react';
 
 function AdminCreate() {
+
+  const dispatch = useDispatch();
+
+  const [leagueName, setLeagueName] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+
+
+function handleSubmit() {
+  dispatch({
+    type: 'CREATE_NEW_LEAGUE',
+    payload: { leagueName, startDate, endDate }
+  })
+}
+
+
   return (
     <Grid
       container
@@ -14,6 +32,7 @@ function AdminCreate() {
       justify="space-around"
       alignItems="center"
     >
+      
       <Grid
         container
         item
@@ -35,11 +54,14 @@ function AdminCreate() {
         justify="space-around"
         alignItems="center"
       >
-        <Grid>
+          {/* League name textbox */}
+        <Grid> 
           <TextField
             id="outlined-basic"
-            label="League Name"
+            type= "text"
+            label="League Name" 
             variant="outlined"
+            onChange={(event) => setLeagueName(event.target.value)} 
           />
         </Grid>
       </Grid>
@@ -56,7 +78,12 @@ function AdminCreate() {
           <p>Start date:</p>
         </Grid>
         <Grid item xs={12}>
-          <TextField variant="outlined" color="primary" type="date" />
+          <TextField 
+          variant="outlined"
+          color="primary"
+          type="date"
+          onChange={(event) => setStartDate(event.target.value)} 
+          />
         </Grid>
       </Grid>
 
@@ -72,7 +99,12 @@ function AdminCreate() {
           <p>End Date: </p>
         </Grid>
         <Grid item={12}>
-          <TextField variant="outlined" color="primary" type="date" />
+          <TextField
+          variant="outlined"
+          color="primary"
+          type="date"
+          onChange={(event) => setEndDate(event.target.value)} 
+          />
         </Grid>
       </Grid>
       <br></br>
@@ -85,37 +117,15 @@ function AdminCreate() {
         alignItems="center"
       >
         <Grid item xs={12}>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={handleSubmit} >
             Start League
           </Button>
         </Grid>
       </Grid>
+      
     </Grid>
   );
 }
 
 export default AdminCreate;
 
-{
-  /* <div className="container">
-      <h1>Create a League</h1>
-      {/* <input className="adminCreate" placeholder="League Name"></input> 
-      <TextField id="outlined-basic" label="League Name" variant="outlined" />
-      <div className="adminCreate">
-        <p>Start date</p>
-        <TextField variant="outlined" color="primary" type="date" />
-      </div>
-      <div className="adminCreate">
-        <p>End Date</p>
-        <TextField variant="outlined" color="primary" type="date" />
-      </div>
-      <br></br>
-      <Grid container item xs={12}  alignItems="center">
-        <Grid item xs={12}  >
-        <Button variant="contained" color="primary">
-          Start League
-        </Button>
-        </Grid>
-    
-      </Grid> */
-}
