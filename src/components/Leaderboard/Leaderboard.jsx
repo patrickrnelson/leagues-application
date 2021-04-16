@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 import Header from '../Header/Header'
 import './Leaderboard.css'
+import moment from 'moment';
 
 function Leaderboard() {
 
@@ -10,59 +11,56 @@ function Leaderboard() {
   const leagueTeams = useSelector(store => store.leagueTeamReducer);
   const climbs = useSelector(store => store.climbs)
   const user = useSelector(store => store.user);
+  const conditionalData = useSelector(store => store.conditional);
+  const teams = useSelector(store => store.teams);
 
   const [currentWeek, setCurrentWeek] = useState('')
-  const [currentLeague, setCurrentLeague] = useState('Cullen')
+  const [currentLeague, setCurrentLeague] = useState('')
+  const [currentLeagueId, setCurrentLeagueId] = useState(0)
+  const [currentLeagueStart, setCurrentLeagueStart] = useState('')
+  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
 
-  // const [startDate, setStartDate] = useState('')
-  // const [endDate, setEndDate] = useState('')
+
+  const weeks = ['Week 1', 'Week 2', , 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7']
+
+  let teamsInLeague = [];
 
   useEffect(() => {
-    findLeagueDates();
-    findClimbDates();
-    console.log('leagues', leagues);
+    getCurrentLeague();
   }, [])
 
-  let startDate = ''
-  let endDate = ''
-
-  // define dates of the current league
-  const findLeagueDates = () => {
+  const getCurrentLeague = () => {
     for(let league of leagues) {
-      if(league.name === currentLeague) {
-        startDate = league.start
-        endDate = league.end
-        // setStartDate(league.start);
-        // setEndDate(league.end);
+      if(moment().isBetween(league.start, league.end)) {
+        setCurrentLeague(league.name);
+        setCurrentLeagueId(league.id);
+        setCurrentLeagueStart(league.start);
+        setCurrentLeagueEnd(league.end);
+        return;
+      } 
+    }
+  }
+
+  for(let team of leagueTeams) {
+    if(team.leagueId === currentLeagueId) {
+    let teamScore = 0
+    for(let climber of teams) {
+      if (team.teamId === climber.teamId) {
+        teamScore += climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs)
       }
     }
-    console.log('start date', startDate);
-    console.log('end date', endDate);
-  } // end findLeagueDates
-  
-  
-  // find the user's climb dates
-  const findClimbDates = () => {
-    let climbDates = [];
-    for(let climb of climbs) {
-      if(climb.userId === user.id && climb.isSubmitted === true){
-        climbDates.push(climb.climbDate)
-      }
-    }       
-    console.log(climbDates);
+    teamsInLeague.push({teamName: team.teamName, teamId: team.teamId, teamScore: teamScore})
+  }
+}
 
-    // let weekOneClimbs = [];
-    // for(let date of climbDates) {
-    //   if(date <  )
-    // }
-  } // end findClimbDates
+  console.log('teamsInLeague', teamsInLeague)
 
-  const weeks = ['Week 1', 'Week 2', , 'Week 3', 'Week 4', 'Week 5', , 'Week 6', 'Week 7']
+  teamsInLeague.sort((a, b) => {
+    return b.teamScore - a.teamScore;
+  })
 
-  // This can define the current league eventually
-  // const whatLeague = () => {
-  //   if()
-  // }
+  console.log('teamsInLeague', teamsInLeague)
+
 
   return (
     <div className="container">
@@ -85,13 +83,13 @@ function Leaderboard() {
           </tr>
         </thead>
         <tbody>
-          {leagueTeams.map((team, index) => {
+          {teamsInLeague.map((team, index) => {
             // if(team.leagueName === currentLeague) {
             return (
               <tr>
                 <td> {index + 1} </td>
                 <td> {team.teamName} </td>
-                <td> score </td>
+                <td> {team.teamScore} </td>
               </tr>
             )
           })}

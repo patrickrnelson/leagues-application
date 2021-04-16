@@ -1,24 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import moment from 'moment';
 
 import Header from '../Header/Header'
 import './TeamPage.css'
-import ClimberWeekCalc from '../../scripts/climberWeekCalc'
+import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 
 function TeamPage() {
   // const dispatch = useDispatch();
   const history = useHistory();
-
+  const leagues = useSelector(store => store.leaguesReducer);
+  const conditionalData = useSelector(store => store.conditional);
+  const climbs = useSelector(store => store.climbs)
   const climberTeams = useSelector(store => store.teams);
   const user = useSelector(store => store.user)
-
+  
+  const [currentLeague, setCurrentLeague] = useState('')
+  const [currentLeagueId, setCurrentLeagueId] = useState(0)
+  const [currentLeagueStart, setCurrentLeagueStart] = useState('')
+  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
   const [userTeam, setUserTeam] = useState('')
 
   useEffect(() => {
-    console.log('climberTeams', climberTeams);
     findUserTeam();
+    getCurrentLeague();
   }, [])
+
+  const getCurrentLeague = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setCurrentLeague(league.name);
+        setCurrentLeagueId(league.id);
+        setCurrentLeagueStart(league.start);
+        setCurrentLeagueEnd(league.end);
+        return;
+      } 
+    }
+  }
 
   const findUserTeam = () => {
     for(let climber of climberTeams) {
@@ -32,7 +51,7 @@ function TeamPage() {
     <div className="teamContainer">
       <Header />
       <h2 className="teamName">{userTeam}</h2>
-      <h3 className="leagueName">Summer League 2021</h3>
+      <h3 className="leagueName">{currentLeague}</h3>
       <select>
         <option>Week 1</option>
         <option>Week 2</option>
@@ -51,7 +70,7 @@ function TeamPage() {
               return (
                 <tr>
                   <td key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</td>
-                  <ClimberWeekCalc climberId={climber.userId}/>
+                  <td>{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs)}</td>
                 </tr>
               )
             }

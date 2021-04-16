@@ -29,7 +29,6 @@ function ClimbingSession() {
               <td>Location</td>
               <td>Attempts</td> 
               <td>Level</td> 
-              <td>Score</td>  
             </tr>
           </thead>
           <tbody>
@@ -39,7 +38,6 @@ function ClimbingSession() {
               <td> {climb.locationName} </td>
               <td> {climb.attempts} </td>
               <td> {climb.level} </td>
-              <td> 1 </td>
             </tr>
             :
             <div></div>

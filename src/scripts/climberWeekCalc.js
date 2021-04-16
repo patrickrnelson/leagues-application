@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import {  useSelector } from 'react-redux';
 import moment from 'moment';
 
-function ClimberWeekCalc(props) {
 
-const conditionalData = useSelector(store => store.conditional);
-const climbs = useSelector(store => store.climbs)
+export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd, climbs) {
 
   // grab our start date and end date
-  let from = new Date(conditionalData[0].start).getTime();
-  let to = new Date(conditionalData[0].end).getTime();
+  let from = new Date(currentLeagueStart).getTime();
+  let to = new Date(currentLeagueEnd).getTime();
   let week = 604800000;
   let day = 86400000;
-  let allWeeks = [conditionalData[0].start];
+  let allWeeks = [currentLeagueStart];
   let current =  1;
   // determine the number of weeks in the league
   let weeks = (to-from)/day/7
@@ -31,15 +29,14 @@ const climbs = useSelector(store => store.climbs)
     }
   }
   
-  let previousWeekAverage = 0;
+  // let previousWeekAverage = 0;
 
   const currentWeekClimberScore = (week) => {
     let weekClimbs = [];
   
     for(let climb of climbs) {
       if (moment(climb.climbDate).isBefore(allWeeks[week]) && moment(climb.climbDate).isAfter(allWeeks[week - 1])) {
-        console.log('Week 1', climb.climbDate)
-        if (climb.isSubmitted === true && climb.userId === props.climberId) {
+        if (climb.isSubmitted === true && climb.userId === climberId) {
           weekClimbs.push(climb.level);
         }
       }
@@ -75,10 +72,8 @@ const climbs = useSelector(store => store.climbs)
     totalScore += currentWeekClimberScore(i);
   }
 
-  console.log('totalScore', totalScore)
   return(
-    <td>{totalScore}</td>
+    totalScore
   ) 
 }
 
-export default ClimberWeekCalc;
