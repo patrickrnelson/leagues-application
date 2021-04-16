@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Material UI imports
@@ -14,7 +13,8 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 
 import './Header.css';
-import LogOutButton from '../LogOutButton/LogOutButton'
+import LogOutButton from '../LogOutButton/LogOutButton';
+import logo from '../Images/notn.png';
 
 // Material UI styles
 const useStyles = makeStyles({
@@ -37,7 +37,6 @@ const useStyles = makeStyles({
 
 function Header () {
   const history = useHistory();
-  const dispatch = useDispatch();
   const classes = useStyles();
 
   // local state for drawer (hamburger menu)
@@ -104,7 +103,7 @@ function Header () {
   return (
     <header className='header'>
       <Link to="/home">
-      <img src = 'https://origins.nu/wp-content/uploads/pngfind.com-tree-logo-png-2660740-1.png' width='50px'/>
+      <img src = {logo} alt="Logo" width='50px'/>
       </Link>
       <h1 className='headerTitle'>Nature of the North</h1>
       {/* This section handles the hamburger menu and drawer */}

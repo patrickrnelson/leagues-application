@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
+import logo from '../Images/notn.png';
 
 // CUSTOM COMPONENTS
 import LoginForm from '../LoginForm/LoginForm';
@@ -19,7 +20,7 @@ function LandingPage() {
     <div className="container">
       <h2>{heading}</h2>
       <p>Climbing League</p>
-
+      <img src = {logo} alt="Logo" width='100px'/>
       <div className="grid">
         <div className="grid-col grid-col_10">
           {formChange ? (
