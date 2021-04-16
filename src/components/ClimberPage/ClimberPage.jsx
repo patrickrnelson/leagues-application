@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 import Header from '../Header/Header'
 
 function ClimberPage() {
+  const history = useHistory();
+
+  const climberTeams = useSelector(store => store.teams);
+  let { id } = useParams()
+
+  const [climber, setClimber] = useState('')
+
+  useEffect(() => {
+    findClimber();
+  }, [])
+
+  const findClimber = () => {
+    for(let climbee of climberTeams) {
+      if(climbee.userId == id) {
+        console.log('its a match!');
+        setClimber(climbee.username)
+      }
+    }
+  }
+  
   return (
     <div className="container">
       <Header />
-      <h2>Patrick</h2>
-      <button>Patrick's Info</button>
+      <h2>{climber}</h2>
+      <button>{climber}'s Info</button>
       <table>
         <thead>
           <tr> Total Score </tr>
@@ -24,7 +46,7 @@ function ClimberPage() {
           </tr>
         </tbody>
       </table>
-      <button>Back toTeam </button>
+      <button onClick={() => history.push('/team')}>Back toTeam </button>
     </div>
   );
 }

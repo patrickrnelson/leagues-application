@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 import Header from '../Header/Header'
 import './TeamPage.css'
 
 function TeamPage() {
   // const dispatch = useDispatch();
+  const history = useHistory();
 
   const climberTeams = useSelector(store => store.teams);
   const user = useSelector(store => store.user)
@@ -47,7 +49,7 @@ function TeamPage() {
             if(climber.teamName === userTeam) {
               return (
                 <tr>
-                  <td>{climber.username}</td>
+                  <td key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</td>
                   <td>SCORE</td>
                 </tr>
               )
