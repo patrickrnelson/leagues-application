@@ -43,12 +43,12 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/join', rejectUnauthenticated, (req, res) => {
-  console.log('what is my team id', req.body.teamId);
-  console.log('what is my league id', req.body.leagueId);
+  // console.log('what is my team id', req.body.teamId);
+  // console.log('what is my league id', req.body.leagueId);
   let queryText =`
     INSERT INTO "leaguesTeams" ("teamId", "leagueId")
     VALUES ($1, $2);
-  `
+  `;
   pool
     .query(queryText, [req.body.teamId, req.body.leagueId])
     .then(() => {
@@ -58,23 +58,25 @@ router.post('/join', rejectUnauthenticated, (req, res) => {
       console.log('Error joining league');
       res.sendStatus(500)
     })
- });
+});
 
 router.post('/', (req, res) => {
   // POST route code here
   const newLeague = req.body;
-  console.log('new league', newLeague);
-let queryText = `
-INSERT INTO "leagues" ( "name", "start", "end")
-VALUES ($1, $2, $3)
-`;
+  // console.log('new league', newLeague);
+  let queryText = `
+    INSERT INTO "leagues" ( "name", "start", "end")
+    VALUES ($1, $2, $3)
+  `;
 
-pool.query(queryText, [ req.body.leagueName, req.body.startDate, req.body.endDate])
-.then(() => {res.sendStatus(201);
-})
-.catch((err) => {
-  console.log('error in post', err);
-  res.sendStatus(500);
+  pool
+    .query(queryText, [ req.body.leagueName, req.body.startDate, req.body.endDate])
+    .then(() => {res.sendStatus(201);
+    })
+  .catch((err) => {
+    console.log('error in post', err);
+    res.sendStatus(500);
+  });
 });
 
 
