@@ -24,7 +24,7 @@ function CreateTeam() {
           type: 'JOIN_TEAM', 
           payload: code.ID
         });
-        console.log('what is the code', code);
+        // console.log('what is the code', code);
       history.push('/team');
       }
     }
