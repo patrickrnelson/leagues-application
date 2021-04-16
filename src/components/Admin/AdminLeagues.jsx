@@ -11,11 +11,26 @@ function AdminLeagues() {
 
   const leaguesInfo = useSelector ((store) => store.leagueReducer);
 
+  console.log('leaguesInfo', leaguesInfo);
+
   useEffect(() => {
     dispatchEvent({
-      type: 'FETCH_LEAGUE'
+      type: 'FETCH_LEAGUES'
     })
   },[]);
+
+
+  function handleEdit() {
+
+
+  }
+
+
+  function handleDelete() {
+
+
+  }
+
 
 
   // return (
@@ -23,11 +38,9 @@ function AdminLeagues() {
     // iLeagues stands for individual leagues 
     {leaguesInfo.map((iLeagues) => {
       return(
-        <div key={iLeagues.id} >
-          <p>{iLeagues.name}</p>
-       
+
       
-  
+
     <Grid
       container
       item
@@ -35,6 +48,8 @@ function AdminLeagues() {
       direction="row"
       justify="center"
       alignItems="center"
+      key={iLeagues.id}
+      key={iLeagues.name}
     >
 
       <Grid  
@@ -61,31 +76,31 @@ function AdminLeagues() {
           </Button>
       </Grid>
 
-    <Grid 
-    container
-    item
-    xs={12}
-    direction="row"
-    //space-around
-    justify="center"
-    alignItems="center"
-    >
-      <Grid item xs={2} >
-        <h2>League</h2>
-      </Grid>
+      <Grid 
+      container
+      item
+      xs={12}
+      direction="row"
+      //space-around
+      justify="center"
+      alignItems="center"
+      >
+        <Grid item xs={2} >
+          <h2>League</h2>
+        </Grid>
 
-      <Grid item xs={2} >
-        <h2>Start Date</h2>
-      </Grid>
+        <Grid item xs={2} >
+          <h2>Start Date</h2>
+        </Grid>
 
-      <Grid item xs={2} >
-        <h2>End Date</h2>
-      </Grid>
+        <Grid item xs={2} >
+          <h2>End Date</h2>
+        </Grid>
 
-      <Grid item xs={2} >
-        <h2>Status</h2>
+        <Grid item xs={2} >
+          <h2>Status</h2>
+        </Grid>
       </Grid>
-    </Grid>
 
       <Grid 
       container
@@ -98,17 +113,17 @@ function AdminLeagues() {
       >
         <Grid item xs={2}>
           {/* Season League */}
-          <h3>Spring League 2021</h3>
+          <h3>{iLeagues.name}</h3>
         </Grid>
 
         <Grid item xs={2}>
           {/* Start Date */}
-          <p>03/22/2021</p>
+          <p>{iLeagues.start}</p>
         </Grid>
 
         <Grid item xs={2} >
           {/* End Date */}
-          <p>05/27/2021</p>
+          <p>{iLeagues.end}</p>
         </Grid>
 
         <Grid item xs={2} >
@@ -117,13 +132,13 @@ function AdminLeagues() {
         </Grid>
 
         <Grid item={2}>
-          <Button variant="outlined" color="primary">
+          <Button variant="outlined" color="primary" onClick={handleEdit} >
               Edit
           </Button>
         </Grid>
 
         <Grid item={2}>
-          <Button variant="outlined" color="secondary">
+          <Button variant="outlined" color="secondary" onClick={handleDelete} >
               Delete
           </Button>
         </Grid>
@@ -132,8 +147,6 @@ function AdminLeagues() {
 
     </Grid>
 
-    
-    </div>
     ) 
   })} 
     
