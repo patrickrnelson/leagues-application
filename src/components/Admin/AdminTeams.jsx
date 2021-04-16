@@ -51,12 +51,12 @@ const rows = [
 
 function AdminTeams() {
   useEffect(() => {
-    dispatch({type: 'FETCH_LEAGUE'});
+    dispatch({type: 'FETCH_LEAGUES'});
   }, []);
 
   const dispatch = useDispatch();
 
-  const leagues = useSelector(store => store.leagueReducer)
+  const leagues = useSelector(store => store.leaguesReducer)
   const leagueTeams = useSelector(store => store.leagueTeamReducer)
 
   const classes = useStyles();
