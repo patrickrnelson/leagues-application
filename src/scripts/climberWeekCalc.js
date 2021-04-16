@@ -29,10 +29,11 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
     }
   }
   
-  // let previousWeekAverage = 0;
 
   const currentWeekClimberScore = (week) => {
+
     let weekClimbs = [];
+    let previousWeekClimbs = []
   
     for(let climb of climbs) {
       if (moment(climb.climbDate).isBefore(allWeeks[week]) && moment(climb.climbDate).isAfter(allWeeks[week - 1])) {
@@ -42,7 +43,22 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
       }
     }
 
-    let handicap = Math.round(average(weekClimbs));
+    for(let climb of climbs) {
+      if (moment(climb.climbDate).isBefore(allWeeks[week - 1]) && moment(climb.climbDate).isAfter(allWeeks[week - 2])) {
+        if (climb.isSubmitted === true && climb.userId === climberId) {
+          previousWeekClimbs.push(climb.level);
+        }
+      }
+    }
+
+    console.log('previousWeeksClimbs', previousWeekClimbs);
+
+    let handicap = 0
+    if (week === 1) {
+      handicap = Math.round(average(weekClimbs));
+    } else {
+      handicap = Math.round(average(previousWeekClimbs));
+    }
 
     function average(array) {
       let sum = 0;
