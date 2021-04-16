@@ -15,10 +15,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 
-
-
-
-
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -59,6 +55,8 @@ function AdminTeams() {
   const leagues = useSelector(store => store.leaguesReducer)
   const leagueTeams = useSelector(store => store.leagueTeamReducer)
 
+  const climbers = useSelector(store => store.teamReducer)
+
   const classes = useStyles();
 
   const [value, setValue] = React.useState('');
@@ -74,6 +72,13 @@ function AdminTeams() {
       payload: id
     })
   } 
+  const handleTeamSelected = (id) => {
+    console.log('Climbers', climbers);
+    dispatch({
+      type: 'FETCH_TEAMS',
+      payload: id
+    })
+  }
   return (
     <Grid
       container
@@ -106,11 +111,17 @@ function AdminTeams() {
       <Grid item xs={6}>
           {leagueTeams.map(team => {
             return (
-              <h1 key={team.id}>{team.teamName}</h1>
+              <h1 key={team.id} onClick={handleTeamSelected}>{team.teamName}</h1>
             )
           })}
         </Grid>
-        <h3>Climbers:</h3>
+        <div>
+          {/* {climbers.map(climber => {
+            return (
+              <h3 onClick={() => handleTeamSelected(climber.id)}>Climbers:</h3>
+            )
+          })} */}
+        </div>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
