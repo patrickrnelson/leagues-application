@@ -86,11 +86,6 @@ function AdminTeams() {
       <Grid item xs={6}>
         <h1>Teams</h1>
       </Grid>
-      <Grid item xs={6}>
-          {leagueTeams.map(team => {
-            <h1 key={team.id}>{team.name}</h1>
-          })}
-        </Grid>
       <Grid>
         <FormControl className={classes.formControl}>
           <InputLabel>Team List</InputLabel>
@@ -105,10 +100,17 @@ function AdminTeams() {
                 <MenuItem onClick={() => handleLeagueSelected(league.id)} value={league.id}>{league.name}</MenuItem>
               )
             })}
-            
           </Select>
         </FormControl>
       </Grid>
+      <Grid item xs={6}>
+          {leagueTeams.map(team => {
+            return (
+              <h1 key={team.id}>{team.teamName}</h1>
+            )
+          })}
+        </Grid>
+        <h3>Climbers:</h3>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
