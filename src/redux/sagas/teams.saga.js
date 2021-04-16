@@ -20,7 +20,7 @@ function* fetchClimberTeams() {
 function* fetchTeamAccessCodes() {
   try {
     let teamAccess = yield axios.get(`/api/team/access`);
-    console.log('get teams access codes', teamAccess.data);
+    // console.log('get teams access codes', teamAccess.data);
     yield put({ type: 'SET_ACCESS_CODES', payload: teamAccess.data });
   }
   catch (error) {
