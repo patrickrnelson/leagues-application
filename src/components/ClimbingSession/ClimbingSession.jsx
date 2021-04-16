@@ -19,7 +19,7 @@ function ClimbingSession() {
   let to = new Date(conditionalData[0].end).getTime();
   let week = 604800000;
   let day = 86400000;
-  let allWeeks = [];
+  let allWeeks = [conditionalData[0].start];
   let current =  1;
   // determine the number of weeks in the league
   let weeks = (to-from)/day/7
@@ -38,22 +38,96 @@ function ClimbingSession() {
     }
   }
 
+  /**
+   * let weekOneScore = 0
+   * let weekTwoScore = 0
+   * if(climbDate.isAfter(allWeeks[i - 1]) && climbDate.isBefore(allWeeks[i]))
+   * let weekOneScore = 0
+   * Loop through allWeeks and sum total score
+   * 
+   * weekly scores per climber
+   * use that to sum team weekly score
+   * Total score per climber
+   * Total score per team
+   */
+
+
+  console.log('totalScore', totalScore);
+
   console.log('all weeks at week calc', allWeeks[weekCalc]);
 
-  // check if week 1 - if it is week 1 check if before week end date and after start date of league
-  // else check if before end of week and after end of previous week
-  let weekOneClimbs = [];
-  for(let climb of climbs) {
-    if (moment(climb.climbDate).isBefore(allWeeks[weekCalc]) && moment(climb.climbDate).isAfter(conditionalData[0].start)) {
-      console.log('current week', climb.climbDate)
-      if (climb.isSubmitted === true) {
-        weekOneClimbs.push(climb.level);
+  // parameter is week selected or week from loop to get sum
+  
+  let previousWeekAverage = 0;
+
+  const currentWeekClimberScore = (week) => {
+    let weekClimbs = [];
+  
+    for(let climb of climbs) {
+      if (moment(climb.climbDate).isBefore(allWeeks[week]) && moment(climb.climbDate).isAfter(allWeeks[week - 1])) {
+        console.log('Week 1', climb.climbDate)
+        if (climb.isSubmitted === true && climb.userId === user.id) {
+          weekClimbs.push(climb.level);
+        }
       }
     }
-  }
   
-  console.log('weekOneClimbs', weekOneClimbs);
+    console.log(`week ${week}`);
+    console.log(`weekClimbs, ${weekClimbs}`)
+    // check if week 1 or not
+    // if (previousWeekScore === 0) {
+    //   let handicap = Math.round(average(weekClimbs));
+    // } else {
+    //   let handicap = previousWeekAverage;
+    // }
 
+    let handicap = Math.round(average(weekClimbs));
+
+    function average(array) {
+      let sum = 0;
+      for(let i = 0; i < array.length;i++){
+          sum += array[i];
+      }
+      return sum / array.length;
+    }
+
+    console.log('average', Math.round(average(weekClimbs)));
+
+    let currentWeekScore = 0
+
+    for(let climb of weekClimbs) {
+      let difference = climb - handicap;
+      let score = 5 + difference;
+      currentWeekScore += score;
+    }
+
+    console.log('Week score', {week}, currentWeekScore);
+    return currentWeekScore;
+  }
+
+  let totalScore = 0;
+
+  for (let i = 1; i < allWeeks.length; i++) {
+    totalScore += currentWeekClimberScore(i);
+  }
+
+  console.log('totalScore', totalScore)
+  // Total climber score
+  // weekly climber score
+  // team total score
+  // team weekly total?
+
+  // let weekTwoClimbs = [];
+  // for(let climb of climbs) {
+  //   if (moment(climb.climbDate).isBefore(allWeeks[1]) && moment(climb.climbDate).isAfter(allWeeks[0])) {
+  //     console.log('Week 2', climb.climbDate)
+  //     if (climb.isSubmitted === true && climb.userId === user.id) {
+  //       weekTwoClimbs.push(climb.level);
+  //     }
+  //   }
+  // }
+  
+  // console.log('weekTwoClimbs', weekTwoClimbs);
 
   // week 1 check if after start date
   // every other week check if after end of previous week
