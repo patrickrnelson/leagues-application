@@ -14,7 +14,7 @@ router.get('/login', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
-router.get('/conditional', (req, res) => {
+router.get('/conditional', rejectUnauthenticated, (req, res) => {
 
   let queryText = `
     SELECT "users".id AS "userId", "teams".id AS "teamId", "teams"."captainId", "teams"."name" AS "teamName", "leaguesTeams"."isPaid", "leagues"."name" AS "leagueName", "leagues"."start", "leagues"."end", "leaguesTeams"."byeWeek", "climbs"."isSubmitted" from "users"

@@ -8,7 +8,7 @@ const router = express.Router();
 /**
  * GET route template
  */
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
   queryText = `
     SELECT "climbs".id as "climbId", "climbs".attempts, "climbs"."climbDate", "climbs".color, "climbs"."isSubmitted", "climbs".level,
     "climbs"."userId", "locations".name AS "locationName"
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 /**
  * POST route template
  */
-router.post('/add', rejectUnauthenticated, (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
   console.log('req.body', req.body);
   console.log('req.user', req.user);
   let location = req.body.location;

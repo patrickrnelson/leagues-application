@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
-import HamburgerNav from '../HamburgerNav/HamburgerNav'
 import Header from '../Header/Header'
 
 import JoinCreateTeam from './ConditionalViews/JoinCreateTeam';
@@ -62,7 +61,7 @@ function HomePage() {
       return <ByeWeek />
     } else {
       // else return StartSession page  
-      return <StartSession />
+      return <StartSession weekCalc={weekCalc} />
     }
   }
 
