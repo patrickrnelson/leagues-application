@@ -142,7 +142,7 @@ function App() {
           {/* Climber Details */}
           <ProtectedRoute
             exact
-            path="/climber"
+            path="/climber/:id"
           >
             <ClimberPage />
           </ProtectedRoute>
