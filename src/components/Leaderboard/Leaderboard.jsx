@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Header from '../Header/Header'
+import './Leaderboard.css'
 
 function Leaderboard() {
 
@@ -9,7 +10,10 @@ function Leaderboard() {
   const leagueTeams = useSelector(store => store.leagueTeamReducer);
   const user = useSelector(store => store.user);
 
-  const [currentLeague, setCurrentLeague] = useState('Spring League 2021')
+  const [currentWeek, setCurrentWeek] = useState('')
+  const [currentLeague, setCurrentLeague] = useState('Cullen')
+
+  const weeks = ['Week 1', 'Week 2', , 'Week 3', 'Week 4', 'Week 5', , 'Week 6', 'Week 7']
 
   useEffect(() => {
     // whatLeague();
@@ -24,15 +28,16 @@ function Leaderboard() {
   return (
     <div className="container">
       <Header />
-      <h2>{currentLeague}</h2>
-      <h3>Leaderboard</h3>
-      <select> 
-        <option>--Select League--</option>
-        {leagues.map((league) => { return (
-          <option>{league.name}</option>
+      <h2>Leaderboard</h2>
+      <h3>{currentLeague}</h3>
+      {/* <h4>{currentWeek == '--Total--' ? '' : currentWeek}</h4> */}
+      <select onChange={(event) => setCurrentWeek(event.target.value)}> 
+        <option>--Total--</option>
+        {weeks.map((week) => { return (
+          <option>{week}</option>
         )})}
       </select>
-      <table>
+      <table className="leagueTable">
         <thead>
           <tr> 
             <td></td> 
@@ -41,16 +46,16 @@ function Leaderboard() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td> 1 </td>
-            <td> Team 2 </td>
-            <td> 53 </td>
-          </tr>
-          <tr>
-            <td> 2 </td>
-            <td> Team 3 </td>
-            <td> 48 </td>
-          </tr>
+          {leagueTeams.map((team, index) => {
+            // if(team.leagueName === currentLeague) {
+            return (
+              <tr>
+                <td> {index + 1} </td>
+                <td> {team.teamName} </td>
+                <td> score </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>
