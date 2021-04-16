@@ -7,21 +7,24 @@ import { Grid } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+
 function AdminLeagues() {
 
-  const leaguesInfo = useSelector ((store) => store.leagueReducer);
+ const dispatch = useDispatch();
+
+  const leaguesInfo = useSelector ((store) => store.leaguesReducer);
 
   console.log('leaguesInfo', leaguesInfo);
 
   useEffect(() => {
-    dispatchEvent({
+    dispatch({
       type: 'FETCH_LEAGUES'
     })
   },[]);
 
 
   function handleEdit() {
-
+    
 
   }
 
@@ -33,13 +36,9 @@ function AdminLeagues() {
 
 
 
-  // return (
+  return (
 
     // iLeagues stands for individual leagues 
-    {leaguesInfo.map((iLeagues) => {
-      return(
-
-      
 
     <Grid
       container
@@ -48,8 +47,6 @@ function AdminLeagues() {
       direction="row"
       justify="center"
       alignItems="center"
-      key={iLeagues.id}
-      key={iLeagues.name}
     >
 
       <Grid  
@@ -102,26 +99,30 @@ function AdminLeagues() {
         </Grid>
       </Grid>
 
-      <Grid 
-      container
-      item
-      xs={12}
-      direction="row"
-      // space-around
-      justify="center"
-      alignItems="center"
-      >
-        <Grid item xs={2}>
+      {leaguesInfo.map((iLeagues) => {
+        return(
+        <Grid 
+        container
+        item
+        xs={12}
+        direction="row"
+        // space-around
+        justify="center"
+        alignItems="center"
+        >
+
+
+        <Grid item xs={2} key={iLeagues.name} >
           {/* Season League */}
           <h3>{iLeagues.name}</h3>
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={2} key={iLeagues.start} >
           {/* Start Date */}
           <p>{iLeagues.start}</p>
         </Grid>
 
-        <Grid item xs={2} >
+        <Grid item xs={2} key={iLeagues.end} >
           {/* End Date */}
           <p>{iLeagues.end}</p>
         </Grid>
@@ -129,7 +130,9 @@ function AdminLeagues() {
         <Grid item xs={2} >
           {/* Status */}
           <p>In Progress</p>
-        </Grid>
+        </Grid>  
+
+
 
         <Grid item={2}>
           <Button variant="outlined" color="primary" onClick={handleEdit} >
@@ -145,12 +148,14 @@ function AdminLeagues() {
 
       </Grid>
 
+      ) 
+      })} 
+
     </Grid>
 
-    ) 
-  })} 
+  
     
-  // );
+  );
 
 
 
