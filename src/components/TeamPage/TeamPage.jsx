@@ -10,7 +10,7 @@ function TeamPage() {
   const history = useHistory();
 
   const climberTeams = useSelector(store => store.teams);
-  const user = useSelector(store => store.user)
+  const user = useSelector(store => store.user);
 
   const [userTeam, setUserTeam] = useState('')
 
@@ -28,6 +28,7 @@ function TeamPage() {
   }
 
   return (
+    <>
     <div className="teamContainer">
       <Header />
       <h2 className="teamName">{userTeam}</h2>
@@ -73,6 +74,7 @@ function TeamPage() {
       </table>
       <button>Team Code</button>
     </div>
+    </>
   );
 }
 
