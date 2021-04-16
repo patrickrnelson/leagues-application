@@ -4,6 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import Header from '../Header/Header'
 import './TeamPage.css'
+import ClimberWeekCalc from '../../scripts/climberWeekCalc'
 
 function TeamPage() {
   // const dispatch = useDispatch();
@@ -50,25 +51,11 @@ function TeamPage() {
               return (
                 <tr>
                   <td key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</td>
-                  <td>SCORE</td>
+                  <ClimberWeekCalc climberId={climber.userId}/>
                 </tr>
               )
             }
           })}
-          {/* <tr>
-            <td> Patrick </td>
-            <td> 45 </td>
-          </tr>
-          <tr>
-            <td> Zach </td>
-            <td> 47 </td>
-          </tr>
-            <td> John </td>
-            <td> 44 </td>
-          <tr>
-            <td> Total </td>
-            <td> 136 </td>
-          </tr> */}
         </tbody>
       </table>
       <button>Team Code</button>
