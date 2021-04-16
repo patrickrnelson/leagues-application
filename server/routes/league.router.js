@@ -42,9 +42,24 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
     })
 });
 
-/**
- * POST route template
- */
+router.post('/join', rejectUnauthenticated, (req, res) => {
+  console.log('what is my team id', req.body.teamId);
+  console.log('what is my league id', req.body.leagueId);
+  let queryText =`
+    INSERT INTO "leaguesTeams" ("teamId", "leagueId")
+    VALUES ($1, $2);
+  `
+  pool
+    .query(queryText, [req.body.teamId, req.body.leagueId])
+    .then(() => {
+      res.sendStatus(201)
+    })
+    .catch((err) => {
+      console.log('Error joining league');
+      res.sendStatus(500)
+    })
+ });
+
 router.post('/', (req, res) => {
   // POST route code here
   const newLeague = req.body;
@@ -62,6 +77,5 @@ pool.query(queryText, [ req.body.leagueName, req.body.startDate, req.body.endDat
   res.sendStatus(500);
 });
 
-});
 
 module.exports = router;
