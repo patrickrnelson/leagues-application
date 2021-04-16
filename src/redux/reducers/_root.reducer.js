@@ -4,7 +4,6 @@ import teams from './teams.reducer';
 import user from './user.reducer';
 import conditional from './conditional.reducer';
 import climbs from './climbs.reducer'
-import teamAccess from './teamAccess.reducer';
 import leagueTeamReducer from './leagueTeam.reducer';
 import leaguesReducer from './leagues.reducer'
 
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
   teams, // will give us all of the teams and the climbers on the teams
   conditional, // will give us all of the conditional rendering information for home page
   climbs, // will give us all of the climbs
-  teamAccess,
   leagueTeamReducer,
   leaguesReducer,
 });

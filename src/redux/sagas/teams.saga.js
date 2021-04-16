@@ -16,17 +16,6 @@ function* fetchTeams() {
   }
 }
 
-function* fetchTeamAccessCodes() {
-  try {
-    let teamAccess = yield axios.get(`/api/team/access`);
-    // console.log('get teams access codes', teamAccess.data);
-    yield put({ type: 'SET_ACCESS_CODES', payload: teamAccess.data });
-  }
-  catch (error) {
-    console.log('Error getting access codes', error);
-  }
-}
-
 function* createTeam(action) {
   console.log('postNewTeam', action.payload);
   try {
@@ -53,14 +42,20 @@ function* getLeagueViewInfo() {
 }
 
 function* joinTeam(action) {
-  console.log('join team', action.payload);
   try{
+    yield put({ type: 'CLEAR_JOIN_ERROR' });
+    
     yield axios.post(`/api/team/join/${action.payload}`);
 
     yield put({ type: 'FETCH_TEAMS'})
   }
   catch (error) {
     console.log('Error joining team', error)
+    if (error.response.status === 404) {
+      // The 404 is the error status sent from router
+      // if the access code does not match
+      yield put({ type: 'ACCESS_CODE_INVALID' });
+    }
   }
 }
 
@@ -76,7 +71,6 @@ function* joinTeam(action) {
 
 function* teamsSaga() {
   yield takeLatest('FETCH_TEAMS', fetchTeams);
-  yield takeLatest('FETCH_TEAM_ACCESS', fetchTeamAccessCodes);
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);
   // yield takeLatest('FETCH_LEAGUE_TEAMS', fetchTeams);

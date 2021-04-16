@@ -32,10 +32,24 @@ const registrationMessage = (state = '', action) => {
   }
 };
 
+const joinTeamMessage = (state = '', action) => {
+  switch (action.type) {
+    case 'CLEAR_JOIN_ERROR':
+      return '';
+    case 'ACCESS_CODE_INPUT_ERROR':
+      return 'Enter an access code';
+    case 'ACCESS_CODE_INVALID':
+      return 'The access code you entered does not match a team, please try again or contact your team captain.';
+    default:
+      return state;
+  }
+}
+
 // make one object that has keys loginMessage, registrationMessage
 // these will be on the redux state at:
 // state.errors.loginMessage and state.errors.registrationMessage
 export default combineReducers({
   loginMessage,
   registrationMessage,
+  joinTeamMessage,
 });
