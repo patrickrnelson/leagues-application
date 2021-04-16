@@ -17,10 +17,10 @@ function ClimberPage() {
   }, [])
 
   const findClimber = () => {
-    for(let climbee of climberTeams) {
-      if(climbee.userId == id) {
+    for(let climber of climberTeams) {
+      if(climber.userId == id) {
         console.log('its a match!');
-        setClimber(climbee.username)
+        setClimber(climber.username)
       }
     }
   }
@@ -32,16 +32,19 @@ function ClimberPage() {
       <button>{climber}'s Info</button>
       <table>
         <thead>
-          <tr> Total Score </tr>
-          <tr> 207 </tr>
+          <tr> 
+            <td>Total Score </td>
+            <td> Average Score </td>
+            <td> Last Week </td>
+            <td> Handicap </td>
+          </tr>
+          
         </thead>
         <tbody>
           <tr>
-            <td> Average Score </td>
+            <td> 207 </td>
             <td> 5.3 </td>
-            <td> Last Week </td>
             <td> 16 </td>
-            <td> Handicap </td>
             <td> 1 </td>
           </tr>
         </tbody>
