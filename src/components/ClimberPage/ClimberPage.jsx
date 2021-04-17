@@ -1,27 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import moment from 'moment';
 
 import Header from '../Header/Header'
+import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 
 function ClimberPage() {
   const history = useHistory();
 
   const climberTeams = useSelector(store => store.teams);
+  const climbs = useSelector(store => store.climbs)
+  const leagues = useSelector(store => store.leaguesReducer);
   let { id } = useParams()
 
   const [climber, setClimber] = useState('')
+  const [currentLeague, setCurrentLeague] = useState('')
+  const [currentLeagueId, setCurrentLeagueId] = useState(0)
+  const [currentLeagueStart, setCurrentLeagueStart] = useState('')
+  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
 
   useEffect(() => {
     findClimber();
+    getCurrentLeague();
   }, [])
 
   const findClimber = () => {
     for(let climber of climberTeams) {
       if(climber.userId == id) {
-        console.log('its a match!');
         setClimber(climber.username)
       }
+    }
+  }
+
+  const getCurrentLeague = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setCurrentLeague(league.name);
+        setCurrentLeagueId(league.id);
+        setCurrentLeagueStart(league.start);
+        setCurrentLeagueEnd(league.end);
+        return;
+      } 
     }
   }
   
@@ -42,10 +62,10 @@ function ClimberPage() {
         </thead>
         <tbody>
           <tr>
-            <td> 207 </td>
-            <td> 5.3 </td>
-            <td> 16 </td>
-            <td> 1 </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).totalScore} </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).averageScore} </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).lastWeekScore} </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).handicapToDisplay} </td>
           </tr>
         </tbody>
       </table>
