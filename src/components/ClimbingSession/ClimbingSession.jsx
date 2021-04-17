@@ -9,8 +9,6 @@ import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 import Checkbox from '@material-ui/core/Checkbox';
 
 function ClimbingSession() {
-  const [checked, setChecked] = useState(false);
-  
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -70,8 +68,8 @@ function ClimbingSession() {
     }
   }
   
-  const handleCheckBoxChange = (climbId, event) => {
-    if (checked === true) {
+  const handleCheckBoxChange = (climbId, isSubmitted, event) => {
+    if (isSubmitted) {
       console.log('change to unsubmitted', climbId)
       dispatch({
         type: 'UNSUBMIT_CLIMB',
@@ -83,8 +81,7 @@ function ClimbingSession() {
         type: 'SUBMIT_CLIMB',
         payload: {climbId: climbId}
       })
-    }
-    setChecked(event.target.checked);
+    }    
   }
 
   return (
@@ -116,8 +113,9 @@ function ClimbingSession() {
               <td> {climb.level} </td>
               <td>
                 <Checkbox
-                checked={checked}
-                onChange={(event) => handleCheckBoxChange(climb.climbId, event)}
+                key={climb.climbId}
+                checked={climb.isSubmitted}
+                onChange={(event) => handleCheckBoxChange(climb.climbId, climb.isSubmitted, event)}
                 inputProps={{ 'aria-label': 'primary checkbox' }}
                 />
               </td>

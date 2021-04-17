@@ -56,7 +56,6 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 
 router.put('/unsubmit', rejectUnauthenticated, (req, res) => {
   let climbId = req.body.climbId
-  console.log('climbId', req.body.climbId);
   queryText = `
     UPDATE "climbs"
     SET "isSubmitted" = FALSE
@@ -74,7 +73,6 @@ router.put('/unsubmit', rejectUnauthenticated, (req, res) => {
 
 router.put('/submit', rejectUnauthenticated, (req, res) => {
   let climbId = req.body.climbId
-  console.log('climbId', req.body.climbId);
   queryText = `
     UPDATE "climbs"
     SET "isSubmitted" = TRUE

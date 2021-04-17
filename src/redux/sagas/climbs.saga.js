@@ -27,7 +27,6 @@ function* addNewClimb(action) {
 
 function* unsubmitClimb(action) {
   try {
-    console.log('UNSUBMIT CLIMB SAGA', action.payload);
     yield axios.put('/api/climb/unsubmit', action.payload);
 
     yield put({ type: 'FETCH_CLIMBS' });
@@ -38,7 +37,6 @@ function* unsubmitClimb(action) {
 
 function* submitClimb(action) {
   try {
-    console.log('SUBMIT CLIMB SAGA', action.payload);
     yield axios.put('/api/climb/submit', action.payload);
 
     yield put({ type: 'FETCH_CLIMBS' });
