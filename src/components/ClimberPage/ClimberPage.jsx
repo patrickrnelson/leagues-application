@@ -63,7 +63,7 @@ function ClimberPage() {
         <tbody>
           <tr>
             <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).totalScore} </td>
-            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).averageScore} </td>
+            <td> {(climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).averageScore).toFixed(2)} </td>
             <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).lastWeekScore} </td>
             <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).handicap} </td>
           </tr>

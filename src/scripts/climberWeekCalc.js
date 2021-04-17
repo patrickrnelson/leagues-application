@@ -28,9 +28,6 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
     }
   }
 
-  console.log('week calc', weekCalc);
-  
-
   const currentWeekClimberScore = (week) => {
 
     let weekClimbs = [];

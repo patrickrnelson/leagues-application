@@ -45,7 +45,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     res.sendStatus(201)
   })
   .catch((err) => {
-    console.log('Error in new climb POST');
+    console.log('Error in new climb POST', err);
     res.sendStatus(500)
   })
 });
