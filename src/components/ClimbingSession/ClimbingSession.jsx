@@ -15,6 +15,8 @@ function ClimbingSession() {
   const user = useSelector(store => store.user)
   const climbs = useSelector(store => store.climbs)
   const leagues = useSelector(store => store.leaguesReducer);
+  const teams = useSelector(store => store.teams);
+  const conditionalData = useSelector(store => store.conditional);
 
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
@@ -23,6 +25,7 @@ function ClimbingSession() {
 
   useEffect(() => {
     getCurrentLeague();
+    // defineTeammateIds();
   }, [])
 
   const getCurrentLeague = () => {
@@ -84,6 +87,16 @@ function ClimbingSession() {
     }    
   }
 
+  let teammates = [];
+
+  for(let climber of teams) {
+    if(climber.captainId === user.id) {
+      teammates.push(climber);
+    }
+  }
+
+  console.log('teammates', teammates);
+
   return (
     <div className="container">
       <Header />
@@ -92,6 +105,51 @@ function ClimbingSession() {
           ELSE Display the handicap from our big function */}
       <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
       <button onClick={() => history.push('/climb/add')}>Add a Climb</button>
+      {user.id === conditionalData[0].captainId ? 
+      teammates.map((mate) => (
+        <>
+        <h4>{mate.username}</h4>
+        <div className="climbsContainer">
+          {/* Start Table For Climber Captain */}
+          <table className="climbsTable">
+            <thead>
+              <tr> 
+                <td>Color</td> 
+                <td>Location</td>
+                <td>Attempts</td> 
+                <td>Level</td> 
+                <td>Submit</td>
+              </tr>
+            </thead>
+            <tbody>
+              {currentClimbs.map((climb) => climb.userId === mate.userId ? 
+                <tr key={climb.climbId}>  
+                <td> {climb.color} </td>
+                <td> {climb.locationName} </td>
+                <td> {climb.attempts} </td>
+                <td> {climb.level} </td>
+                <td>
+                  <Checkbox
+                  key={climb.climbId}
+                  checked={climb.isSubmitted}
+                  onChange={(event) => handleCheckBoxChange(climb.climbId, climb.isSubmitted, event)}
+                  inputProps={{ 'aria-label': 'primary checkbox' }}
+                  />
+                </td>
+  
+              </tr>
+              :
+              <tr></tr>
+              )}
+            </tbody>
+          </table> 
+          </div>
+          </>
+      ))
+
+      :
+
+      <>
       <h4>My Climbs</h4>
       <div className="climbsContainer">
         <table className="climbsTable">
@@ -101,7 +159,6 @@ function ClimbingSession() {
               <td>Location</td>
               <td>Attempts</td> 
               <td>Level</td> 
-              <td>Submit</td>
             </tr>
           </thead>
           <tbody>
@@ -111,22 +168,15 @@ function ClimbingSession() {
               <td> {climb.locationName} </td>
               <td> {climb.attempts} </td>
               <td> {climb.level} </td>
-              <td>
-                <Checkbox
-                key={climb.climbId}
-                checked={climb.isSubmitted}
-                onChange={(event) => handleCheckBoxChange(climb.climbId, climb.isSubmitted, event)}
-                inputProps={{ 'aria-label': 'primary checkbox' }}
-                />
-              </td>
-
             </tr>
             :
-            <div></div>
+            <tr></tr>
             )}
           </tbody>
         </table>
       </div>
+      </>     
+      }
     </div>
   );
 }
