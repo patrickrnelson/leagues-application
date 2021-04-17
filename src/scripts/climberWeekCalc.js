@@ -53,6 +53,9 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
 
     console.log('previousWeeksClimbs', previousWeekClimbs);
 
+
+    // if we figure out which week the climbers are in, we can stop the handicap calculation when it gets to that week
+    // and send the handicap number to the DOM?
     let handicap = 0
     if (week === 1) {
       handicap = Math.round(average(weekClimbs));
