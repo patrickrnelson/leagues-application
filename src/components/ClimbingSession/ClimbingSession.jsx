@@ -6,8 +6,11 @@ import moment from 'moment';
 import Header from '../Header/Header'
 import './ClimbingSession.css'
 import {climberWeekCalc} from '../../scripts/climberWeekCalc'
+import Checkbox from '@material-ui/core/Checkbox';
 
 function ClimbingSession() {
+  const [checked, setChecked] = useState(false);
+  
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -66,9 +69,24 @@ function ClimbingSession() {
       currentClimbs.push(climb)
     }
   }
-  console.log('weekCalc', weekCalc);
-  console.log('currentClimbs', currentClimbs);  currentClimbs
   
+  const handleCheckBoxChange = (climbId, event) => {
+    if (checked === true) {
+      console.log('change to unsubmitted', climbId)
+      dispatch({
+        type: 'UNSUBMIT_CLIMB',
+        payload: {climbId: climbId}
+      })
+    } else {
+      console.log('change to submitted')
+      dispatch({
+        type: 'SUBMIT_CLIMB',
+        payload: {climbId: climbId}
+      })
+    }
+    setChecked(event.target.checked);
+  }
+
   return (
     <div className="container">
       <Header />
@@ -96,6 +114,14 @@ function ClimbingSession() {
               <td> {climb.locationName} </td>
               <td> {climb.attempts} </td>
               <td> {climb.level} </td>
+              <td>
+                <Checkbox
+                checked={checked}
+                onChange={(event) => handleCheckBoxChange(climb.climbId, event)}
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+                />
+              </td>
+
             </tr>
             :
             <div></div>
