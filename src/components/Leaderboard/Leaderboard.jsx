@@ -46,7 +46,7 @@ function Leaderboard() {
     let teamScore = 0
     for(let climber of teams) {
       if (team.teamId === climber.teamId) {
-        teamScore += climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs)
+        teamScore += climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs).totalScore
       }
     }
     teamsInLeague.push({teamName: team.teamName, teamId: team.teamId, teamScore: teamScore})

@@ -91,24 +91,27 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
     }
 
     // console.log('Week score', {week}, currentWeekScore);
-    return currentWeekScore;
+    return ( {currentWeekScore: currentWeekScore, handicap: handicap});
   } // end currentWeekClimberScore
 
   let totalScore = 0;
-  let handicapToDisplay = handicapToDisplay;
   let lastWeekScore = 0;
+  let handicap = 0;
+  
 
   for (let i = 1; i < allWeeks.length; i++) {
-    totalScore += currentWeekClimberScore(i);
+    totalScore += currentWeekClimberScore(i).currentWeekScore;
     if(i === weekCalc) {
-      lastWeekScore = currentWeekClimberScore(i);
+      lastWeekScore = currentWeekClimberScore(i).currentWeekScore;
     }
   }
+
+  handicap = currentWeekClimberScore(weekCalc).handicap;
 
   let averageScore = totalScore / weekCalc;
 
   return (
-    {totalScore: totalScore, handicapToDisplay: handicapToDisplay, averageScore: averageScore, lastWeekScore: lastWeekScore}
+    {totalScore: totalScore, handicap: handicap, averageScore: averageScore, lastWeekScore: lastWeekScore}
   ) 
 }
 
