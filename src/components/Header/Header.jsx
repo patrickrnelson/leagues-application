@@ -65,7 +65,7 @@ function Header () {
         </Grid>
         <Grid item xs={9}>
           <Button variant='outlined' className={classes.btn}>
-            <Link onClick={() => history.push('/climb/session')}>Climb Session</Link>
+            <Link onClick={() => history.push('/home')}>Home</Link>
           </Button>
         </Grid>
         <Grid item xs={9}>

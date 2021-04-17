@@ -6,6 +6,7 @@ import Header from '../Header/Header'
 
 import JoinCreateTeam from './ConditionalViews/JoinCreateTeam';
 import LeagueStatus from './ConditionalViews/LeagueStatus/LeagueStatus';
+import NoLeague from './ConditionalViews/LeagueStatus/NoLeague';
 import NotPaid from './ConditionalViews/NotPaid';
 import LeagueNotStarted from './ConditionalViews/LeagueNotStarted';
 import ByeWeek from './ConditionalViews/ByeWeek';
@@ -17,14 +18,39 @@ function HomePage() {
 
   // Grab our conditionalData from the store
   const conditionalData = useSelector(store => store.conditional);
+  const leagues = useSelector(store => store.leaguesReducer);
+
+  const [climber, setClimber] = useState('')
+  const [currentLeague, setCurrentLeague] = useState('')
+  const [currentLeagueId, setCurrentLeagueId] = useState(0)
+  const [currentLeagueStart, setCurrentLeagueStart] = useState('')
+  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
+
+  useEffect(() => {
+    getCurrentLeague();
+  }, [])
+
+  const getCurrentLeague = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setCurrentLeague(league.name);
+        setCurrentLeagueId(league.id);
+        setCurrentLeagueStart(league.start);
+        setCurrentLeagueEnd(league.end);
+        return;
+      } 
+    }
+  }
 
   // grab our start date and end date
   let from = new Date(conditionalData[0].start).getTime();
+  let start = new Date(currentLeagueStart).getTime();
   let to = new Date(conditionalData[0].end).getTime();
   let week = 604800000;
   let day = 86400000;
   let allWeeks = [];
   let current =  1;
+  let today = moment();
   // determine the number of weeks in the league
   let weeks = (to-from)/day/7
 
@@ -43,7 +69,15 @@ function HomePage() {
     }
   }
 
+  
+
   const ConditionalDisplay = () => {
+    // If user is not on a team or is on a team that is not in the current league
+    // and today's date is more than a week after the league start, then they can't join the league. 
+    if (conditionalData[0].leagueName !== currentLeague && today.isAfter(start + week)) {
+      console.log('No League');
+      return <NoLeague />;
+    }
     // If user is not on a team display the JoinCreateTeam page
     if (conditionalData[0].teamId === null) {
       return <JoinCreateTeam />;

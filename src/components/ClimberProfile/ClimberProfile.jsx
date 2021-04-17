@@ -41,7 +41,7 @@ function ClimberProfile() {
     <div className="container">
       <Header />
       <h2>{user.name}</h2>
-      <h4>Handicap: {climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}</h4>
+      <h4>Handicap: {climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap ? climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap : 'Not Set'}</h4>
       <h4>{user.username}</h4>
       <h4>{user.phone}</h4>
       <button onClick={() => history.push('/climber/profile/edit')}>Edit My Information</button>
