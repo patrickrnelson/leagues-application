@@ -70,7 +70,7 @@ function TeamPage() {
               return (
                 <tr>
                   <td key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</td>
-                  <td>{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs)}</td>
+                  <td>{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs).totalScore}</td>
                 </tr>
               )
             }
