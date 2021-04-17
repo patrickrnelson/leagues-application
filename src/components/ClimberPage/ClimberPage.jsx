@@ -33,6 +33,7 @@ function ClimberPage() {
     }
   }
 
+  // sets the correct information for a league that is currently in place
   const getCurrentLeague = () => {
     for(let league of leagues) {
       if(moment().isBetween(league.start, league.end)) {
