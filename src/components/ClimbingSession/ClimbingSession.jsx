@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import Header from '../Header/Header'
 import './ClimbingSession.css'
-import ClimberWeekCalc from '../../scripts/climberWeekCalc';
+import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 
 function ClimbingSession() {
   const history = useHistory();
@@ -13,12 +13,69 @@ function ClimbingSession() {
 
   const user = useSelector(store => store.user)
   const climbs = useSelector(store => store.climbs)
+  const leagues = useSelector(store => store.leaguesReducer);
+
+  const [currentLeague, setCurrentLeague] = useState('')
+  const [currentLeagueId, setCurrentLeagueId] = useState(0)
+  const [currentLeagueStart, setCurrentLeagueStart] = useState('')
+  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
+
+  useEffect(() => {
+    getCurrentLeague();
+  }, [])
+
+  const getCurrentLeague = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setCurrentLeague(league.name);
+        setCurrentLeagueId(league.id);
+        setCurrentLeagueStart(league.start);
+        setCurrentLeagueEnd(league.end);
+        return;
+      } 
+    }
+  }
+
+  // grab our start date and end date
+  let from = new Date(currentLeagueStart).getTime();
+  let to = new Date(currentLeagueEnd).getTime();
+  let week = 604800000;
+  let day = 86400000;
+  let allWeeks = [currentLeagueStart];
+  let current =  1;
+  // determine the number of weeks in the league
+  let weeks = (to-from)/day/7
+
+  // loop over weeks array to add each end of  week date to allWeeks array
+  for (let i = 0; i < weeks; i++){
+    allWeeks.push(new Date(from += week).toLocaleDateString())
+  }
+
+  // Loop to determine the index of the week so we can check if today is before the end of that week
+  let weekCalc = 0;
+  for (let i = 0; i < allWeeks.length; i++) {
+    if (moment().isSameOrBefore(allWeeks[i])) {
+    weekCalc = i;
+    break;
+    }
+  }
+
+  let currentClimbs = []
+  for(let climb of climbs) {
+    if(moment(climb.climbDate).isBefore(allWeeks[weekCalc]) && moment(climb.climbDate).isAfter(allWeeks[weekCalc - 1])) {
+      currentClimbs.push(climb)
+    }
+  }
+  console.log('weekCalc', weekCalc);
+  console.log('currentClimbs', currentClimbs);  currentClimbs
   
   return (
     <div className="container">
       <Header />
-      <h2>Week 1 Climbing Session</h2>
-      <h4>Handicap: Determined by this weeks submission</h4>
+      <h2>Week {weekCalc} Climbing Session</h2>
+      {/* IF it's the first week (weekCalc = 0) display 'Determined by this week's submissions
+          ELSE Display the handicap from our big function */}
+      <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
       <button onClick={() => history.push('/climb/add')}>Add a Climb</button>
       <h4>My Climbs</h4>
       <div className="climbsContainer">
@@ -32,7 +89,7 @@ function ClimbingSession() {
             </tr>
           </thead>
           <tbody>
-            {climbs.map((climb) => climb.userId === user.id ? 
+            {currentClimbs.map((climb) => climb.userId === user.id ? 
               <tr key={climb.climbId}>  
               <td> {climb.color} </td>
               <td> {climb.locationName} </td>
