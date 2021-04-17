@@ -50,6 +50,11 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
       }
     }
 
+    console.log('week Climbs', weekClimbs);
+    console.log('previous week climbs', previousWeekClimbs);
+
+    // console.log('previousWeeksClimbs', previousWeekClimbs);
+
     let handicap = 0;
     let handicapToDisplay = 0;
     
@@ -58,6 +63,7 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
     } else if (week === weekCalc){
         handicap = Math.round(average(previousWeekClimbs));
         handicapToDisplay = Math.round(average(previousWeekClimbs));
+        console.log('handicap to display', handicapToDisplay);
     } else {
       handicap = Math.round(average(previousWeekClimbs));
     }

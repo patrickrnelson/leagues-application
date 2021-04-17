@@ -66,6 +66,8 @@ function ClimbingSession() {
       currentClimbs.push(climb)
     }
   }
+  console.log('weekCalc', weekCalc);
+  console.log('currentClimbs', currentClimbs);  currentClimbs
   
   return (
     <div className="container">

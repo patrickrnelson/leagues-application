@@ -50,6 +50,8 @@ function TeamPage() {
   return (
     <div className="teamContainer">
       <Header />
+      {conditionalData[0].teamName ?
+      <>
       <h2 className="teamName">{userTeam}</h2>
       <h3 className="leagueName">{currentLeague}</h3>
       <select>
@@ -78,6 +80,13 @@ function TeamPage() {
         </tbody>
       </table>
       <button>Team Code</button>
+      </>
+      : 
+      <div>
+        <h3>You are not on a team.</h3> 
+        <p>Join a team and check back later! </p>
+      </div>
+        }
     </div>
   );
 }
