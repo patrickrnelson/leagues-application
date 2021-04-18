@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import Header from '../Header/Header'
 import './ClimbingSession.css'
+import ClimberWeekCalc from '../../scripts/climberWeekCalc';
 
 function ClimbingSession() {
   const history = useHistory();
@@ -11,7 +13,7 @@ function ClimbingSession() {
 
   const user = useSelector(store => store.user)
   const climbs = useSelector(store => store.climbs)
-
+  
   return (
     <div className="container">
       <Header />
@@ -27,17 +29,15 @@ function ClimbingSession() {
               <td>Location</td>
               <td>Attempts</td> 
               <td>Level</td> 
-              <td>Score</td>  
             </tr>
           </thead>
           <tbody>
             {climbs.map((climb) => climb.userId === user.id ? 
-              <tr>  
+              <tr key={climb.climbId}>  
               <td> {climb.color} </td>
               <td> {climb.locationName} </td>
               <td> {climb.attempts} </td>
               <td> {climb.level} </td>
-              <td> 1 </td>
             </tr>
             :
             <div></div>

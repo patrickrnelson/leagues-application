@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 function JoinLeague(props) {
   const dispatch = useDispatch();
   const teamData = useSelector(store => store.teams);
-  const user = useSelector(store => store.user)
-  const [teamId, setTeamId] = useState('')
+  const user = useSelector(store => store.user);
+  const [teamId, setTeamId] = useState('');
   
   console.log('leagueData from props', props.leagueData);
   console.log('league id', props.leagueData.id);
