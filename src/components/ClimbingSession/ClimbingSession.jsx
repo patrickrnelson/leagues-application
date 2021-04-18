@@ -62,7 +62,7 @@ function ClimbingSession() {
 
   let currentClimbs = []
   for(let climb of climbs) {
-    if(moment(climb.climbDate).isBefore(allWeeks[weekCalc]) && moment(climb.climbDate).isAfter(allWeeks[weekCalc - 1])) {
+    if(moment(climb.climbDate).isBefore(allWeeks[weekCalc]) && moment(climb.climbDate).isSameOrAfter(allWeeks[weekCalc - 1])) {
       currentClimbs.push(climb)
     }
   }
