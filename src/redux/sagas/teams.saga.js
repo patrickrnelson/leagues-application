@@ -3,7 +3,6 @@ import axios from 'axios';
 
 function* fetchTeams() {
   try {
-
     // gets the characteristics from the DB
     let climberTeams = yield axios.get(`/api/team/`);
     console.log('GET climber teams', climberTeams.data);
@@ -13,6 +12,17 @@ function* fetchTeams() {
 
   } catch (error) {
     console.log('Error getting teams', error);
+  }
+}
+
+function* fetchAccessCode() {
+  try {
+    // gets the characteristics from the DB
+    let teamCode = yield axios.get(`/api/team/access`);
+    console.log('GET access code', teamCode);
+    yield put({ type: 'SET_ACCESS_CODE', payload: teamCode })
+  } catch (error) {
+    console.log('Error getting team access code', error);
   }
 }
 
@@ -30,7 +40,6 @@ function* createTeam(action) {
 
 
 // function* getLeagueViewInfo() {
-
 //   try{
 //     let leagueInfo = yield axios.get(`/api/league`)
 //     console.log('Get League info', leagueInfo.data);
@@ -63,6 +72,7 @@ function* teamsSaga() {
   yield takeLatest('FETCH_TEAMS', fetchTeams);
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);
+  yield takeLatest('FETCH_ACCESS_CODE', fetchAccessCode);
 }
 
 export default teamsSaga;

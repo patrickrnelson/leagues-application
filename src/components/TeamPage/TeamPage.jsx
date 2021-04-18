@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import Header from '../Header/Header';
@@ -7,21 +7,38 @@ import './TeamPage.css';
 
 function TeamPage() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const climberTeams = useSelector(store => store.teams);
   const user = useSelector(store => store.user)
 
   const [userTeam, setUserTeam] = useState('');
+  const [teamId, setTeamId] = useState('')
   const [showAccessCode, setShowAccessCode] = useState(false);
 
   const toggleAccessCode = () => {
+    dispatch({ 
+      type: 'FETCH_ACCESS_CODE', 
+      payload: { 
+        team: teamId
+      } 
+    })
     setShowAccessCode(!showAccessCode)
   }
 
   useEffect(() => {
     console.log('climberTeams', climberTeams);
     findUserTeam();
+    findTeamId();
   }, [])
+
+  const findTeamId = () => {
+    for(let team of climberTeams) {
+      if (team.userId === user.id) {
+        setTeamId(team.teamId)
+      }
+    }
+  }
 
   const findUserTeam = () => {
     for(let climber of climberTeams) {
