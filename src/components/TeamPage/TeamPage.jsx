@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import Header from '../Header/Header'
-import './TeamPage.css'
+import Header from '../Header/Header';
+import './TeamPage.css';
 
 function TeamPage() {
-  // const dispatch = useDispatch();
   const history = useHistory();
 
   const climberTeams = useSelector(store => store.teams);
   const user = useSelector(store => store.user)
 
-  const [userTeam, setUserTeam] = useState('')
+  const [userTeam, setUserTeam] = useState('');
+  const [showAccessCode, setShowAccessCode] = useState(false);
+
+  const toggleAccessCode = () => {
+    setShowAccessCode(!showAccessCode)
+  }
 
   useEffect(() => {
     console.log('climberTeams', climberTeams);
@@ -55,23 +59,18 @@ function TeamPage() {
               )
             }
           })}
-          {/* <tr>
-            <td> Patrick </td>
-            <td> 45 </td>
-          </tr>
-          <tr>
-            <td> Zach </td>
-            <td> 47 </td>
-          </tr>
-            <td> John </td>
-            <td> 44 </td>
-          <tr>
-            <td> Total </td>
-            <td> 136 </td>
-          </tr> */}
         </tbody>
       </table>
-      <button>Team Code</button>
+      <div className={`modalBackground modalShowing-${showAccessCode}`}>
+        <div className="modalInner">
+          <div className="modalText">
+            <button className="exitButton" onClick={() => toggleAccessCode()}>X</button>
+            <p>This is your teams access code. You can provide the code to others for them to join your team.</p>
+            <p>JENFXI</p>
+          </div>
+        </div>
+      </div>
+        <button onClick={() => toggleAccessCode()}>Team Code</button>
     </div>
   );
 }
