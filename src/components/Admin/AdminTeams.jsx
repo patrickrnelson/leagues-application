@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Grid, makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -13,7 +13,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -26,15 +26,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function adminTotal(week, score) {
-  return { week, score};
+  return { week, score };
 }
 
-const weeks = [
-  adminTotal(1, 2, 3, 4, 5, 6, 7)
-];
+const weeks = [adminTotal(1, 2, 3, 4, 5, 6, 7)];
 
-function createData(climber, color, location, difficulty, score, attempts, date) {
-  return { climber, color, location, difficulty, score, attempts, date};
+function createData(
+  climber,
+  color,
+  location,
+  difficulty,
+  score,
+  attempts,
+  date
+) {
+  return { climber, color, location, difficulty, score, attempts, date };
 }
 
 const rows = [
@@ -47,38 +53,44 @@ const rows = [
 
 function AdminTeams() {
   useEffect(() => {
-    dispatch({type: 'FETCH_LEAGUES'});
+    dispatch({ type: 'FETCH_LEAGUES' });
   }, []);
+
+  const [selectedLeague, setSelectedLeague] = useState(0);
+  const [selectedTeam, setSelectedTeam] = useState();
+  const [selectedClimber, setSelectedClimber] = useState();
 
   const dispatch = useDispatch();
 
-  const leagues = useSelector(store => store.leaguesReducer)
-  const leagueTeams = useSelector(store => store.leagueTeamReducer)
-
-  const climbers = useSelector(store => store.teamReducer)
+  const leagues = useSelector((store) => store.leaguesReducer);
+  const leagueTeams = useSelector((store) => store.leagueTeamReducer);
+  const climbers = useSelector((store) => store.teams);
+  const userClimbs = useSelector((store) => store.climbs);
 
   const classes = useStyles();
 
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = useState('');
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   const handleLeagueSelected = (id) => {
-    console.log('leagueTeams', leagueTeams);
-    dispatch({
-      type: 'FETCH_LEAGUE_TEAMS',
-      payload: id
-    })
-  } 
+    console.log('leagueTeams', id);
+    setSelectedLeague(id);
+  };
+
   const handleTeamSelected = (id) => {
-    console.log('Climbers', climbers);
-    dispatch({
-      type: 'FETCH_TEAMS',
-      payload: id
-    })
+    console.log('Climbers', id);
+    setSelectedTeam(id);
+    console.log('what is my selected team?', selectedTeam);
+  };
+
+  const handleClimberSelected = (id) => {
+    console.log('climb stats', id)
+    setSelectedClimber(id);
   }
+  console.log('who are the climbers', userClimbs);
   return (
     <Grid
       container
@@ -93,35 +105,66 @@ function AdminTeams() {
       </Grid>
       <Grid>
         <FormControl className={classes.formControl}>
-          <InputLabel>Team List</InputLabel>
+          <InputLabel>League List</InputLabel>
           <Select
             labelId="teams"
             id="teamList"
             value={value}
             onChange={handleChange}
           >
-            {leagues.map(league => {
+            {leagues.map((league) => {
               return (
-                <MenuItem onClick={() => handleLeagueSelected(league.id)} value={league.id}>{league.name}</MenuItem>
-              )
+                <MenuItem
+                  onClick={() => handleLeagueSelected(league.id)}
+                  value={league.id}
+                >
+                  {league.name}
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>
       </Grid>
       <Grid item xs={6}>
-          {leagueTeams.map(team => {
-            return (
-              <h1 key={team.id} onClick={handleTeamSelected}>{team.teamName}</h1>
-            )
-          })}
-        </Grid>
-        <div>
-          {/* {climbers.map(climber => {
-            return (
-              <h3 onClick={() => handleTeamSelected(climber.id)}>Climbers:</h3>
-            )
-          })} */}
-        </div>
+        {leagueTeams.map((team) => {
+          return team.leagueId === selectedLeague ? (
+            <h1
+              key={team.teamId}
+              value={team.teamId}
+              onClick={() => handleTeamSelected(team.teamId)}
+            >
+              {team.teamName}
+            </h1>
+          ) : (
+            <div></div>
+          );
+        })}
+      </Grid>
+      <div>
+        {climbers.map((climber) => {
+          return climber.teamId === selectedTeam ? (
+            <h3 key={climber.id}
+             value={climber.id} 
+             onClick={() => handleClimberSelected(climber.userId)}>
+              {climber.username} 
+            </h3>
+          ) : (
+            <div></div>
+          );
+        })}
+      </div>
+      <div>
+      {userClimbs.map((climb) => {
+          return climb.userId === selectedClimber ? (
+            <h3 key={climb.id} value={climb.id}>
+               {climb.color} {climb.locationName} {climb.level} {climb.score} {climb.attempts} {moment(climb.climbDate).format('MM-DD-YYYY')}  
+            </h3>
+          ) : (
+            <div></div>
+          );
+        })}
+      </div>
+      
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -153,7 +196,6 @@ function AdminTeams() {
         </Table>
       </TableContainer>
 
-
       <br></br>
 
       <TableContainer component={Paper}>
@@ -171,6 +213,7 @@ function AdminTeams() {
             </TableRow>
           </TableHead>
           <TableBody>
+            
             {rows.map((row) => (
               <TableRow key={row.name}>
                 {/* <TableCell></TableCell> */}
@@ -186,8 +229,6 @@ function AdminTeams() {
           </TableBody>
         </Table>
       </TableContainer>
-
-      
     </Grid>
   );
 }

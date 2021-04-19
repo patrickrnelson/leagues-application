@@ -2,7 +2,8 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './AdminCreate.css';
-import { Grid } from '@material-ui/core';
+import { AppBar, Grid, Toolbar, Typography } from '@material-ui/core';
+import { Menu } from '@material-ui/core'
 
 function AdminCreate() {
   return (
@@ -14,6 +15,15 @@ function AdminCreate() {
       justify="space-around"
       alignItems="center"
     >
+      <div>
+        <AppBar position="static">
+          <Toolbar>
+            <Menu />
+            <Typography variant="h6" />
+              Teams
+          </Toolbar>
+        </AppBar>
+      </div>
       <Grid
         container
         item
