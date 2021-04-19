@@ -60,17 +60,23 @@ function StartSession(props) {
 
   let currentClimbs = []
   for(let climb of climbs) {
-    if(moment(climb.climbDate).isBefore(allWeeks[weekCalc]) && moment(climb.climbDate).isAfter(allWeeks[weekCalc - 1])) {
-      currentClimbs.push(climb)
+    if (climb.userId === user.id) {
+      if(moment(climb.climbDate).isBefore(allWeeks[weekCalc]) && moment(climb.climbDate).isSameOrAfter(allWeeks[weekCalc - 1])) {
+        currentClimbs.push(climb)
+      }
     }
   }
+
+  console.log('current climbs', currentClimbs);
 
   return (
     <div className="container">
       <h2>Climb Session</h2>
+      
       <p style={{fontStyle: 'italic', color: 'green'}}>{currentClimbs.length === 0 ? '' : 'Session In Progress'}</p>
-      <h3>Week {props.weekCalc + 1}</h3>
-      <h4>{conditionalData[0].teamName}</h4>
+      <h4>Team: {conditionalData[0].teamName}</h4>
+      <h4>Week {props.weekCalc + 1}</h4>
+      
       <button onClick={() => history.push('/climb/session')}>{currentClimbs.length === 0 ? 'Start Session' : 'Continue Session'}</button>
       {/* Check if user is a captain and if they are display bye week button */}
       {conditionalData[0].captainId === conditionalData[0].userId && conditionalData[0].byeWeek === null && <button>Initiate Bye Week</button>}
