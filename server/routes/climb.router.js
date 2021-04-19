@@ -50,4 +50,44 @@ router.post('/', rejectUnauthenticated, (req, res) => {
   })
 });
 
+/**
+ * PUT ROUTES
+ */
+
+router.put('/unsubmit', rejectUnauthenticated, (req, res) => {
+  let climbId = req.body.climbId
+  queryText = `
+    UPDATE "climbs"
+    SET "isSubmitted" = FALSE
+    WHERE id = $1; 
+  `
+  pool.query(queryText, [climbId])
+  .then((results) => {
+    res.sendStatus(202);
+  })
+  .catch((err) => {
+    console.log('Error in PUT - unsubmit climb');
+    res.sendStatus(500);
+  })
+});
+
+router.put('/submit', rejectUnauthenticated, (req, res) => {
+  let climbId = req.body.climbId
+  queryText = `
+    UPDATE "climbs"
+    SET "isSubmitted" = TRUE
+    WHERE id = $1; 
+  `
+  pool.query(queryText, [climbId])
+  .then((results) => {
+    res.sendStatus(202);
+  })
+  .catch((err) => {
+    console.log('Error in PUT - submit climb');
+    res.sendStatus(500);
+  })
+});
+
+
+
 module.exports = router;
