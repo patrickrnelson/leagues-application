@@ -97,7 +97,8 @@ router.put('/saveEdits', (req, res) => {
   });
 });
 
-router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
+
+  router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   // console.log('req.params deleteLeague in League.router', deleteLeague );
 
 

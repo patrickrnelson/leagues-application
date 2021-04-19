@@ -15,19 +15,8 @@ function AdminLeagues() {
 
   const leaguesInfo = useSelector ((store) => store.leaguesReducer);
 
-  // console.log('leaguesInfo', leaguesInfo);
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'FETCH_LEAGUES'
-  //   })
-  // },[]);
-
-
   function createNewLeague() {
-    dispatch({
-      type: 'CREATE_NEW_LEAGUE'
-    })
+    history.push(`/admin/leagues/new`)
   }
 
 //  /admin/leagues
@@ -38,8 +27,6 @@ function AdminLeagues() {
     // })
 
     history.push(`/admin/leagues/edit/${leagueId}`)
-
-
   }
 
 
@@ -48,14 +35,6 @@ function AdminLeagues() {
       type: 'DELETE_LEAGUE',
       payload: leagueId
     })
-  }
-
-  function handleDelete(leagueId) {
-    dispatch({
-      type: 'DELETE_LEAGUE',
-      payload: leagueId
-    })
-
   }
 
   return (
