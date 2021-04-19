@@ -5,6 +5,7 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
+
 router.get('/', rejectUnauthenticated, (req, res) => {
   let queryText = `
     SELECT * FROM "leagues"
@@ -39,6 +40,7 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
     })
 });
 
+
 router.post('/join', rejectUnauthenticated, (req, res) => {
   // console.log('what is my team id', req.body.teamId);
   // console.log('what is my league id', req.body.leagueId);
@@ -56,6 +58,7 @@ router.post('/join', rejectUnauthenticated, (req, res) => {
       res.sendStatus(500)
     })
 });
+
 
 router.post('/', (req, res) => {
   const newLeague = req.body;

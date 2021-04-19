@@ -8,42 +8,22 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 
-
-
 function AdminLeagues() {
 
- const dispatch = useDispatch();
- const history = useHistory();
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const leaguesInfo = useSelector ((store) => store.leaguesReducer);
 
   console.log('leaguesInfo', leaguesInfo);
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'FETCH_LEAGUES'
-  //   })
-  // },[]);
-
-
   function createNewLeague() {
-    dispatch({
-      type: 'CREATE_NEW_LEAGUE'
-    })
+    history.push(`/admin/leagues/new`)
   }
-
-//  /admin/leagues
 
   function handleEdit(leagueId) {
-    // dispatch({
-    //   type: 'EDIT_RESULTS'
-    // })
-
     history.push(`/admin/leagues/edit/${leagueId}`)
-
-
   }
-
 
   function handleDelete(leagueId) {
     dispatch({
@@ -52,8 +32,6 @@ function AdminLeagues() {
     })
 
   }
-
-
 
   return (
 
@@ -95,7 +73,6 @@ function AdminLeagues() {
       item
       xs={12}
       direction="row"
-      //space-around
       justify="center"
       alignItems="center"
       >
@@ -124,7 +101,6 @@ function AdminLeagues() {
         item
         xs={12}
         direction="row"
-        // space-around
         justify="center"
         alignItems="center"
         >
@@ -146,10 +122,12 @@ function AdminLeagues() {
 
         <Grid item xs={2} >
           {/* Status */}
-          <p>In Progress</p>
+          {/* Compare today's date to the start and end dates of the leagues to find out if it is 'In Progress', 'Completed', or 'Not Started' */}
+          <p>{ moment().isBefore(iLeagues.start) ? 'Not Started' 
+              : moment().isSameOrAfter(iLeagues.start) && moment().isSameOrBefore(iLeagues.end) ? 'In Progress' 
+              : moment().isAfter(iLeagues.end) ? 'Completed' 
+              : 'Something is wrong'}</p>
         </Grid>  
-
-
 
         <Grid item={2}>
           <Button variant="outlined" color="primary" onClick={(event) => handleEdit(iLeagues.id)} >
@@ -169,9 +147,7 @@ function AdminLeagues() {
       })} 
 
     </Grid>
-
   );
-
 }
 
 
