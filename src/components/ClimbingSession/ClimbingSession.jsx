@@ -72,29 +72,68 @@ function ClimbingSession() {
     }
   }
 
-  const handleCheckBoxChange = (climbId, isSubmitted, event) => {
+  const handleCheckBoxChange = (climbId, isSubmitted, climberId, event) => {
     if (isSubmitted) {
       console.log('change to unsubmitted', climbId)
       dispatch({
         type: 'UNSUBMIT_CLIMB',
         payload: {climbId: climbId}
       })
-      dispatch({
-        type: 'DECREASE_CLIMBS_SUBMITTED'
-      })
-    } else {
-      if (climbsSubmittedReducer.currentData < climbsSubmittedReducer.limit){
-        console.log('change to submitted')
+      if(climberId === teammates[0].userId) {
         dispatch({
-          type: 'SUBMIT_CLIMB',
-          payload: {climbId: climbId}
+          type: 'DECREASE_CLIMBER_ONE_COUNT'
         })
+      } else if (climberId === teammates[1].userId) {
         dispatch({
-          type: 'INCREASE_CLIMBS_SUBMITTED'
+          type: 'DECREASE_CLIMBER_TWO__COUNT'
         })
-      } else {
-        event.preventDefault();
+      } else if (climberId === teammates[2].userId) {
+        dispatch({
+          type: 'DECREASE_CLIMBER_THREE_COUNT'
+        })
       }
+    } else {
+      if (climberId === teammates[0].userId) {
+        if (climbsSubmittedReducer.climberOneClimbCount < climbsSubmittedReducer.limit){
+          console.log('change to submitted')
+          dispatch({
+            type: 'SUBMIT_CLIMB',
+            payload: {climbId: climbId}
+          })
+          dispatch({
+            type: 'INCREASE_CLIMBER_ONE_COUNT'
+          })
+        } else {
+          event.preventDefault();
+        }
+      } else if (climberId === teammates[1].userId) {
+        if (climbsSubmittedReducer.climberTwoClimbCount < climbsSubmittedReducer.limit){
+          console.log('change to submitted')
+          dispatch({
+            type: 'SUBMIT_CLIMB',
+            payload: {climbId: climbId}
+          })
+          dispatch({
+            type: 'INCREASE_CLIMBER_TWO_COUNT'
+          })
+        } else {
+          event.preventDefault();
+        }
+      } else if (climberId === teammates[2].userId) {
+        if (climbsSubmittedReducer.climberThreeClimbCount < climbsSubmittedReducer.limit){
+          console.log('change to submitted')
+          dispatch({
+            type: 'SUBMIT_CLIMB',
+            payload: {climbId: climbId}
+          })
+          dispatch({
+            type: 'INCREASE_CLIMBER_THREE_COUNT'
+          })
+        } else {
+          event.preventDefault();
+        }
+      }
+      
     }    
   }
 
@@ -105,6 +144,8 @@ function ClimbingSession() {
       teammates.push(climber);
     }
   }
+
+  console.log('teammates', teammates)
 
   return (
     <div className="container">
@@ -143,7 +184,7 @@ function ClimbingSession() {
                   <Checkbox
                   key={climb.climbId}
                   checked={climb.isSubmitted}
-                  onChange={(event) => handleCheckBoxChange(climb.climbId, climb.isSubmitted, event)}
+                  onChange={(event) => handleCheckBoxChange(climb.climbId, climb.isSubmitted, climb.userId, event)}
                   inputProps={{ 'aria-label': 'primary checkbox' }}
                   />
                 </td>
