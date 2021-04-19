@@ -94,7 +94,6 @@ function ClimbingSession() {
         })
       } else {
         event.preventDefault();
- 
       }
     }    
   }
@@ -115,10 +114,12 @@ function ClimbingSession() {
           ELSE Display the handicap from our big function */}
       <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
       <button onClick={() => history.push('/climb/add')}>Add a Climb</button>
+      <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber</p>
       {user.id === conditionalData[0].captainId ? 
       teammates.map((mate) => (
         <>
         <h4>{mate.username}</h4>
+        <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
         <div className="climbsContainer">
           {/* Start Table For Climber Captain */}
           <table className="climbsTable">
@@ -146,7 +147,6 @@ function ClimbingSession() {
                   inputProps={{ 'aria-label': 'primary checkbox' }}
                   />
                 </td>
-  
               </tr>
               :
               <tr></tr>
@@ -156,9 +156,7 @@ function ClimbingSession() {
           </div>
           </>
       ))
-
       :
-
       <>
       <h4>My Climbs</h4>
       <div className="climbsContainer">
