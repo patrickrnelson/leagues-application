@@ -29,7 +29,7 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
     SELECT "teams".name AS "teamName", "teams".id AS "teamId","leaguesTeams"."isPaid", "leagues".name AS "leagueName", "leagues".id AS "leagueId"
     FROM "leagues"
     JOIN "leaguesTeams" ON "leaguesTeams"."leagueId" = "leagues".id
-    JOIN "teams" ON "leaguesTeams"."teamId" = "teams".id;
+    JOIN "teams" ON "leaguesTeams"."teamId" = "teams".id
   `
   pool
     .query(queryText)
@@ -44,8 +44,8 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
 
 
 router.post('/join', rejectUnauthenticated, (req, res) => {
-  console.log('what is my team id', req.body.teamId);
-  console.log('what is my league id', req.body.leagueId);
+  // console.log('what is my team id', req.body.teamId);
+  // console.log('what is my league id', req.body.leagueId);
   let queryText =`
     INSERT INTO "leaguesTeams" ("teamId", "leagueId")
     VALUES ($1, $2);

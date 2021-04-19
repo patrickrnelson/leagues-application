@@ -15,12 +15,13 @@ function* fetchTeams() {
   }
 }
 
-function* fetchAccessCode() {
+function* fetchAccessCode(action) {
   try {
     // gets the characteristics from the DB
-    let teamCode = yield axios.get(`/api/team/access`);
+    console.log('action in saga', action.payload);
+    let teamCode = yield axios.get(`/api/team/access`, action.payload);
     console.log('GET access code', teamCode);
-    yield put({ type: 'SET_ACCESS_CODE', payload: teamCode })
+    yield put({ type: 'SET_ACCESS_CODE', payload: teamCode.id })
   } catch (error) {
     console.log('Error getting team access code', error);
   }

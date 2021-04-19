@@ -9,18 +9,19 @@ function TeamPage() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const teamData = useSelector(store => store.conditional);
   const climberTeams = useSelector(store => store.teams);
   const user = useSelector(store => store.user)
 
   const [userTeam, setUserTeam] = useState('');
-  const [teamId, setTeamId] = useState('')
   const [showAccessCode, setShowAccessCode] = useState(false);
 
   const toggleAccessCode = () => {
+    console.log('what is my team id', teamData[0].teamId);
     dispatch({ 
       type: 'FETCH_ACCESS_CODE', 
       payload: { 
-        team: teamId
+        team: teamData[0].teamId
       } 
     })
     setShowAccessCode(!showAccessCode)
@@ -29,16 +30,7 @@ function TeamPage() {
   useEffect(() => {
     console.log('climberTeams', climberTeams);
     findUserTeam();
-    findTeamId();
   }, [])
-
-  const findTeamId = () => {
-    for(let team of climberTeams) {
-      if (team.userId === user.id) {
-        setTeamId(team.teamId)
-      }
-    }
-  }
 
   const findUserTeam = () => {
     for(let climber of climberTeams) {
