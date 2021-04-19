@@ -1,36 +1,55 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 import Header from '../Header/Header';
 import './TeamPage.css';
+import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 
 function TeamPage() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const teamData = useSelector(store => store.conditional);
+  const leagues = useSelector(store => store.leaguesReducer);
+  const conditionalData = useSelector(store => store.conditional);
+  const climbs = useSelector(store => store.climbs)
   const climberTeams = useSelector(store => store.teams);
-  const user = useSelector(store => store.user)
-
-  const [userTeam, setUserTeam] = useState('');
+  const user = useSelector(store => store.user);
+  const accessCode = useSelector(store => store.accessCodeReducer);
+  
+  const [currentLeague, setCurrentLeague] = useState('')
+  const [currentLeagueId, setCurrentLeagueId] = useState(0)
+  const [currentLeagueStart, setCurrentLeagueStart] = useState('')
+  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
+  const [userTeam, setUserTeam] = useState('')
   const [showAccessCode, setShowAccessCode] = useState(false);
 
   const toggleAccessCode = () => {
-    console.log('what is my team id', teamData[0].teamId);
+    console.log('what is my team id', conditionalData[0].teamId);
     dispatch({ 
       type: 'FETCH_ACCESS_CODE', 
-      payload: { 
-        team: teamData[0].teamId
-      } 
+      payload: conditionalData[0].teamId
     })
     setShowAccessCode(!showAccessCode)
   }
 
   useEffect(() => {
-    console.log('climberTeams', climberTeams);
     findUserTeam();
+    getCurrentLeague();
   }, [])
+
+  const getCurrentLeague = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setCurrentLeague(league.name);
+        setCurrentLeagueId(league.id);
+        setCurrentLeagueStart(league.start);
+        setCurrentLeagueEnd(league.end);
+        return;
+      } 
+    }
+  }
 
   const findUserTeam = () => {
     for(let climber of climberTeams) {
@@ -43,8 +62,10 @@ function TeamPage() {
   return (
     <div className="teamContainer">
       <Header />
+      {conditionalData[0].teamName ?
+      <>
       <h2 className="teamName">{userTeam}</h2>
-      <h3 className="leagueName">Summer League 2021</h3>
+      <h3 className="leagueName">{currentLeague}</h3>
       <select>
         <option>Week 1</option>
         <option>Week 2</option>
@@ -63,7 +84,7 @@ function TeamPage() {
               return (
                 <tr>
                   <td key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</td>
-                  <td>SCORE</td>
+                  <td>{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs).totalScore}</td>
                 </tr>
               )
             }
@@ -75,11 +96,18 @@ function TeamPage() {
           <div className="modalText">
             <button className="exitButton" onClick={() => toggleAccessCode()}>X</button>
             <p>This is your teams access code. You can provide the code to others for them to join your team.</p>
-            <p>JENFXI</p>
+            <p>{accessCode}</p>
           </div>
         </div>
       </div>
         <button onClick={() => toggleAccessCode()}>Team Code</button>
+      </>
+      : 
+      <div>
+        <h3>You are not on a team.</h3> 
+        <p>Join a team and check back later! </p>
+      </div>
+        }
     </div>
   );
 }

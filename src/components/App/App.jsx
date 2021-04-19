@@ -86,7 +86,7 @@ function App() {
           {/* Admin - edit a league */}
           <ProtectedRoute
             exact
-            path="/admin/leagues/edit"
+            path="/admin/leagues/edit/:id"
           >
             <AdminEdit />
           </ProtectedRoute>
@@ -157,7 +157,7 @@ function App() {
           {/* Climber contact */}
           <ProtectedRoute
             exact
-            path="/climber/profile"
+            path="/climberProfile"
           >
             <ClimberProfile />
           </ProtectedRoute>

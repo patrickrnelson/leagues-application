@@ -5,9 +5,6 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
-/**
- * GET leagues
- */
 router.get('/', rejectUnauthenticated, (req, res) => {
   let queryText = `
     SELECT * FROM "leagues"
@@ -42,14 +39,13 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
     })
 });
 
-
 router.post('/join', rejectUnauthenticated, (req, res) => {
   // console.log('what is my team id', req.body.teamId);
   // console.log('what is my league id', req.body.leagueId);
   let queryText =`
     INSERT INTO "leaguesTeams" ("teamId", "leagueId")
     VALUES ($1, $2);
-  `
+  `;
   pool
     .query(queryText, [req.body.teamId, req.body.leagueId])
     .then(() => {
@@ -60,5 +56,66 @@ router.post('/join', rejectUnauthenticated, (req, res) => {
       res.sendStatus(500)
     })
 });
+
+router.post('/', (req, res) => {
+  const newLeague = req.body;
+  console.log('new league', newLeague);
+  let queryText = `
+    INSERT INTO "leagues" ( "name", "start", "end")
+    VALUES ($1, $2, $3);
+  `;
+
+  pool.query(queryText, [ req.body.leagueName, req.body.startDate, req.body.endDate])
+  .then(() => {res.sendStatus(201);
+  })
+  .catch((err) => {
+    console.log('error in post', err);
+    res.sendStatus(500);
+  });
+
+});
+
+router.put('/saveEdits', (req, res) => {
+  const savedEdits = req.body;
+  console.log('req.body saveEdits in League.router', req.body);
+
+  let queryText = `
+    UPDATE "leagues"
+    SET "name" = $1, "start" = $2, "end" = $3
+    WHERE "id" = $4 ;
+  `;
+
+  pool.query(queryText, [req.body.leagueName, req.body.startDate, req.body.endDate, req.body.leagueId])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch((err) => {
+    console.log('Error Editing a League, in League.router', err);
+    res.sendStatus(500);
+  })
+
+})
+
+router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
+  const deleteLeague = req.params.id;
+  console.log('req.params deleteLeague in League.router', deleteLeague );
+
+  const deleteQuery = `DELETE FROM "leagues" WHERE "id" = $1;`
+
+  pool.query( deleteQuery, [req.params.id] )
+  .then(result => {
+    console.log('successful delete of a League');
+    res.sendStatus(200);
+  })
+  .catch((err)=> {
+    console.log('Error deleting a League, in League.router', err);
+    res.sendStatus(500);
+  })
+
+});
+
+
+
+
 
 module.exports = router;

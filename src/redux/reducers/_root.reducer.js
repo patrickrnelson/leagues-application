@@ -6,6 +6,7 @@ import conditional from './conditional.reducer';
 import climbs from './climbs.reducer'
 import leagueTeamReducer from './leagueTeam.reducer';
 import leaguesReducer from './leagues.reducer'
+import accessCodeReducer from './access.code.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   climbs, // will give us all of the climbs
   leagueTeamReducer,
   leaguesReducer,
+  accessCodeReducer,
 });
 
 export default rootReducer;

@@ -39,10 +39,10 @@ router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
   })
 })
 
-router.get('/access', rejectUnauthenticated, (req, res) => {
+router.get('/access/:id', rejectUnauthenticated, (req, res) => {
   let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
-  console.log('access code in router', req.body.team);
-  pool.query(queryText, [req.body.team])
+  console.log('access code in router', req.params.id);
+  pool.query(queryText, [req.params.id])
   .then((result) => {
     res.send(result.rows);
   })
