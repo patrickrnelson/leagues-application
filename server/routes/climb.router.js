@@ -29,8 +29,8 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  * POST route template
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
-  console.log('req.body', req.body);
-  console.log('req.user', req.user);
+  // console.log('req.body', req.body);
+  // console.log('req.user', req.user);
   let location = req.body.location;
   let color = req.body.color;
   let difficulty = req.body.difficulty;

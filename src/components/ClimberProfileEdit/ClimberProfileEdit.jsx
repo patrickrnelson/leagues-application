@@ -24,7 +24,7 @@ function ClimberProfileEdit() {
           phone: phone
         }
       })
-      history.push('/climber/profile')
+      history.push('/climberProfile')
     }
     else {
       alert('No Blank Inputs, Please!')
@@ -53,7 +53,7 @@ function ClimberProfileEdit() {
       {/* Email Input */}
       <label for="emailEditInput">Email:</label>
       <input 
-        type="text" 
+        type="email" 
         id="emailEditInput" 
         required
         value={email}
@@ -72,7 +72,7 @@ function ClimberProfileEdit() {
       />
 
       <button onClick={handleProfileEdit}>Save</button>
-      <button onClick={() => history.push('/climber/profile')}>Cancel</button>
+      <button onClick={() => history.push('/climberProfile')}>Cancel</button>
     </div>
   );
 }

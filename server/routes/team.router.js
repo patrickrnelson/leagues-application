@@ -23,11 +23,11 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     .catch(err => {
       console.log('Error in Team GET', err);
       res.sendStatus(500)
-    })
+    });
 });
 
 router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
-  console.log('test1', req.body);
+  // console.log('test1', req.body);
   let queryText = `SELECT * FROM teams WHERE "teams"."leagueId" = $1`;
   pool.query(queryText, [req.params.id])
   .then((result) => {
@@ -36,8 +36,21 @@ router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
   .catch(err => {
     console.log('error getting teams', err);
     res.sendStatus(500)
+  });
+});
+
+router.get('/access/:id', rejectUnauthenticated, (req, res) => {
+  let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
+  // console.log('access code in router', req.params.id);
+  pool.query(queryText, [req.params.id])
+  .then((result) => {
+    res.send(result.rows);
   })
-})
+  .catch(err => {
+    console.log('error getting team access code', err);
+    res.sendStatus(500)
+  });
+});
 
 router.get('/access/:id', rejectUnauthenticated, (req, res) => {
   let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
@@ -79,7 +92,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
   }
   finally {
     connection.release()
-  }
+  };
 });
 
 router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
@@ -107,7 +120,7 @@ router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
     console.log('Error in joining team', err)
     await connection.query(`ROLLBACK`);
     res.sendStatus(500)
-  }
-})
+  };
+});
 
 module.exports = router;

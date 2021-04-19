@@ -10,19 +10,44 @@ import moment from 'moment';
 
 function AdminLeagues() {
 
-  const dispatch = useDispatch();
-  const history = useHistory();
+ const dispatch = useDispatch();
+ const history = useHistory();
 
   const leaguesInfo = useSelector ((store) => store.leaguesReducer);
 
-  console.log('leaguesInfo', leaguesInfo);
+  // console.log('leaguesInfo', leaguesInfo);
+
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'FETCH_LEAGUES'
+  //   })
+  // },[]);
+
 
   function createNewLeague() {
-    history.push(`/admin/leagues/new`)
+    dispatch({
+      type: 'CREATE_NEW_LEAGUE'
+    })
   }
 
+//  /admin/leagues
+
   function handleEdit(leagueId) {
+    // dispatch({
+    //   type: 'EDIT_RESULTS'
+    // })
+
     history.push(`/admin/leagues/edit/${leagueId}`)
+
+
+  }
+
+
+  function handleDelete(leagueId) {
+    dispatch({
+      type: 'DELETE_LEAGUE',
+      payload: leagueId
+    })
   }
 
   function handleDelete(leagueId) {
