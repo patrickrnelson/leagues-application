@@ -65,8 +65,8 @@ function Leaderboard() {
   return (
     <div className="container">
       <Header />
-      <h2>Leaderboard</h2>
-      <h3>{currentLeague}</h3>
+      <h2 className="pageTitle">League Leaderboard</h2>
+      <h3 className="leagueName">{currentLeague}</h3>
       {/* <h4>{currentWeek == '--Total--' ? '' : currentWeek}</h4> */}
       <select onChange={(event) => setCurrentWeek(event.target.value)}> 
         <option>--Total--</option>
