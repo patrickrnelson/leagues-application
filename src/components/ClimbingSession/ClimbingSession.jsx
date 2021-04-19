@@ -17,6 +17,7 @@ function ClimbingSession() {
   const leagues = useSelector(store => store.leaguesReducer);
   const teams = useSelector(store => store.teams);
   const conditionalData = useSelector(store => store.conditional);
+  const climbsSubmittedReducer = useSelector(store => store.climbsSubmittedReducer)
 
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
@@ -70,7 +71,7 @@ function ClimbingSession() {
       currentClimbs.push(climb)
     }
   }
-  
+
   const handleCheckBoxChange = (climbId, isSubmitted, event) => {
     if (isSubmitted) {
       console.log('change to unsubmitted', climbId)
@@ -78,12 +79,23 @@ function ClimbingSession() {
         type: 'UNSUBMIT_CLIMB',
         payload: {climbId: climbId}
       })
-    } else {
-      console.log('change to submitted')
       dispatch({
-        type: 'SUBMIT_CLIMB',
-        payload: {climbId: climbId}
+        type: 'DECREASE_CLIMBS_SUBMITTED'
       })
+    } else {
+      if (climbsSubmittedReducer.currentData < climbsSubmittedReducer.limit){
+        console.log('change to submitted')
+        dispatch({
+          type: 'SUBMIT_CLIMB',
+          payload: {climbId: climbId}
+        })
+        dispatch({
+          type: 'INCREASE_CLIMBS_SUBMITTED'
+        })
+      } else {
+        event.preventDefault();
+ 
+      }
     }    
   }
 
@@ -94,8 +106,6 @@ function ClimbingSession() {
       teammates.push(climber);
     }
   }
-
-  console.log('teammates', teammates);
 
   return (
     <div className="container">
