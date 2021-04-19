@@ -3,11 +3,9 @@ import axios from 'axios';
 
 function* fetchTeams() {
   try {
-
     // gets the characteristics from the DB
     let climberTeams = yield axios.get(`/api/team/`);
-    console.log('GET climber teams', climberTeams.data);
-
+    // console.log('GET climber teams', climberTeams.data);
     // SET the characteristics in the reducer
     yield put({ type: 'SET_TEAMS', payload: climberTeams.data });
 
@@ -16,22 +14,24 @@ function* fetchTeams() {
   }
 }
 
-function* fetchTeamAccessCodes() {
+function* fetchAccessCode(action) {
   try {
-    let teamAccess = yield axios.get(`/api/team/access`);
-    // console.log('get teams access codes', teamAccess.data);
-    yield put({ type: 'SET_ACCESS_CODES', payload: teamAccess.data });
-  }
-  catch (error) {
-    console.log('Error getting access codes', error);
+    // gets the characteristics from the DB
+
+    // console.log('action in saga', action.payload); 
+    let teamCode = yield axios.get(`/api/team/access/${action.payload}`);
+    // console.log('GET access code', teamCode.data[0].accessCode);
+
+    yield put({ type: 'SET_ACCESS_CODE', payload: teamCode.data[0].accessCode })
+  } catch (error) {
+    console.log('Error getting team access code', error);
   }
 }
 
 function* createTeam(action) {
-  console.log('postNewTeam', action.payload);
+  // console.log('postNewTeam', action.payload);
   try {
     yield axios.post('/api/team', action.payload);
-
     yield put({ type: 'FETCH_TEAMS'})
   }
   catch (error) {
@@ -40,46 +40,38 @@ function* createTeam(action) {
 }
 
 
-function* getLeagueViewInfo() {
-
-  try{
-    let leagueInfo = yield axios.get(`/api/league`)
-    console.log('Get League info', leagueInfo.data);
-    yield put ({type: 'FETCH_LEAGUE_INFO', payload: leagueInfo.data});
-  }
-  catch (error) {
-    console.log('Error getting the league info', error)
-  }
-}
+// function* getLeagueViewInfo() {
+//   try{
+//     let leagueInfo = yield axios.get(`/api/league`)
+//     console.log('Get League info', leagueInfo.data);
+//     yield put ({type: 'FETCH_LEAGUE_INFO', payload: leagueInfo.data});
+//   }
+//   catch (error) {
+//     console.log('Error getting the league info', error)
+//   }
+// }
 
 function* joinTeam(action) {
-  console.log('join team', action.payload);
   try{
-    yield axios.post(`/api/team/join/${action.payload}`);
-
+    yield put({ type: 'CLEAR_JOIN_ERROR' });
+    yield axios.post(`/api/team/join/${action.payload}`)
     yield put({ type: 'FETCH_TEAMS'})
   }
   catch (error) {
     console.log('Error joining team', error)
+    if (error.response.status === 404) {
+      // The 404 is the error status sent from router
+      // if the access code does not match
+      yield put({ type: 'ACCESS_CODE_INVALID' });
+    }
   }
 }
 
-// function* fetchTeams(action) {
-//   console.log('getting teams', action.payload);
-//   try {
-//     const leagueTeams = yield axios.get(`/api/team/leagueTeam/${action.payload}`);
-//     yield put({type: 'SET_LEAGUE_TEAMS', payload: leagueTeams.data })
-//   } catch (error) {
-//     console.log('error in getting teams', error);
-//   }
-// }
-
 function* teamsSaga() {
   yield takeLatest('FETCH_TEAMS', fetchTeams);
-  yield takeLatest('FETCH_TEAM_ACCESS', fetchTeamAccessCodes);
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);
-  // yield takeLatest('FETCH_LEAGUE_TEAMS', fetchTeams);
+  yield takeLatest('FETCH_ACCESS_CODE', fetchAccessCode);
 }
 
 export default teamsSaga;

@@ -3,11 +3,13 @@
   font-size: 28px;
 } */
 
+.pageTitle {
+  margin: 0;
+}
+
 .leagueName {
   font-weight: normal;
-  font-style: italic;
-  margin-top: 5px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .leagueTable {

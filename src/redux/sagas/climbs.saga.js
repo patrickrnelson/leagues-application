@@ -25,9 +25,31 @@ function* addNewClimb(action) {
   }
 }
 
+function* unsubmitClimb(action) {
+  try {
+    yield axios.put('/api/climb/unsubmit', action.payload);
+
+    yield put({ type: 'FETCH_CLIMBS' });
+  } catch (error) {
+    console.log('Error in Unsubmit Climb Saga', error);
+  }
+}
+
+function* submitClimb(action) {
+  try {
+    yield axios.put('/api/climb/submit', action.payload);
+
+    yield put({ type: 'FETCH_CLIMBS' });
+  } catch (error) {
+    console.log('Error in Submit Climb Saga', error);
+  }
+}
+
 function* climbsSaga() {
   yield takeLatest('ADD_NEW_CLIMB', addNewClimb);
-  yield takeLatest('FETCH_CLIMBS', fetchClimbs)
+  yield takeLatest('FETCH_CLIMBS', fetchClimbs);
+  yield takeLatest('UNSUBMIT_CLIMB', unsubmitClimb);
+  yield takeLatest('SUBMIT_CLIMB', submitClimb);
 }
 
 export default climbsSaga;
