@@ -26,7 +26,7 @@ function TeamPage() {
   const [showAccessCode, setShowAccessCode] = useState(false);
 
   const toggleAccessCode = () => {
-    console.log('what is my team id', conditionalData[0].teamId);
+
     dispatch({ 
       type: 'FETCH_ACCESS_CODE', 
       payload: conditionalData[0].teamId
@@ -60,6 +60,7 @@ function TeamPage() {
   }
 
   return (
+    <>
     <div className="teamContainer">
       <Header />
       {conditionalData[0].teamName ?
@@ -109,6 +110,7 @@ function TeamPage() {
       </div>
         }
     </div>
+    </>
   );
 }
 

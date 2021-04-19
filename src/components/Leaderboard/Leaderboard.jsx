@@ -20,7 +20,6 @@ function Leaderboard() {
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
 
-
   const weeks = ['Week 1', 'Week 2', , 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7']
 
   let teamsInLeague = [];
@@ -53,14 +52,11 @@ function Leaderboard() {
   }
 }
 
-  console.log('teamsInLeague', teamsInLeague)
+  // console.log('teamsInLeague', teamsInLeague)
 
   teamsInLeague.sort((a, b) => {
     return b.teamScore - a.teamScore;
   })
-
-  console.log('teamsInLeague', teamsInLeague)
-
 
   return (
     <div className="container">

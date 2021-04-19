@@ -32,10 +32,9 @@ function* fetchUser() {
 }
 
 function* editUserProfile(action) {
-  console.log('in edit user Saga');
+  // console.log('in edit user Saga');
   try {
     yield axios.put('/api/user', action.payload)
-
     yield put({ type: 'FETCH_USER'})
   }
   catch(err) {

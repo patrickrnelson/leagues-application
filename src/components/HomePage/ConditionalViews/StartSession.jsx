@@ -67,7 +67,7 @@ function StartSession(props) {
     }
   }
 
-  console.log('current climbs', currentClimbs);
+  // console.log('current climbs', currentClimbs);
 
   return (
     <div className="container">
