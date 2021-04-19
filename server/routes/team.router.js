@@ -39,6 +39,19 @@ router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
   })
 })
 
+router.get('/access/:id', rejectUnauthenticated, (req, res) => {
+  let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
+  console.log('access code in router', req.params.id);
+  pool.query(queryText, [req.params.id])
+  .then((result) => {
+    res.send(result.rows);
+  })
+  .catch(err => {
+    console.log('error getting team access code', err);
+    res.sendStatus(500)
+  })
+})
+
 router.post('/', rejectUnauthenticated, async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
@@ -89,15 +102,6 @@ router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
       await connection.query(`COMMIT`);
       res.send(200)
     }
-    // check if access code matches, else send back 404
-    // then client (saga) check status code
-    // then render message to user
-    /* await connection.query(`
-      INSERT INTO "usersTeams" ("userId", "teamId")
-      VALUES ($1, $2)
-    `[req.user.id, dbRes.rows[0].id]);
-    await connection.query(`COMMIT`);
-    res.send(200) */
   }
   catch (err) {
     console.log('Error in joining team', err)
