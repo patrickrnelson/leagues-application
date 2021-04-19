@@ -1,4 +1,4 @@
-const climbsSubmittedReducer = (state = {climberOneClimbCount: 0, climberTwoClimbCount: 0, climberThreeClimbCount: 0, limit: 3}, action) => {
+const climbsSubmittedReducer = (state = {climberOneClimbCount: 0, climberTwoClimbCount: 0, climberThreeClimbCount: 0, limit: 4}, action) => {
   switch (action.type) {
     case 'INCREASE_CLIMBER_ONE_COUNT':
       return {...state, climberOneClimbCount: state.climberOneClimbCount + 1};
