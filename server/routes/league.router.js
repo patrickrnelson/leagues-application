@@ -72,15 +72,16 @@ router.put('/saveEdits', (req, res) => {
 
   let queryText = `
     UPDATE "leagues"
-    SET "name" = $1, "start" = $2 "end" = $3
+    SET "name" = $1, "start" = $2, "end" = $3
     WHERE "id" = $4 ;
   `;
 
-  pool.query(queryText, [req.body.leagueName, req.body.startDate, req.body.endDate])
+  pool.query(queryText, [req.body.leagueName, req.body.startDate, req.body.endDate, req.body.leagueId])
   .then(() => {
     res.sendStatus(201);
   })
   .catch((err) => {
+    console.log('Error Editing a League, in League.router', err);
     res.sendStatus(500);
   })
 

@@ -31,8 +31,7 @@ function* updateLeagues(action) {
     yield axios.put(`/api/league/saveEdits`, action.payload)
 
     yield put({
-      type: 'UPDATED_LEAGUE',
-      payload: action.payload
+      type: 'FETCH_LEAGUES'
     })
 
   }
@@ -66,7 +65,7 @@ function* DeleteLeague(action) {
 function* leaguesSaga() {
   yield takeLatest('FETCH_LEAGUES', fetchLeagues)
   yield takeLatest('CREATE_NEW_LEAGUE', createNewLeagues )
-  yield takeLatest('EDIT_RESULTS', updateLeagues)
+  yield takeLatest('UPDATE_LEAGUE', updateLeagues)
   yield takeLatest('DELETE_LEAGUE', DeleteLeague)
 }
 

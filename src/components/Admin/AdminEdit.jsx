@@ -20,15 +20,17 @@ function AdminEdit() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('')
 
-  function handleSubmit() {
+  function saveResults() {
     dispatch({
-      type: 'CONFIRM_RESULTS',
+      type: 'UPDATE_LEAGUE',
       payload: {
-        leagueName,
-        startDate,
-        endDate
+        leagueName: leagueName,
+        startDate: startDate,
+        endDate: endDate,
+        leagueId: id
       }
     })
+    history.push('/admin/leagues')
   }
 
   useEffect(() => {
@@ -73,7 +75,7 @@ function AdminEdit() {
       </Grid>
       
     
-      <form onSubmit={handleSubmit} >
+      <form >
       <Grid
         container
         item
@@ -143,8 +145,7 @@ function AdminEdit() {
 
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid>
-      {/* onClick={saveResults} */}
-          <Button variant="contained" color="primary"  >
+          <Button variant="contained" color="primary" onClick={saveResults}  >
             Save
           </Button>
 
