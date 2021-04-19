@@ -26,7 +26,7 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
     SELECT "teams".name AS "teamName", "teams".id AS "teamId","leaguesTeams"."isPaid", "leagues".name AS "leagueName", "leagues".id AS "leagueId"
     FROM "leagues"
     JOIN "leaguesTeams" ON "leaguesTeams"."leagueId" = "leagues".id
-    JOIN "teams" ON "leaguesTeams"."teamId" = "teams".id;
+    JOIN "teams" ON "leaguesTeams"."teamId" = "teams".id
   `
   pool
     .query(queryText)

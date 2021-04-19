@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
-import Header from '../Header/Header'
-import './TeamPage.css'
+import Header from '../Header/Header';
+import './TeamPage.css';
 import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 
 function TeamPage() {
-  // const dispatch = useDispatch();
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const leagues = useSelector(store => store.leaguesReducer);
   const conditionalData = useSelector(store => store.conditional);
   const climbs = useSelector(store => store.climbs)
   const climberTeams = useSelector(store => store.teams);
-  const user = useSelector(store => store.user)
+  const user = useSelector(store => store.user);
+  const accessCode = useSelector(store => store.accessCodeReducer);
   
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
   const [userTeam, setUserTeam] = useState('')
+  const [showAccessCode, setShowAccessCode] = useState(false);
+
+  const toggleAccessCode = () => {
+    console.log('what is my team id', conditionalData[0].teamId);
+    dispatch({ 
+      type: 'FETCH_ACCESS_CODE', 
+      payload: conditionalData[0].teamId
+    })
+    setShowAccessCode(!showAccessCode)
+  }
 
   useEffect(() => {
     findUserTeam();
@@ -79,7 +91,16 @@ function TeamPage() {
           })}
         </tbody>
       </table>
-      <button>Team Code</button>
+      <div className={`modalBackground modalShowing-${showAccessCode}`}>
+        <div className="modalInner">
+          <div className="modalText">
+            <button className="exitButton" onClick={() => toggleAccessCode()}>X</button>
+            <p>This is your teams access code. You can provide the code to others for them to join your team.</p>
+            <p>{accessCode}</p>
+          </div>
+        </div>
+      </div>
+        <button onClick={() => toggleAccessCode()}>Team Code</button>
       </>
       : 
       <div>
