@@ -26,22 +26,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     })
 });
 
-router.get('/access', rejectUnauthenticated, (req, res) => {
-  let queryText=`
-    SELECT "teams".id as "ID", "teams"."accessCode" as "accessCode" 
-    FROM "teams";
-  `;
-  pool
-    .query(queryText)
-    .then((result) => {
-      res.send(result.rows);
-    })
-    .catch(err => {
-      console.log('Error getting access codes', err);
-      res.sendStatus(500)
-    })
-})
-
 router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
   console.log('test1', req.body);
   let queryText = `SELECT * FROM teams WHERE "teams"."leagueId" = $1`;
@@ -51,6 +35,19 @@ router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
   })
   .catch(err => {
     console.log('error getting teams', err);
+    res.sendStatus(500)
+  })
+})
+
+router.get('/access/:id', rejectUnauthenticated, (req, res) => {
+  let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
+  console.log('access code in router', req.params.id);
+  pool.query(queryText, [req.params.id])
+  .then((result) => {
+    res.send(result.rows);
+  })
+  .catch(err => {
+    console.log('error getting team access code', err);
     res.sendStatus(500)
   })
 })
@@ -71,7 +68,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
     await connection.query(`
       INSERT INTO "usersTeams" ("teamId", "userId")
       VALUES ($1, $2)
-    `, [dbRes.rows[0].id, req.user.id]) //need to update how to capture leagueId later
+    `, [dbRes.rows[0].id, req.user.id]) 
     await connection.query(`COMMIT`);
     res.send(200)
   }
@@ -85,22 +82,32 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
   }
 });
 
-router.post('/join/:id', rejectUnauthenticated, (req, res) => {
-  // console.log('what is my id', req.params.id);
-  // console.log('what is my user', req.user.id);
-  let queryText =`
-    INSERT INTO "usersTeams" ("userId", "teamId")
-    VALUES ($1, $2)
-  ;`
-  pool
-    .query(queryText, [req.user.id, req.params.id])
-    .then((result) => {
-      res.sendStatus(201);
-    })
-    .catch(err => {
-      console.log('Error in joining team', err)
-      res.sendStatus(500)
-    })
+router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
+  const connection = await pool.connect();
+  try{
+    await connection.query(`BEGIN`);
+    let dbRes = await connection.query(`
+      SELECT "teams".id 
+      FROM "teams" 
+      WHERE "teams"."accessCode" = ($1);
+    `, [req.params.accessCode]);
+    if (dbRes.rows[0] === undefined) {
+      console.log('Access Code does not match')
+      res.sendStatus(404)
+    } else {
+      await connection.query(`
+        INSERT INTO "usersTeams" ("userId", "teamId")
+        VALUES ($1, $2)
+      `, [req.user.id, dbRes.rows[0].id]);
+      await connection.query(`COMMIT`);
+      res.send(200)
+    }
+  }
+  catch (err) {
+    console.log('Error in joining team', err)
+    await connection.query(`ROLLBACK`);
+    res.sendStatus(500)
+  }
 })
 
 module.exports = router;

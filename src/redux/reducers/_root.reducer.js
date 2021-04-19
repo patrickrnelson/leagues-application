@@ -4,11 +4,10 @@ import teams from './teams.reducer';
 import user from './user.reducer';
 import conditional from './conditional.reducer';
 import climbs from './climbs.reducer'
-import teamAccess from './teamAccess.reducer';
 import leagueTeamReducer from './leagueTeam.reducer';
 import leaguesReducer from './leagues.reducer'
-
-
+import climbsSubmittedReducer from './submittedClimbs.reducer';
+import accessCodeReducer from './access.code.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -22,10 +21,10 @@ const rootReducer = combineReducers({
   teams, // will give us all of the teams and the climbers on the teams
   conditional, // will give us all of the conditional rendering information for home page
   climbs, // will give us all of the climbs
-  teamAccess,
   leagueTeamReducer,
   leaguesReducer,
-
+  climbsSubmittedReducer,
+  accessCodeReducer,
 });
 
 export default rootReducer;
