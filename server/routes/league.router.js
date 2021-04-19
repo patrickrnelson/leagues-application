@@ -5,9 +5,6 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
-/**
- * GET leagues
- */
 router.get('/', rejectUnauthenticated, (req, res) => {
   let queryText = `
     SELECT * FROM "leagues"
@@ -42,11 +39,25 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
     })
 });
 
-/**
- * POST route template
- */
+router.post('/join', rejectUnauthenticated, (req, res) => {
+  // console.log('what is my team id', req.body.teamId);
+  // console.log('what is my league id', req.body.leagueId);
+  let queryText =`
+    INSERT INTO "leaguesTeams" ("teamId", "leagueId")
+    VALUES ($1, $2);
+  `;
+  pool
+    .query(queryText, [req.body.teamId, req.body.leagueId])
+    .then(() => {
+      res.sendStatus(201)
+    })
+    .catch((err) => {
+      console.log('Error joining league');
+      res.sendStatus(500)
+    })
+});
+
 router.post('/', (req, res) => {
-  // POST route code here
   const newLeague = req.body;
   console.log('new league', newLeague);
   let queryText = `
@@ -63,8 +74,6 @@ router.post('/', (req, res) => {
   });
 
 });
-
-
 
 router.put('/saveEdits', (req, res) => {
   const savedEdits = req.body;
@@ -87,8 +96,6 @@ router.put('/saveEdits', (req, res) => {
 
 })
 
-
-
 router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   const deleteLeague = req.params.id;
   console.log('req.params deleteLeague in League.router', deleteLeague );
@@ -106,6 +113,7 @@ router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   })
 
 });
+
 
 
 

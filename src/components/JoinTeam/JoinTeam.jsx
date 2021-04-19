@@ -5,30 +5,28 @@ import { useHistory } from 'react-router-dom';
 import Header from '../Header/Header'
 
 function CreateTeam() {
-  const teamAccess = useSelector(store => store.teamAccess)
   const [teamCode, setTeamCode] = useState('');
+  const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // useEffect to get all team id's and access codes
   useEffect(() => {
-    dispatch({ type: 'FETCH_TEAM_ACCESS' });
-  }, [dispatch]);
-
+    dispatch({ type: 'CLEAR_JOIN_ERROR' });
+  },[dispatch]);
 
   const joinTeam = (event) => {
     event.preventDefault();
-    for (let code of teamAccess) {
-      if (teamCode.toUpperCase() === code.accessCode) {
-        dispatch({ 
-          type: 'JOIN_TEAM', 
-          payload: code.ID
-        });
-        // console.log('what is the code', code);
+    
+    if (teamCode) {
+      dispatch({ 
+        type: 'JOIN_TEAM', 
+        payload: teamCode.toUpperCase()
+      });
       history.push('/team');
-      }
+    } else {
+      dispatch({ type: 'ACCESS_CODE_INPUT_ERROR' })
     }
-  }
+  } 
 
   return (
     <>
@@ -37,6 +35,11 @@ function CreateTeam() {
     </div>
     <form onSubmit={joinTeam}>
       <h2>Join Team</h2>
+      {errors.joinTeamMessage && (
+        <h3 className="alert" role="alert">
+          {errors.joinTeamMessage}
+        </h3>
+      )}
       <label for="teamCodeInput">Enter Team Code from Captain</label>
       <input 
         type="text" 

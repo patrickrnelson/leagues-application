@@ -16,17 +16,6 @@ function* fetchTeams() {
   }
 }
 
-function* fetchTeamAccessCodes() {
-  try {
-    let teamAccess = yield axios.get(`/api/team/access`);
-    // console.log('get teams access codes', teamAccess.data);
-    yield put({ type: 'SET_ACCESS_CODES', payload: teamAccess.data });
-  }
-  catch (error) {
-    console.log('Error getting access codes', error);
-  }
-}
-
 function* createTeam(action) {
   console.log('postNewTeam', action.payload);
   try {
@@ -40,46 +29,40 @@ function* createTeam(action) {
 }
 
 
-function* getLeagueViewInfo() {
+// function* getLeagueViewInfo() {
 
-  try{
-    let leagueInfo = yield axios.get(`/api/league`)
-    console.log('Get League info', leagueInfo.data);
-    yield put ({type: 'FETCH_LEAGUE_INFO', payload: leagueInfo.data});
-  }
-  catch (error) {
-    console.log('Error getting the league info', error)
-  }
-}
+//   try{
+//     let leagueInfo = yield axios.get(`/api/league`)
+//     console.log('Get League info', leagueInfo.data);
+//     yield put ({type: 'FETCH_LEAGUE_INFO', payload: leagueInfo.data});
+//   }
+//   catch (error) {
+//     console.log('Error getting the league info', error)
+//   }
+// }
 
 function* joinTeam(action) {
-  console.log('join team', action.payload);
   try{
+    yield put({ type: 'CLEAR_JOIN_ERROR' });
+    
     yield axios.post(`/api/team/join/${action.payload}`);
 
     yield put({ type: 'FETCH_TEAMS'})
   }
   catch (error) {
     console.log('Error joining team', error)
+    if (error.response.status === 404) {
+      // The 404 is the error status sent from router
+      // if the access code does not match
+      yield put({ type: 'ACCESS_CODE_INVALID' });
+    }
   }
 }
 
-// function* fetchTeams(action) {
-//   console.log('getting teams', action.payload);
-//   try {
-//     const leagueTeams = yield axios.get(`/api/team/leagueTeam/${action.payload}`);
-//     yield put({type: 'SET_LEAGUE_TEAMS', payload: leagueTeams.data })
-//   } catch (error) {
-//     console.log('error in getting teams', error);
-//   }
-// }
-
 function* teamsSaga() {
   yield takeLatest('FETCH_TEAMS', fetchTeams);
-  yield takeLatest('FETCH_TEAM_ACCESS', fetchTeamAccessCodes);
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);
-  // yield takeLatest('FETCH_LEAGUE_TEAMS', fetchTeams);
 }
 
 export default teamsSaga;
