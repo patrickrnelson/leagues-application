@@ -76,6 +76,7 @@ function HomePage() {
     // and today's date is more than a week after the league start, then they can't join the league. 
     if (conditionalData[0].leagueName !== currentLeague && today.isAfter(start + week)) {
       // console.log('No League');
+
       return <NoLeague />;
     }
     // If user is not on a team display the JoinCreateTeam page

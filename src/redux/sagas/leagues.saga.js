@@ -20,21 +20,24 @@ function* createNewLeagues(action) {
     yield put({type: 'FETCH_LEAGUES'})
   }
   catch(error) {
-    console.log('Error in POST createNewleagues Saga', error);
+    console.log('Error in POST createNewLeagues Saga', error);
   }
 }
 
 function* updateLeagues(action) {
+
   // console.log('updateLeagues Saga', action.payload);
   try {
     yield axios.put(`/api/league/saveEdits`, action.payload)
     yield put({
       type: 'FETCH_LEAGUES'
     })
+
   }
   catch (error) {
     console.log('Error in PUT Saga updateLeagues', error);
   }
+
 }
 
 function* DeleteLeague(action) {
@@ -44,10 +47,12 @@ function* DeleteLeague(action) {
     yield put ({
       type: 'FETCH_LEAGUES'
     })
+
   }
   catch (error) {
     console.log('Saga Delete error in deleting a League', error);
   }
+
 }
 
 function* leaguesSaga() {

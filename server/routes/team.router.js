@@ -52,6 +52,19 @@ router.get('/access/:id', rejectUnauthenticated, (req, res) => {
   });
 });
 
+router.get('/access/:id', rejectUnauthenticated, (req, res) => {
+  let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
+  console.log('access code in router', req.params.id);
+  pool.query(queryText, [req.params.id])
+  .then((result) => {
+    res.send(result.rows);
+  })
+  .catch(err => {
+    console.log('error getting team access code', err);
+    res.sendStatus(500)
+  })
+})
+
 router.post('/', rejectUnauthenticated, async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();

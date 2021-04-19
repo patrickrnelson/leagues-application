@@ -26,6 +26,7 @@ function TeamPage() {
   const [showAccessCode, setShowAccessCode] = useState(false);
 
   const toggleAccessCode = () => {
+
     dispatch({ 
       type: 'FETCH_ACCESS_CODE', 
       payload: conditionalData[0].teamId

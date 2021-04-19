@@ -39,6 +39,7 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
     })
 });
 
+
 router.post('/join', rejectUnauthenticated, (req, res) => {
   // console.log('what is my team id', req.body.teamId);
   // console.log('what is my league id', req.body.leagueId);
@@ -57,9 +58,10 @@ router.post('/join', rejectUnauthenticated, (req, res) => {
     })
 });
 
+
 router.post('/', (req, res) => {
   const newLeague = req.body;
-  // console.log('new league', newLeague);
+  console.log('new league', newLeague);
   let queryText = `
     INSERT INTO "leagues" ( "name", "start", "end")
     VALUES ($1, $2, $3);
@@ -72,10 +74,12 @@ router.post('/', (req, res) => {
     console.log('error in post', err);
     res.sendStatus(500);
   });
+
 });
 
 router.put('/saveEdits', (req, res) => {
   // console.log('req.body saveEdits in League.router', req.body);
+
 
   let queryText = `
     UPDATE "leagues"
@@ -90,11 +94,10 @@ router.put('/saveEdits', (req, res) => {
   .catch((err) => {
     console.log('Error Editing a League, in League.router', err);
     res.sendStatus(500);
-  });
-});
 
 router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   // console.log('req.params deleteLeague in League.router', deleteLeague );
+
 
   const deleteQuery = `DELETE FROM "leagues" WHERE "id" = $1;`
 
@@ -108,5 +111,6 @@ router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
     res.sendStatus(500);
   });
 });
+
 
 module.exports = router;
