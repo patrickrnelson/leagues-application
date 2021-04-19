@@ -9,21 +9,22 @@ function JoinLeague(props) {
   const user = useSelector(store => store.user);
   const [teamId, setTeamId] = useState('');
   
-  console.log('leagueData from props', props.leagueData);
-  console.log('league id', props.leagueData.id);
-  console.log('team id', teamId);
+  // console.log('leagueData from props', props.leagueData);
+  // console.log('league id', props.leagueData.id);
+  // console.log('team id', teamId);
 
   useEffect(() => {
     findTeamId();
   }, [])
 
   const findTeamId = () => {
-    for(let climber of teamData) {
-      if (climber.userId === user.id) {
-        setTeamId(climber.teamId)
+    for(let team of teamData) {
+      if (team.userId === user.id) {
+        setTeamId(team.teamId)
       }
     }
   }
+
   const joinLeague = () => {
     dispatch({
       type: 'JOIN_LEAGUE',

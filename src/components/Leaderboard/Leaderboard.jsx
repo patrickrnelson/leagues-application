@@ -20,7 +20,6 @@ function Leaderboard() {
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
 
-
   const weeks = ['Week 1', 'Week 2', , 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7']
 
   let teamsInLeague = [];
@@ -46,27 +45,24 @@ function Leaderboard() {
     let teamScore = 0
     for(let climber of teams) {
       if (team.teamId === climber.teamId) {
-        teamScore += climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs)
+        teamScore += climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs).totalScore
       }
     }
     teamsInLeague.push({teamName: team.teamName, teamId: team.teamId, teamScore: teamScore})
   }
 }
 
-  console.log('teamsInLeague', teamsInLeague)
+  // console.log('teamsInLeague', teamsInLeague)
 
   teamsInLeague.sort((a, b) => {
     return b.teamScore - a.teamScore;
   })
 
-  console.log('teamsInLeague', teamsInLeague)
-
-
   return (
     <div className="container">
       <Header />
-      <h2>Leaderboard</h2>
-      <h3>{currentLeague}</h3>
+      <h2 className="pageTitle">League Leaderboard</h2>
+      <h3 className="leagueName">{currentLeague}</h3>
       {/* <h4>{currentWeek == '--Total--' ? '' : currentWeek}</h4> */}
       <select onChange={(event) => setCurrentWeek(event.target.value)}> 
         <option>--Total--</option>

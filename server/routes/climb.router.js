@@ -29,8 +29,8 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  * POST route template
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
-  console.log('req.body', req.body);
-  console.log('req.user', req.user);
+  // console.log('req.body', req.body);
+  // console.log('req.user', req.user);
   let location = req.body.location;
   let color = req.body.color;
   let difficulty = req.body.difficulty;
@@ -45,9 +45,49 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     res.sendStatus(201)
   })
   .catch((err) => {
-    console.log('Error in new climb POST');
+    console.log('Error in new climb POST', err);
     res.sendStatus(500)
   })
 });
+
+/**
+ * PUT ROUTES
+ */
+
+router.put('/unsubmit', rejectUnauthenticated, (req, res) => {
+  let climbId = req.body.climbId
+  queryText = `
+    UPDATE "climbs"
+    SET "isSubmitted" = FALSE
+    WHERE id = $1; 
+  `
+  pool.query(queryText, [climbId])
+  .then((results) => {
+    res.sendStatus(202);
+  })
+  .catch((err) => {
+    console.log('Error in PUT - unsubmit climb');
+    res.sendStatus(500);
+  })
+});
+
+router.put('/submit', rejectUnauthenticated, (req, res) => {
+  let climbId = req.body.climbId
+  queryText = `
+    UPDATE "climbs"
+    SET "isSubmitted" = TRUE
+    WHERE id = $1; 
+  `
+  pool.query(queryText, [climbId])
+  .then((results) => {
+    res.sendStatus(202);
+  })
+  .catch((err) => {
+    console.log('Error in PUT - submit climb');
+    res.sendStatus(500);
+  })
+});
+
+
 
 module.exports = router;

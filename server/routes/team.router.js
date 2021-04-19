@@ -23,11 +23,11 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     .catch(err => {
       console.log('Error in Team GET', err);
       res.sendStatus(500)
-    })
+    });
 });
 
 router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
-  console.log('test1', req.body);
+  // console.log('test1', req.body);
   let queryText = `SELECT * FROM teams WHERE "teams"."leagueId" = $1`;
   pool.query(queryText, [req.params.id])
   .then((result) => {
@@ -36,8 +36,21 @@ router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
   .catch(err => {
     console.log('error getting teams', err);
     res.sendStatus(500)
+  });
+});
+
+router.get('/access/:id', rejectUnauthenticated, (req, res) => {
+  let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
+  // console.log('access code in router', req.params.id);
+  pool.query(queryText, [req.params.id])
+  .then((result) => {
+    res.send(result.rows);
   })
-})
+  .catch(err => {
+    console.log('error getting team access code', err);
+    res.sendStatus(500)
+  });
+});
 
 router.post('/', rejectUnauthenticated, async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
@@ -66,7 +79,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
   }
   finally {
     connection.release()
-  }
+  };
 });
 
 router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
@@ -89,21 +102,12 @@ router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
       await connection.query(`COMMIT`);
       res.send(200)
     }
-    // check if access code matches, else send back 404
-    // then client (saga) check status code
-    // then render message to user
-    /* await connection.query(`
-      INSERT INTO "usersTeams" ("userId", "teamId")
-      VALUES ($1, $2)
-    `[req.user.id, dbRes.rows[0].id]);
-    await connection.query(`COMMIT`);
-    res.send(200) */
   }
   catch (err) {
     console.log('Error in joining team', err)
     await connection.query(`ROLLBACK`);
     res.sendStatus(500)
-  }
-})
+  };
+});
 
 module.exports = router;

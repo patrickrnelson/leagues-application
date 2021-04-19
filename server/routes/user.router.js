@@ -32,8 +32,8 @@ router.get('/conditional', rejectUnauthenticated, (req, res) => {
     .catch((err) => {
       console.log('error getting conditional data', err);
       res.sendStatus(500);
-    })
-})
+    });
+});
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
@@ -89,7 +89,7 @@ router.put('/', rejectUnauthenticated, (req, res) => {
     .catch((err) => {
       console.log('Error in user PUT', err);
       res.sendStatus(500);
-    })
-})
+    });
+});
 
 module.exports = router;

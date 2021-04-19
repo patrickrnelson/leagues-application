@@ -5,40 +5,57 @@ import Button from '@material-ui/core/Button';
 import './AdminCreate.css';
 import { Grid } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import moment from 'moment';
+
 
 
 function AdminLeagues() {
 
  const dispatch = useDispatch();
+ const history = useHistory();
 
   const leaguesInfo = useSelector ((store) => store.leaguesReducer);
 
-  console.log('leaguesInfo', leaguesInfo);
+  // console.log('leaguesInfo', leaguesInfo);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'FETCH_LEAGUES'
+  //   })
+  // },[]);
+
+
+  function createNewLeague() {
     dispatch({
-      type: 'FETCH_LEAGUES'
+      type: 'CREATE_NEW_LEAGUE'
     })
-  },[]);
+  }
 
+//  /admin/leagues
 
-  function handleEdit() {
-    
+  function handleEdit(leagueId) {
+    // dispatch({
+    //   type: 'EDIT_RESULTS'
+    // })
+
+    history.push(`/admin/leagues/edit/${leagueId}`)
+
 
   }
 
 
-  function handleDelete() {
-
+  function handleDelete(leagueId) {
+    dispatch({
+      type: 'DELETE_LEAGUE',
+      payload: leagueId
+    })
 
   }
 
 
 
   return (
-
-    // iLeagues stands for individual leagues 
 
     <Grid
       container
@@ -68,7 +85,7 @@ function AdminLeagues() {
       justify="center"
       alignItems="center"
       >
-      <Button variant="outlined" color="primary">
+      <Button variant="outlined" color="primary" onClick={createNewLeague} >
             Create a League
           </Button>
       </Grid>
@@ -99,6 +116,7 @@ function AdminLeagues() {
         </Grid>
       </Grid>
 
+      {/* iLeagues stands for individual leagues */}
       {leaguesInfo.map((iLeagues) => {
         return(
         <Grid 
@@ -111,7 +129,6 @@ function AdminLeagues() {
         alignItems="center"
         >
 
-
         <Grid item xs={2} key={iLeagues.name} >
           {/* Season League */}
           <h3>{iLeagues.name}</h3>
@@ -119,12 +136,12 @@ function AdminLeagues() {
 
         <Grid item xs={2} key={iLeagues.start} >
           {/* Start Date */}
-          <p>{iLeagues.start}</p>
+          <p>{moment(iLeagues.start).format('MM-DD-YYYY')}</p>
         </Grid>
 
         <Grid item xs={2} key={iLeagues.end} >
           {/* End Date */}
-          <p>{iLeagues.end}</p>
+          <p>{moment(iLeagues.end).format('MM-DD-YYYY')}</p>
         </Grid>
 
         <Grid item xs={2} >
@@ -135,13 +152,13 @@ function AdminLeagues() {
 
 
         <Grid item={2}>
-          <Button variant="outlined" color="primary" onClick={handleEdit} >
+          <Button variant="outlined" color="primary" onClick={(event) => handleEdit(iLeagues.id)} >
               Edit
           </Button>
         </Grid>
 
         <Grid item={2}>
-          <Button variant="outlined" color="secondary" onClick={handleDelete} >
+          <Button variant="outlined" color="secondary" onClick= {(event) => handleDelete(iLeagues.id)} >
               Delete
           </Button>
         </Grid>
@@ -153,11 +170,7 @@ function AdminLeagues() {
 
     </Grid>
 
-  
-    
   );
-
-
 
 }
 

@@ -23,7 +23,7 @@ function AddClimb() {
 
   const handleAddClimb = () => {
     if(color !== '' && location !== '' && difficulty !== '' && attempts !== 0) {
-      console.log(color, location, Number(difficulty.substring(1)), attempts);
+      // console.log(color, location, Number(difficulty.substring(1)), attempts);
       dispatch ({
         type: 'ADD_NEW_CLIMB',
         payload: {

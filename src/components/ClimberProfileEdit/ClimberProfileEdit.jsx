@@ -53,7 +53,7 @@ function ClimberProfileEdit() {
       {/* Email Input */}
       <label for="emailEditInput">Email:</label>
       <input 
-        type="text" 
+        type="email" 
         id="emailEditInput" 
         required
         value={email}
