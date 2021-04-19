@@ -27,21 +27,12 @@ function AdminLeagues() {
 
 
   function createNewLeague() {
-    dispatch({
-      type: 'CREATE_NEW_LEAGUE'
-    })
+   history.push(`/admin/leagues/new`)
   }
 
-//  /admin/leagues
 
   function handleEdit(leagueId) {
-    // dispatch({
-    //   type: 'EDIT_RESULTS'
-    // })
-
     history.push(`/admin/leagues/edit/${leagueId}`)
-
-
   }
 
 

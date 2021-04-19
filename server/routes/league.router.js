@@ -5,7 +5,7 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
-/**
+/*
  * GET leagues
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
@@ -42,7 +42,7 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
     })
 });
 
-/**
+/*
  * POST route template
  */
 router.post('/', (req, res) => {

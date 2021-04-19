@@ -20,7 +20,7 @@ function* createNewLeagues(action) {
     yield put({type: 'FETCH_LEAGUES'})
   }
   catch(error) {
-    console.log('Error in POST createNewleagues Saga', error);
+    console.log('Error in POST createNewLeagues Saga', error);
   }
 }
 

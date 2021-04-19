@@ -5,9 +5,10 @@ import './AdminCreate.css';
 import { Grid } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import { useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 function AdminCreate() {
-
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const [leagueName, setLeagueName] = useState('')
@@ -20,6 +21,7 @@ function handleSubmit() {
     type: 'CREATE_NEW_LEAGUE',
     payload: { leagueName, startDate, endDate }
   })
+    history.push(`/admin/leagues`)
 }
 
 
@@ -45,7 +47,7 @@ function handleSubmit() {
           <h1>Create a League</h1>
         </Grid>
       </Grid>
-      {/* <input className="adminCreate" placeholder="League Name"></input> */}
+      
       <Grid
         container
         item
