@@ -74,7 +74,6 @@ function ClimbingSession() {
 
   const handleCheckBoxChange = (climbId, isSubmitted, climberId, event) => {
     if (isSubmitted) {
-      console.log('change to unsubmitted', climbId)
       dispatch({
         type: 'UNSUBMIT_CLIMB',
         payload: {climbId: climbId}
@@ -94,15 +93,10 @@ function ClimbingSession() {
       }
     } else {
       if (climberId === teammates[0].userId) {
-        console.log('climb one step 1')
         if (climbsSubmittedReducer.climberOneClimbCount < climbsSubmittedReducer.limit){
-          console.log('climb one step 2')
-
           if (climbsSubmittedReducer.climberOneClimbCount === (climbsSubmittedReducer.limit - 1) && (climbsSubmittedReducer.climberTwoClimbCount === climbsSubmittedReducer.limit || climbsSubmittedReducer.climberThreeClimbCount === climbsSubmittedReducer.limit)) {
-            console.log('climb one step 3')
             event.preventDefault();
           } else {
-            console.log('change to submitted')
             dispatch({
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
@@ -115,14 +109,10 @@ function ClimbingSession() {
           event.preventDefault();
         }
       } else if (climberId === teammates[1].userId) {
-        console.log('climb two step 1')
         if (climbsSubmittedReducer.climberTwoClimbCount < climbsSubmittedReducer.limit){
-          console.log('climb two step 2')
           if (climbsSubmittedReducer.climberTwoClimbCount === (climbsSubmittedReducer.limit - 1) && (climbsSubmittedReducer.climberOneClimbCount === climbsSubmittedReducer.limit || climbsSubmittedReducer.climberThreeClimbCount === climbsSubmittedReducer.limit)) {
-            console.log('climb two step 3')
             event.preventDefault();
           } else {
-            console.log('change to submitted')
             dispatch({
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
@@ -135,14 +125,10 @@ function ClimbingSession() {
           event.preventDefault();
         }
       } else if (climberId === teammates[2].userId) {
-        console.log('climb three step 1')
         if (climbsSubmittedReducer.climberThreeClimbCount < climbsSubmittedReducer.limit){
-          console.log('climb three step 2')
           if (climbsSubmittedReducer.climberThreeClimbCount === (climbsSubmittedReducer.limit -  1) && (climbsSubmittedReducer.climberOneClimbCount === climbsSubmittedReducer.limit || climbsSubmittedReducer.climberTwoClimbCount === climbsSubmittedReducer.limit)) {
-            console.log('climb three step 3', climbsSubmittedReducer.climberThreeClimbCount)
             event.preventDefault();
           } else {
-            console.log('change to submitted')
             dispatch({
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
