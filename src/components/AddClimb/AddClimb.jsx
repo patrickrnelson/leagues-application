@@ -17,6 +17,7 @@ function AddClimb() {
   const teams = useSelector(store => store.teams);
   
   const [climber, setClimber] = useState(user.name)
+  const [climberId, setClimberId] = useState(user.id)
   const [color, setColor] = useState('')
   const [location, setLocation] = useState('')
   const [difficulty, setDifficulty] = useState('')
@@ -32,7 +33,7 @@ function AddClimb() {
       dispatch ({
         type: 'ADD_NEW_CLIMB',
         payload: {
-          climber: climber,
+          climberId: climberId,
           color: color,
           location: location,
           difficulty: difficulty.substring(1), // Removes the 'V' so we send only a number to the DB
@@ -49,6 +50,19 @@ function AddClimb() {
     }
   }
 
+  // Used to find climberID since we can't pass it in the 'select' onChange
+  // This will set both the climber and climberId state when the climber 'select' is changed
+  const findClimberId = (event) => {
+    setClimber(event.target.value)
+    for(let team of teams) {
+      if(team.captainId === user.id) {
+        if(team.username === event.target.value) {
+          setClimberId(team.userId)
+        }
+      }
+    }
+  }
+
   return (
     <div className="container">
       <Header />
@@ -57,7 +71,7 @@ function AddClimb() {
 
       {/* Captain Only - Select Climber */}
       <h4>Climber:</h4>
-      <select value={climber} onChange={(event) => setClimber(event.target.value)}>
+      <select value={climber} onChange={(event) => findClimberId(event)}>
       {teams.map((team) => (
         user.id === team.captainId ?
           <option>
