@@ -10,6 +10,8 @@ function ClimberPage() {
   const history = useHistory();
 
   const climberTeams = useSelector(store => store.teams);
+  const conditionalData = useSelector(store => store.conditional);
+  const user = useSelector(store => store.user)
   const climbs = useSelector(store => store.climbs)
   const leagues = useSelector(store => store.leaguesReducer);
   let { id } = useParams()
@@ -51,7 +53,11 @@ function ClimberPage() {
       <Header />
       <h2>{climber}</h2>
       <button>{climber}'s Info</button>
-      <table>
+      {user.id === conditionalData[0].captainId && climber !== user.name ?
+        <button>Remove Climber from team</button> 
+      : <> </> 
+      }
+        <table>
         <thead>
           <tr> 
             <td>Total Score </td>
@@ -71,6 +77,7 @@ function ClimberPage() {
         </tbody>
       </table>
       <button onClick={() => history.push('/team')}>Back toTeam </button>
+        
     </div>
   );
 }
