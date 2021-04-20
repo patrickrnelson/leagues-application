@@ -27,6 +27,7 @@ function ClimbingSession() {
   let climberTwoCount = 0;
   let climberThreeCount = 0;
 
+
   const climbLimit = 4;
 
   useEffect(() => {
@@ -149,7 +150,6 @@ function ClimbingSession() {
     }
   }
 
-
     for(let climb of currentClimbs) {
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
         climberOneCount += 1
@@ -160,6 +160,8 @@ function ClimbingSession() {
       }
     }
 
+    let amountOfClimbs = climberOneCount + climberTwoCount + climberThreeCount;
+
   return (
     <div className="container">
       <Header />
@@ -169,6 +171,7 @@ function ClimbingSession() {
       <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
       <button onClick={() => history.push('/climb/add')}>Add a Climb</button>
       <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber</p>
+      <p>Climbs submitted: {amountOfClimbs}</p>
       {user.id === conditionalData[0].captainId ? 
       teammates.map((mate) => (
         <>
