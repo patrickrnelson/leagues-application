@@ -40,6 +40,9 @@ const useStyles = makeStyles({
   icon: {
     color: '#ffffff',
   },
+  logout: {
+    color: 'red'
+  },
   hamburger: {
     color: '#ffffff',
     paddingTop: 0.1,
@@ -74,7 +77,7 @@ function Header () {
         onClick={toggleDrawer}
         onKeyDown={toggleDrawer}
         role="presentation">
-        {/* <ListItem item xs={6} style={{alignItems: "right"}}>
+        {/* <ListItem >
           <IconButton onClick={toggleDrawer}>
             <CloseIcon className={classes.close} />
           </IconButton>
@@ -105,9 +108,9 @@ function Header () {
         </ListItem>
       </List>
       <Divider />
-      <List className={classes.list}>
+      <List className={classes.logout}>
         <ListItem onClick={() => dispatch({ type: 'LOGOUT' })}>
-          <ListItemIcon className={classes.icon}>{<ExitToAppIcon />}</ListItemIcon>
+          <ListItemIcon className={classes.logout}>{<ExitToAppIcon />}</ListItemIcon>
           <ListItemText>Logout</ListItemText>
         </ListItem>
       </List>
