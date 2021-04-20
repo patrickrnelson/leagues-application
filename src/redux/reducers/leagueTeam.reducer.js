@@ -1,10 +1,10 @@
 const initialState = [
   {
-    accessCode: "",
-    captainId: 0,
-    id: 0,
-    leagueId: 0,
-    name: ""
+    accessCode: "Testing",
+    captainId: 1,
+    id: 1,
+    leagueId: 1,
+    name: "Jose"
   }
 ]
 
