@@ -23,15 +23,14 @@ function ClimbingSession() {
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
 
-  const [climberOneCount, setClimberOneCount] = useState(0);
-  const [climberTwoCount, setClimberTwoCount] = useState(0);
-  const [climberThreeCount, setClimberThreeCount] = useState(0);
+  let climberOneCount = 0;
+  let climberTwoCount = 0;
+  let climberThreeCount = 0;
 
   const climbLimit = 4;
 
   useEffect(() => {
     getCurrentLeague();
-    getCheckedClimbs();
   }, [])
 
 
@@ -79,6 +78,7 @@ function ClimbingSession() {
     }
   }
 
+
   const handleCheckBoxChange = (climbId, isSubmitted, climberId, event) => {
     if (isSubmitted) {
       dispatch({
@@ -86,11 +86,11 @@ function ClimbingSession() {
         payload: {climbId: climbId}
       })
       if(climberId === teammates[0].userId) {
-        setClimberOneCount(climberOneCount - 1);
+        climberOneCount -= 1;
       } else if (climberId === teammates[1].userId) {
-        setClimberTwoCount(climberTwoCount - 1);
+        climberTwoCount -= 1;
       } else if (climberId === teammates[2].userId) {
-        setClimberThreeCount(climberThreeCount - 1);
+        climberThreeCount -= 1;
       }
     } else {
       if (climberId === teammates[0].userId) {
@@ -102,7 +102,7 @@ function ClimbingSession() {
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
             })
-            setClimberOneCount(climberOneCount + 1);
+            climberOneCount += 1;
           }
         } else {
           event.preventDefault();
@@ -116,7 +116,7 @@ function ClimbingSession() {
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
             })
-            setClimberTwoCount(climberTwoCount + 1);
+            climberTwoCount += 1;
           }
         } else {
           event.preventDefault();
@@ -130,7 +130,7 @@ function ClimbingSession() {
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
             })
-            setClimberThreeCount(climberThreeCount + 1);
+            climberThreeCount += 1;
           }
         } else {
           event.preventDefault();
@@ -149,36 +149,21 @@ function ClimbingSession() {
     }
   }
 
-  const getCheckedClimbs = () => {
-    let climberOne = 0;
-    let climberTwo = 0;
-    let climberThree = 0;
+
     for(let climb of currentClimbs) {
-      console.log('genereal if statement', climb.userId === teammates[0].userId && climb.isSubmitted)
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
-        climberOne += 1
-        console.log('climberOneCount if statement', climb.userId, teammates[0].userId, climb.isSubmitted)
+        climberOneCount += 1
       } else if(climb.userId === teammates[1].userId && climb.isSubmitted) {
-        climberTwo += 1
-        console.log('climberTwoCount if statement', climb.userId, teammates[1].userId, climb.isSubmitted)
+        climberTwoCount += 1
       } else if (climb.userId === teammates[2].userId && climb.isSubmitted) {
-        climberThree += 1
-        console.log('climberThreeCount if statement', climb.userId, teammates[2].userId, climb.isSubmitted)
+        climberThreeCount += 1
       }
     }
-    setClimberOneCount(climberOne);
-    setClimberTwoCount(climberTwo);
-    setClimberThreeCount(climberThree);
-  }
-
-  
 
   return (
     <div className="container">
       <Header />
       <h2>Week {weekCalc} Climbing Session</h2>
-      <p>climberOneCounts{climberOneCount}</p>
-      <p>climberTwoCounts{climberTwoCount}</p>
       {/* IF it's the first week (weekCalc = 0) display 'Determined by this week's submissions
           ELSE Display the handicap from our big function */}
       <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
