@@ -29,10 +29,11 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  * POST route template
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
-  // console.log('req.body', req.body);
+  console.log('req.body', req.body);
   // console.log('req.user', req.user);
   let location = req.body.location;
   let color = req.body.color;
+  let climberId = req.body.climberId;
   let difficulty = req.body.difficulty;
   let attempts = req.body.attempts;
 
@@ -40,7 +41,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     INSERT INTO "climbs" ("locationId", "color", "level", "attempts", "userId")
     VALUES ((SELECT "locations"."id" FROM "locations" WHERE "locations"."name" = $1), $2, $3, $4, $5);
   `
-  pool.query(queryText, [location, color, difficulty, attempts, req.user.id])
+  pool.query(queryText, [location, color, difficulty, attempts, climberId])
   .then(() => {
     res.sendStatus(201)
   })

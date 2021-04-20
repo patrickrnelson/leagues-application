@@ -1,5 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import Nav from '../Nav/Nav'
+
 import { Grid, makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -13,11 +16,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
-
-
-
-
+import { climberWeekCalc } from '../../scripts/climberWeekCalc';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -29,52 +31,128 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function adminTotal(week, score) {
-  return { week, score};
-}
+// function adminTotal(week, score) {
+//   return { week, score };
+// }
 
-const weeks = [
-  adminTotal(1, 2, 3, 4, 5, 6, 7)
-];
+// const weeks = [adminTotal(1, 2, 3, 4, 5, 6, 7)];
 
-function createData(climber, color, location, difficulty, score, attempts, date) {
-  return { climber, color, location, difficulty, score, attempts, date};
-}
+// function createData(
+//   climber,
+//   color,
+//   location,
+//   difficulty,
+//   score,
+//   attempts,
+//   date
+// ) {
+//   return { climber, color, location, difficulty, score, attempts, date };
+// }
 
-const rows = [
-  createData('Alvin', 'Red', 'Slab', 4, 3, 5, 4),
-  createData('John', 'Green', 'Overhang', 5, 6, 7, 4),
-  createData('Patrick', 'Blue', 'Left Barrel', 6, 7, 8, 4),
-  createData('Zack', 'Yellow', 'Slab', 7, 8, 9, 4),
-  createData('Johnny', 'Orange', 'Overhang', 3, 4, 1, 4),
-];
+// const rows = [
+//   createData('Alvin', 'Red', 'Slab', 4, 3, 5, 4),
+//   createData('John', 'Green', 'Overhang', 5, 6, 7, 4),
+//   createData('Patrick', 'Blue', 'Left Barrel', 6, 7, 8, 4),
+//   createData('Zack', 'Yellow', 'Slab', 7, 8, 9, 4),
+//   createData('Johnny', 'Orange', 'Overhang', 3, 4, 1, 4),
+// ];
 
 function AdminTeams() {
+
+  const history = useHistory();
+
+  let from = new Date(selectedLeagueStart).getTime();
+  let to = new Date(selectedLeagueEnd).getTime();
+  let week = 604800000;
+  let day = 86400000;
+  let allWeeks = [selectedLeagueStart];
+  let current = 1;
+  // determine the number of weeks in the league
+  let weeks = (to - from) / day / 7;
+
+  // loop over weeks array to add each end of  week date to allWeeks array
+  for (let i = 0; i < weeks; i++) {
+    allWeeks.push(new Date((from += week)).toLocaleDateString());
+  }
+
+  // Loop to determine the index of the week so we can check if today is before the end of that week
+  let weekCalc = 0;
+  for (let i = 0; i < allWeeks.length; i++) {
+    if (moment().isSameOrBefore(allWeeks[i])) {
+      weekCalc = i;
+      break;
+    }
+  }
+
+  for(let week of allWeeks) {
+    console.log('weeks', week);
+  }
+
   useEffect(() => {
-    dispatch({type: 'FETCH_LEAGUE'});
+    dispatch({ type: 'FETCH_LEAGUES' });
   }, []);
+
+  const [selectedLeague, setSelectedLeague] = useState(0);
+  const [selectedTeam, setSelectedTeam] = useState(0);
+  const [selectedClimber, setSelectedClimber] = useState();
+  const [selectedLeagueStart, setSelectedLeagueStart] = useState('');
+  const [selectedLeagueEnd, setSelectedLeagueEnd] = useState('');
+  const [teamScore, setTeamScore] = useState(0);
 
   const dispatch = useDispatch();
 
-  const leagues = useSelector(store => store.leagueReducer)
-  const leagueTeams = useSelector(store => store.leagueTeamReducer)
+  const leagues = useSelector((store) => store.leaguesReducer);
+  const leagueTeams = useSelector((store) => store.leagueTeamReducer);
+  const climbers = useSelector((store) => store.teams);
+  const userClimbs = useSelector((store) => store.climbs);
 
   const classes = useStyles();
 
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = useState('');
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
-  const handleLeagueSelected = (id) => {
-    console.log('leagueTeams', leagueTeams);
-    dispatch({
-      type: 'FETCH_LEAGUE_TEAMS',
-      payload: id
-    })
-  } 
+  const handleLeagueSelected = (id, start, end) => {
+    setSelectedLeague(id);
+    setSelectedLeagueStart(start);
+    setSelectedLeagueEnd(end);
+  };
+
+  const handleTeamSelected = (id) => {
+    setSelectedTeam(id);
+    findTeamScore(id);
+  };
+
+  const handleClimberSelected = (id) => {
+    setSelectedClimber(id);
+    history.push('/admin/climbers')
+  };
+
+  const findTeamScore = (teamId) => {
+    let teamScore = 0;
+    for (let team of leagueTeams) {
+      if (team.teamId === teamId) {
+        for (let climber of climbers) {
+          if (team.teamId === climber.teamId) {
+            teamScore += Number(climberWeekCalc(
+              climber.userId,
+              selectedLeagueStart,
+              selectedLeagueEnd,
+              userClimbs
+            ).totalScore);
+          }
+        }
+      }
+    }
+    setTeamScore(teamScore);
+    console.log('Team Score', teamScore);
+  };
+
   return (
+    <>
+    <Nav />
     <Grid
       container
       item
@@ -83,32 +161,68 @@ function AdminTeams() {
       justify="space-around"
       alignItems="center"
     >
+      
       <Grid item xs={6}>
         <h1>Teams</h1>
       </Grid>
-      <Grid item xs={6}>
-          {leagueTeams.map(team => {
-            <h1 key={team.id}>{team.name}</h1>
-          })}
-        </Grid>
       <Grid>
         <FormControl className={classes.formControl}>
-          <InputLabel>Team List</InputLabel>
+          <InputLabel>League List</InputLabel>
           <Select
             labelId="teams"
             id="teamList"
             value={value}
             onChange={handleChange}
           >
-            {leagues.map(league => {
+            {leagues.map((league) => {
               return (
-                <MenuItem onClick={() => handleLeagueSelected(league.id)} value={league.id}>{league.name}</MenuItem>
-              )
+                <MenuItem
+                  onClick={() =>
+                    handleLeagueSelected(league.id, league.start, league.end)
+                  }
+                  value={league.id}
+                >
+                  {league.name}
+                </MenuItem>
+              );
             })}
-            
           </Select>
         </FormControl>
       </Grid>
+      <Grid item xs={6}>
+        {leagueTeams.map((team) => {
+          return team.leagueId === selectedLeague ? (
+            <h1
+              key={team.teamId}
+              value={team.teamId}
+              onClick={() => handleTeamSelected(team.teamId)}
+            >
+              {team.teamName}
+            </h1>
+          ) : (
+            <div></div>
+          );
+        })}
+      </Grid>
+      <div>
+        {climbers.map((climber) => {
+          return climber.teamId === selectedTeam ? (
+            <h3
+              key={climber.id}
+              value={climber.id}
+              onClick={() => handleClimberSelected(climber.userId)}
+            >
+              {climber.username}
+            </h3>
+          ) : (
+            <div></div>
+          );
+        })}
+      </div>
+      <div></div>
+
+      {selectedTeam !== 0 && selectedLeague !== 0 ? 
+      <>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -125,21 +239,31 @@ function AdminTeams() {
             </TableRow>
           </TableHead>
           <TableBody>
+            {/* 
+              Loop through the teams reducer
+              IF team.id === selectedTeamId
+              IF climber.id === climbs.userId
+              Then use that climber ID in the scores function and add up all of the scores 
+            */}
             <TableRow>
               <TableCell>Score</TableCell>
-              <TableCell>45</TableCell>
-              <TableCell>45</TableCell>
-              <TableCell>45</TableCell>
-              <TableCell>45</TableCell>
-              <TableCell>45</TableCell>
-              <TableCell>Bye</TableCell>
-              <TableCell>45</TableCell>
-              <TableCell>270</TableCell>
+              {allWeeks.map((week) => (
+                <TableCell>{week}</TableCell>
+              ))}
+              <TableCell>{teamScore}</TableCell>
+              {/*
+                    ) : (
+                      <TableCell></TableCell>
+                    )
+                  ) : (
+                    <TableCell></TableCell>
+                  )
+                )
+               )} */}
             </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
-
 
       <br></br>
 
@@ -158,24 +282,51 @@ function AdminTeams() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
+            {/* {userClimbs.map((climb) => {
+          return climb.userId === selectedClimber ? (
+            <h3 key={climb.id} value={climb.id}>
+                {climb.color} {climb.locationName} {climb.level} {climb.score} {climb.attempts} {moment(climb.climbDate).format('MM-DD-YYYY')}  
+            </h3>
+          ) : (
+            <div></div>
+          );
+        })} */}
+            {/* {climbers.map((team) => {
+          return (
+            <TableCell key={team.teamId}>{team.username}</TableCell>
+          )
+        })} */}
+
+            {userClimbs.map((climb) => (
+              <TableRow key={climb.climbId}>
                 {/* <TableCell></TableCell> */}
-                <TableCell align="right">{row.climber}</TableCell>
-                <TableCell align="right">{row.color}</TableCell>
-                <TableCell align="right">{row.location}</TableCell>
-                <TableCell align="right">{row.difficulty}</TableCell>
-                <TableCell align="right">{row.score}</TableCell>
-                <TableCell align="right">{row.attempts}</TableCell>
-                <TableCell align="right">{row.date}</TableCell>
+                <TableCell align="right">{climb.userName}</TableCell>
+                <TableCell align="right">{climb.color}</TableCell>
+                <TableCell align="right">{climb.locationName}</TableCell>
+                <TableCell align="right">V{climb.level}</TableCell>
+                <TableCell align="right">
+                  {
+                    climberWeekCalc(
+                      climb.userId,
+                      selectedLeagueStart,
+                      selectedLeagueEnd,
+                      userClimbs
+                    ).totalScore
+                  }
+                </TableCell>
+                <TableCell align="right">{climb.attempts}</TableCell>
+                <TableCell align="right">
+                  {moment(climb.climbDate).format('MM-DD-YYYY')}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-
-      
+      </>
+      : <div></div>}
     </Grid>
+    </>
   );
 }
 
