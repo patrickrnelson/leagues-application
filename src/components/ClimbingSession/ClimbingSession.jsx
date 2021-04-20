@@ -24,6 +24,12 @@ function ClimbingSession() {
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
 
+  const [climberOneCount, setClimberOneCount] = useState(0);
+  const [climberTwoCount, setClimberTwoCount] = useState(0);
+  const [climberThreeCount, setClimberThreeCount] = useState(0);
+
+  const climbLimit = 4;
+
   useEffect(() => {
     getCurrentLeague();
     // defineTeammateIds();
@@ -79,63 +85,51 @@ function ClimbingSession() {
         payload: {climbId: climbId}
       })
       if(climberId === teammates[0].userId) {
-        dispatch({
-          type: 'DECREASE_CLIMBER_ONE_COUNT'
-        })
+        setClimberOneCount(climberOneCount - 1);
       } else if (climberId === teammates[1].userId) {
-        dispatch({
-          type: 'DECREASE_CLIMBER_TWO__COUNT'
-        })
+        setClimberTwoCount(climberTwoCount - 1);
       } else if (climberId === teammates[2].userId) {
-        dispatch({
-          type: 'DECREASE_CLIMBER_THREE_COUNT'
-        })
+        setClimberThreeCount(climberThreeCount - 1);
       }
     } else {
       if (climberId === teammates[0].userId) {
-        if (climbsSubmittedReducer.climberOneClimbCount < climbsSubmittedReducer.limit){
-          if (climbsSubmittedReducer.climberOneClimbCount === (climbsSubmittedReducer.limit - 1) && (climbsSubmittedReducer.climberTwoClimbCount === climbsSubmittedReducer.limit || climbsSubmittedReducer.climberThreeClimbCount === climbsSubmittedReducer.limit)) {
+        if (climberOneCount < climbLimit){
+          if (climberOneCount === (climbLimit - 1) && (climberTwoCount === climbLimit || climberThreeCount === climbLimit)) {
             event.preventDefault();
           } else {
             dispatch({
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
             })
-            dispatch({
-              type: 'INCREASE_CLIMBER_ONE_COUNT'
-            })
+            setClimberOneCount(climberOneCount + 1);
           }
         } else {
           event.preventDefault();
         }
       } else if (climberId === teammates[1].userId) {
-        if (climbsSubmittedReducer.climberTwoClimbCount < climbsSubmittedReducer.limit){
-          if (climbsSubmittedReducer.climberTwoClimbCount === (climbsSubmittedReducer.limit - 1) && (climbsSubmittedReducer.climberOneClimbCount === climbsSubmittedReducer.limit || climbsSubmittedReducer.climberThreeClimbCount === climbsSubmittedReducer.limit)) {
+        if (climberTwoCount < climbLimit){
+          if (climberTwoCount === (climbLimit - 1) && (climberOneCount === climbLimit || climberThreeCount === climbLimit)) {
             event.preventDefault();
           } else {
             dispatch({
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
             })
-            dispatch({
-              type: 'INCREASE_CLIMBER_TWO_COUNT'
-            })
+            setClimberTwoCount(climberTwoCount + 1);
           }
         } else {
           event.preventDefault();
         }
       } else if (climberId === teammates[2].userId) {
-        if (climbsSubmittedReducer.climberThreeClimbCount < climbsSubmittedReducer.limit){
-          if (climbsSubmittedReducer.climberThreeClimbCount === (climbsSubmittedReducer.limit -  1) && (climbsSubmittedReducer.climberOneClimbCount === climbsSubmittedReducer.limit || climbsSubmittedReducer.climberTwoClimbCount === climbsSubmittedReducer.limit)) {
+        if (climberThreeCount < climbLimit){
+          if (climberThreeCount === (climbLimit -  1) && (climberOneCount === climbLimit || climberTwoCount === climbLimit)) {
             event.preventDefault();
           } else {
             dispatch({
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
             })
-            dispatch({
-              type: 'INCREASE_CLIMBER_THREE_COUNT'
-            })
+            setClimberThreeCount(climberThreeCount + 1);
           }
         } else {
           event.preventDefault();
