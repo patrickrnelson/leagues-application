@@ -167,7 +167,7 @@ function AdminTeams() {
       </Grid>
       <Grid>
         <FormControl className={classes.formControl}>
-          <InputLabel>League List</InputLabel>
+          <InputLabel>Select a League</InputLabel>
           <Select
             labelId="teams"
             id="teamList"
