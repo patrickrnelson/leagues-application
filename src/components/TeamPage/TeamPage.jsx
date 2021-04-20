@@ -67,11 +67,6 @@ function TeamPage() {
       <>
       <h2 className="teamName">{userTeam}</h2>
       <h3 className="leagueName">{currentLeague}</h3>
-      <select>
-        <option>Week 1</option>
-        <option>Week 2</option>
-        <option>Week 3</option>
-      </select>
       <table className="teamTable">
         <thead>
           <tr>
