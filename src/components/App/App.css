@@ -58,7 +58,7 @@ Button
   border-color: #014041;
   border-width: 1px 1px 3px;
   border-radius: 4px;
-  background-color: #ffa600;
+  background-color: #e66b06;
 ;
   color: #f8f8f8;
   font-size: 1.1rem;
@@ -82,7 +82,7 @@ Button
 }
 
 .btn:hover {
-  background-color: #ff8c00;
+  background-color: #e66b06;
   text-decoration: none;
 }
 
@@ -103,8 +103,8 @@ Button
 
 .btn_asLink:hover {
   background-color: transparent;
-  border-color: #ff8c00;
-  color: #ff8c00;
+  border-color: #e66b06;
+  color: #e66b06;
 }
 
 /* --------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ Form Treatment
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  width: 400px;
+  width: 250px;
   padding-bottom: 20px;
   max-width: 100%;
   margin: 0 auto 20px;

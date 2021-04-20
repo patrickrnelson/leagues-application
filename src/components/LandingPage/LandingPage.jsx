@@ -22,7 +22,7 @@ function LandingPage() {
     <div className="landing">
       {/* <h2 className="heading">{heading}</h2> */}
       <div className="landing-header">
-        <img src = {logo} alt="Logo" width='150px' onClick={() => history.push('/home')} />
+        <img src = {logo} alt="Logo" width='115px' height='115px' onClick={() => history.push('/home')} />
         <h2 className="heading-climb">Climbing League</h2>
       </div>
       <div className="grid">

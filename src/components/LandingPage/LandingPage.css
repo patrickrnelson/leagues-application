@@ -13,6 +13,7 @@ Grid
 .landing-header {
   display: flex;
   padding-bottom: 75px;
+  padding-top: 15px;
 }
 
 .heading {
@@ -21,8 +22,8 @@ Grid
 
 .heading-climb {
   color: white;
-  padding-top: 18px;
-  padding-left: 20px;
+  padding-top: 2px;
+  padding-left: 10px;
 }
 
 .form-change {
