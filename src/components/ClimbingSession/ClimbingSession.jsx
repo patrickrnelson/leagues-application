@@ -17,7 +17,6 @@ function ClimbingSession() {
   const leagues = useSelector(store => store.leaguesReducer);
   const teams = useSelector(store => store.teams);
   const conditionalData = useSelector(store => store.conditional);
-  const climbsSubmittedReducer = useSelector(store => store.climbsSubmittedReducer)
 
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
@@ -32,7 +31,7 @@ function ClimbingSession() {
 
   useEffect(() => {
     getCurrentLeague();
-    // defineTeammateIds();
+    getCheckedClimbs();
   }, [])
 
   const getCurrentLeague = () => {
@@ -146,6 +145,22 @@ function ClimbingSession() {
       teammates.push(climber);
     }
   }
+
+  const getCheckedClimbs = () => {
+    currentClimbs.map((climb) => {
+      console.log('climb.userId and teammates[0]', climb.userId, teammates[0].userId. climb.isSubmitted)
+      if(climb.userId === teammates[0].userId && climb.isSubmitted) {
+        setClimberOneCount(climberOneCount + 1)
+        console.log('climberOneCount', climberOneCount)
+
+      } else if(climb.userId === teammates[1].userId && climb.isSubmitted) {
+        setClimberTwoCount(climberTwoCount + 1)
+      } else if (climb.userId === teammates[2].userId && climb.isSubmitted) {
+        setClimberThreeCount(climberThreeCount + 1)
+      }
+    })
+  }
+
 
   return (
     <div className="container">
