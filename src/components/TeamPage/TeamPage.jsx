@@ -1,23 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
-import Header from '../Header/Header'
-import './TeamPage.css'
+import Header from '../Header/Header';
+import './TeamPage.css';
+import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 
 function TeamPage() {
-  // const dispatch = useDispatch();
   const history = useHistory();
+  const dispatch = useDispatch();
 
+  const leagues = useSelector(store => store.leaguesReducer);
+  const conditionalData = useSelector(store => store.conditional);
+  const climbs = useSelector(store => store.climbs)
   const climberTeams = useSelector(store => store.teams);
-  const user = useSelector(store => store.user)
-
+  const user = useSelector(store => store.user);
+  const accessCode = useSelector(store => store.accessCodeReducer);
+  
+  const [currentLeague, setCurrentLeague] = useState('')
+  const [currentLeagueId, setCurrentLeagueId] = useState(0)
+  const [currentLeagueStart, setCurrentLeagueStart] = useState('')
+  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
   const [userTeam, setUserTeam] = useState('')
+  const [showAccessCode, setShowAccessCode] = useState(false);
+
+  const toggleAccessCode = () => {
+
+    dispatch({ 
+      type: 'FETCH_ACCESS_CODE', 
+      payload: conditionalData[0].teamId
+    })
+    setShowAccessCode(!showAccessCode)
+  }
 
   useEffect(() => {
-    console.log('climberTeams', climberTeams);
     findUserTeam();
+    getCurrentLeague();
   }, [])
+
+  const getCurrentLeague = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setCurrentLeague(league.name);
+        setCurrentLeagueId(league.id);
+        setCurrentLeagueStart(league.start);
+        setCurrentLeagueEnd(league.end);
+        return;
+      } 
+    }
+  }
 
   const findUserTeam = () => {
     for(let climber of climberTeams) {
@@ -28,10 +60,13 @@ function TeamPage() {
   }
 
   return (
+    <>
     <div className="teamContainer">
       <Header />
+      {conditionalData[0].teamName ?
+      <>
       <h2 className="teamName">{userTeam}</h2>
-      <h3 className="leagueName">Summer League 2021</h3>
+      <h3 className="leagueName">{currentLeague}</h3>
       <select>
         <option>Week 1</option>
         <option>Week 2</option>
@@ -50,29 +85,32 @@ function TeamPage() {
               return (
                 <tr>
                   <td key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</td>
-                  <td>SCORE</td>
+                  <td>{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs).totalScore}</td>
                 </tr>
               )
             }
           })}
-          {/* <tr>
-            <td> Patrick </td>
-            <td> 45 </td>
-          </tr>
-          <tr>
-            <td> Zach </td>
-            <td> 47 </td>
-          </tr>
-            <td> John </td>
-            <td> 44 </td>
-          <tr>
-            <td> Total </td>
-            <td> 136 </td>
-          </tr> */}
         </tbody>
       </table>
-      <button>Team Code</button>
+      <div className={`modalBackground modalShowing-${showAccessCode}`}>
+        <div className="modalInner">
+          <div className="modalText">
+            <button className="exitButton" onClick={() => toggleAccessCode()}>X</button>
+            <p>This is your teams access code. You can provide the code to others for them to join your team.</p>
+            <p>{accessCode}</p>
+          </div>
+        </div>
+      </div>
+        <button onClick={() => toggleAccessCode()}>Team Code</button>
+      </>
+      : 
+      <div>
+        <h3>You are not on a team.</h3> 
+        <p>Join a team and check back later! </p>
+      </div>
+        }
     </div>
+    </>
   );
 }
 

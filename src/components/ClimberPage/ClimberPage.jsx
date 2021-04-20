@@ -1,27 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import moment from 'moment';
 
 import Header from '../Header/Header'
+import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 
 function ClimberPage() {
   const history = useHistory();
 
   const climberTeams = useSelector(store => store.teams);
+  const climbs = useSelector(store => store.climbs)
+  const leagues = useSelector(store => store.leaguesReducer);
   let { id } = useParams()
 
   const [climber, setClimber] = useState('')
+  const [currentLeague, setCurrentLeague] = useState('')
+  const [currentLeagueId, setCurrentLeagueId] = useState(0)
+  const [currentLeagueStart, setCurrentLeagueStart] = useState('')
+  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
 
   useEffect(() => {
     findClimber();
+    getCurrentLeague();
   }, [])
 
   const findClimber = () => {
-    for(let climbee of climberTeams) {
-      if(climbee.userId == id) {
-        console.log('its a match!');
-        setClimber(climbee.username)
+    for(let climber of climberTeams) {
+      if(climber.userId == id) {
+        setClimber(climber.username)
       }
+    }
+  }
+
+  // sets the correct information for a league that is currently in place
+  const getCurrentLeague = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setCurrentLeague(league.name);
+        setCurrentLeagueId(league.id);
+        setCurrentLeagueStart(league.start);
+        setCurrentLeagueEnd(league.end);
+        return;
+      } 
     }
   }
   
@@ -32,17 +53,20 @@ function ClimberPage() {
       <button>{climber}'s Info</button>
       <table>
         <thead>
-          <tr> Total Score </tr>
-          <tr> 207 </tr>
+          <tr> 
+            <td>Total Score </td>
+            <td> Average Score </td>
+            <td> Last Week </td>
+            <td> Handicap </td>
+          </tr>
+          
         </thead>
         <tbody>
           <tr>
-            <td> Average Score </td>
-            <td> 5.3 </td>
-            <td> Last Week </td>
-            <td> 16 </td>
-            <td> Handicap </td>
-            <td> 1 </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).totalScore} </td>
+            <td> {(climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).averageScore).toFixed(2)} </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).lastWeekScore} </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).handicap ? climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).handicap : 'Not Set'}   </td>
           </tr>
         </tbody>
       </table>

@@ -17,22 +17,28 @@ import TextField from '@material-ui/core/TextField';
 
 function AdminLeagues() {
 
-  const dispatch = useDispatch();
-  const history = useHistory();
+ const dispatch = useDispatch();
+ const history = useHistory();
 
   const leaguesInfo = useSelector ((store) => store.leaguesReducer);
 
   const [open, setOpen] = React.useState(false);
 
   // console.log('leaguesInfo', leaguesInfo);
-
   function createNewLeague() {
     history.push(`/admin/leagues/new`)
   }
 
+//  /admin/leagues
+
   function handleEdit(leagueId) {
+    // dispatch({
+    //   type: 'EDIT_RESULTS'
+    // })
+
     history.push(`/admin/leagues/edit/${leagueId}`)
   }
+
 
   function handleDelete(leagueId) {
     dispatch({
