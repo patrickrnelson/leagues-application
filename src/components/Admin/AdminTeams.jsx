@@ -127,7 +127,7 @@ function AdminTeams() {
   const handleClimberSelected = (id) => {
     console.log('climb stats', id);
     setSelectedClimber(id);
-    history.push('/admin/climbers')
+    history.push(`/admin/climbers/${id}`)
   };
   console.log('who are the climbers', userClimbs);
 

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { TableContainer } from '@material-ui/core';
 import { Grid, makeStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
@@ -19,12 +21,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AdminClimber() {
+
+  const climberInfo = useSelector ((store) => store.teams)
+
+  const [climberName, setClimberName] = useState('');
+
+  useEffect(() => {
+    findClimber();
+  }, [])
+
+  const findClimber = () => {
+    for(let climber of climberInfo) {
+      if(climber.userId == id) {
+        console.log('got a climber');
+        setClimberName(climber.username)
+      }
+    }
+  }
+
+
+  let { id } = useParams()
   const classes = useStyles();
   return (
       <>
       <h1>Climber Profile</h1>
       <br></br>
       <h2>Team Cullen</h2>
+      <h3>{climberName}</h3>
       
       <TableContainer component={Paper}>
         <Table>
