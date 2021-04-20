@@ -85,7 +85,7 @@ function AdminTeams() {
   }
 
   for(let week of allWeeks) {
-    
+    console.log('weeks', week);
   }
 
   useEffect(() => {
@@ -93,7 +93,7 @@ function AdminTeams() {
   }, []);
 
   const [selectedLeague, setSelectedLeague] = useState(0);
-  const [selectedTeam, setSelectedTeam] = useState();
+  const [selectedTeam, setSelectedTeam] = useState(0);
   const [selectedClimber, setSelectedClimber] = useState();
   const [selectedLeagueStart, setSelectedLeagueStart] = useState('');
   const [selectedLeagueEnd, setSelectedLeagueEnd] = useState('');
@@ -115,27 +115,20 @@ function AdminTeams() {
   };
 
   const handleLeagueSelected = (id, start, end) => {
-    console.log('leagueTeams', id);
     setSelectedLeague(id);
     setSelectedLeagueStart(start);
     setSelectedLeagueEnd(end);
   };
 
   const handleTeamSelected = (id) => {
-    console.log('what is my selected team?', selectedTeam);
     setSelectedTeam(id);
     findTeamScore(id);
   };
 
   const handleClimberSelected = (id) => {
-    console.log('climb stats', id);
     setSelectedClimber(id);
     history.push('/admin/climbers')
   };
-  console.log('who are the climbers', userClimbs);
-
-  console.log('Selected League', selectedLeague);
-  console.log('Selected Team', selectedTeam);
 
   const findTeamScore = (teamId) => {
     let teamScore = 0;
@@ -143,12 +136,12 @@ function AdminTeams() {
       if (team.teamId === teamId) {
         for (let climber of climbers) {
           if (team.teamId === climber.teamId) {
-            teamScore += climberWeekCalc(
+            teamScore += Number(climberWeekCalc(
               climber.userId,
               selectedLeagueStart,
               selectedLeagueEnd,
               userClimbs
-            ).totalScore;
+            ).totalScore);
           }
         }
       }
@@ -158,6 +151,8 @@ function AdminTeams() {
   };
 
   return (
+    <>
+    <Nav />
     <Grid
       container
       item
@@ -166,6 +161,7 @@ function AdminTeams() {
       justify="space-around"
       alignItems="center"
     >
+      
       <Grid item xs={6}>
         <h1>Teams</h1>
       </Grid>
@@ -225,6 +221,8 @@ function AdminTeams() {
       </div>
       <div></div>
 
+      {selectedTeam !== 0 && selectedLeague !== 0 ? 
+      <>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -253,7 +251,7 @@ function AdminTeams() {
                 <TableCell>{week}</TableCell>
               ))}
               <TableCell>{teamScore}</TableCell>
-              {/*          
+              {/*
                     ) : (
                       <TableCell></TableCell>
                     )
@@ -325,7 +323,10 @@ function AdminTeams() {
           </TableBody>
         </Table>
       </TableContainer>
+      </>
+      : <div></div>}
     </Grid>
+    </>
   );
 }
 
