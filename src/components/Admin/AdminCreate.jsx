@@ -2,10 +2,15 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './AdminCreate.css';
+
+// import { AppBar, Grid, Toolbar, Typography } from '@material-ui/core';
+// import { Menu } from '@material-ui/core'
+
 import { Grid } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+
 
 function AdminCreate() {
   const history = useHistory();
@@ -34,7 +39,6 @@ function handleSubmit() {
       justify="space-around"
       alignItems="center"
     >
-      
       <Grid
         container
         item
@@ -120,7 +124,7 @@ function handleSubmit() {
       >
         <Grid item xs={12}>
           <Button variant="contained" color="primary" onClick={handleSubmit} >
-            Start League
+            Create League
           </Button>
         </Grid>
       </Grid>
