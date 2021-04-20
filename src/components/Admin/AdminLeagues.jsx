@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import {useDispatch, useSelector} from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -11,6 +12,15 @@ import TextField from '@material-ui/core/TextField';
 
 import moment from 'moment';
 
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { Grid } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+
 function AdminLeagues() {
 
   const dispatch = useDispatch();
@@ -18,6 +28,9 @@ function AdminLeagues() {
 
   const leaguesInfo = useSelector ((store) => store.leaguesReducer);
 
+  const [open, setOpen] = React.useState(false);
+
+  // console.log('leaguesInfo', leaguesInfo);
   function createNewLeague() {
     history.push(`/admin/leagues/new`)
   }
@@ -38,7 +51,16 @@ function AdminLeagues() {
       type: 'DELETE_LEAGUE',
       payload: leagueId
     })
+    handleClose();
   }
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };  
 
   return (
     
@@ -148,6 +170,7 @@ function AdminLeagues() {
                 Delete
             </Button>
           </Grid>
+
 
         </Grid>
 
