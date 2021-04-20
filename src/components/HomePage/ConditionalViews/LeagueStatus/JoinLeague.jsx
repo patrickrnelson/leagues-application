@@ -7,8 +7,6 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   btn: {
-    width: '165px',
-    height: '45px',
     fontSize: '12px',
   },
 });
@@ -56,6 +54,7 @@ function JoinLeague(props) {
         variant="outlined"
         color="secondary"
         className={classes.btn}
+        style={{ border: '2px solid' }}
         onClick={(() => joinLeague())}>
         Join League
       </Button>

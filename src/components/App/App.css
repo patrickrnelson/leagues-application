@@ -48,6 +48,13 @@ Container
   text-align: center;
 }
 
+.container-edit {
+  text-align: center;
+  padding: 40px;
+  align-items: left;
+  justify-content: left;
+}
+
 /* --------------------------------------------------------------------------------
 Button
 -------------------------------------------------------------------------------- */

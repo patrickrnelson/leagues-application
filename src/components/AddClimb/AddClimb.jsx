@@ -9,7 +9,17 @@ import Header from '../Header/Header'
 import './AddClimb.css'
 import { useRadioGroup } from '@material-ui/core';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles({
+  btn: {
+    fontSize: '12px',
+  },
+});
+
 function AddClimb() {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -111,8 +121,22 @@ function AddClimb() {
       </div>
 
       {/* Submit or Cancel */}
-      <button onClick={handleAddClimb}>Submit!</button>
-      <button onClick={() => history.push('/climb/session')}>Cancel</button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        style={{ border: '2px solid' }}
+        onClick={handleAddClimb}>
+        Submit!
+      </Button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        style={{ border: '2px solid' }}
+        onClick={() => history.push('/climb/session')}>
+        Cancel
+      </Button>
     </div>
   );
 }

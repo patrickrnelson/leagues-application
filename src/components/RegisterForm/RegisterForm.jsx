@@ -50,6 +50,8 @@ function RegisterForm() {
             type="email"
             name="email"
             id="email"
+            minlength="3"
+            maxlength="64"
             placeholder="johndoe@email.com"
             value={username}
             required

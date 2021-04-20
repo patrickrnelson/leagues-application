@@ -13,7 +13,6 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   btn: {
-    width: '165px',
     height: '45px',
     fontSize: '12px',
   },

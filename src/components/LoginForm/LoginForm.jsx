@@ -38,6 +38,8 @@ function LoginForm() {
             type="text"
             name="email"
             id="email"
+            minlength="3"
+            maxlength="64"
             placeholder="johndoe@email.com"
             required
             value={username}

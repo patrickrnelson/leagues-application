@@ -76,11 +76,6 @@ function Header () {
         onClick={toggleDrawer}
         onKeyDown={toggleDrawer}
         role="presentation">
-        {/* <ListItem >
-          <IconButton onClick={toggleDrawer}>
-            <CloseIcon className={classes.close} />
-          </IconButton>
-        </ListItem> */}
         <ListItem onClick={() => history.push('/home')}>
           <ListItemIcon className={classes.icon}>{<HomeIcon />}</ListItemIcon>
           <ListItemText>Home</ListItemText>
