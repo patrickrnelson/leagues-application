@@ -124,7 +124,7 @@ function handleSubmit() {
       >
         <Grid item xs={12}>
           <Button variant="contained" color="primary" onClick={handleSubmit} >
-            Start League
+            Create League
           </Button>
         </Grid>
       </Grid>
