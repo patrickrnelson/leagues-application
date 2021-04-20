@@ -2,13 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
 import Header from '../Header/Header'
 
+const useStyles = makeStyles({
+  btn: {
+    width: '165px',
+    height: '45px',
+    fontSize: '12px',
+  },
+});
+
 function CreateTeam() {
-  const [teamCode, setTeamCode] = useState('');
-  const errors = useSelector(store => store.errors);
+  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [teamCode, setTeamCode] = useState('');
+  const errors = useSelector(store => store.errors);
+  
 
   useEffect(() => {
     dispatch({ type: 'CLEAR_JOIN_ERROR' });
@@ -48,7 +62,13 @@ function CreateTeam() {
         maxlength="6"
         required
         onChange={(event) => setTeamCode(event.target.value)}/>
-      <button type="submit">Join Team</button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        type="submit">
+        Join Team
+      </Button>
     </form>
     </>
   );

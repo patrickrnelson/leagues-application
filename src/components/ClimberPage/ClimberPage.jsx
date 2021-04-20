@@ -3,10 +3,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 
-import Header from '../Header/Header'
-import {climberWeekCalc} from '../../scripts/climberWeekCalc'
+import Header from '../Header/Header';
+import {climberWeekCalc} from '../../scripts/climberWeekCalc';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles({
+  btn: {
+    width: '125px',
+    height: '30px',
+    fontSize: '12px',
+  },
+  climber: {
+    padding: '15px',
+    paddingBottom: '25px',
+  },
+  back: {
+    padding: '25px',
+  }
+});
 
 function ClimberPage() {
+  const classes = useStyles();
   const history = useHistory();
 
   const climberTeams = useSelector(store => store.teams);
@@ -50,7 +69,14 @@ function ClimberPage() {
     <div className="container">
       <Header />
       <h2>{climber}</h2>
-      <button>{climber}'s Info</button>
+      <div className={classes.climber}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}>
+          {climber}'s Info
+        </Button>
+      </div>
       <table>
         <thead>
           <tr> 
@@ -70,7 +96,15 @@ function ClimberPage() {
           </tr>
         </tbody>
       </table>
-      <button onClick={() => history.push('/team')}>Back toTeam </button>
+      <div className={classes.back}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          onClick={() => history.push('/team')}>
+          Back to Team 
+        </Button>
+      </div>
     </div>
   );
 }

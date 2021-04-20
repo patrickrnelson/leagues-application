@@ -2,25 +2,29 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
 import logo from '../Images/notn.png';
+import Background from '../Images/bouldering.png';
 
 // CUSTOM COMPONENTS
 import LoginForm from '../LoginForm/LoginForm';
 import RegisterForm from '../RegisterForm/RegisterForm';
+
 
 function LandingPage() {
   const [heading, setHeading] = useState('Nature of The North');
   const history = useHistory();
   const [formChange, setFormChange] = useState(true);
 
-  const onRegister = (event) => {
+  const onRegister = () => {
     setFormChange(!formChange);
   };
 
   return (
-    <div className="container">
-      <h2>{heading}</h2>
-      <p>Climbing League</p>
-      <img src = {logo} alt="Logo" width='100px'/>
+    <div className="landing">
+      {/* <h2 className="heading">{heading}</h2> */}
+      <div className="landing-header">
+        <img src = {logo} alt="Logo" width='150px' onClick={() => history.push('/home')} />
+        <h2 className="heading-climb">Climbing League</h2>
+      </div>
       <div className="grid">
         <div className="grid-col grid-col_10">
           {formChange ? (
@@ -45,7 +49,7 @@ function LandingPage() {
           </>
           )}
         </div>
-      </div>
+    </div>
     </div>
   );
 }

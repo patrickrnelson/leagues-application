@@ -2,8 +2,20 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles({
+  btn: {
+    width: '165px',
+    height: '45px',
+    fontSize: '12px',
+  },
+});
+
 // this will show when the user is on a team but not in a league
 function JoinLeague(props) {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const teamData = useSelector(store => store.teams);
   const user = useSelector(store => store.user);
@@ -40,7 +52,13 @@ function JoinLeague(props) {
       <h2>{props.leagueData.name} League is open</h2>
       <h3>League Dates: {moment(props.leagueData.start).format("dddd, MMMM Do YYYY")} - {moment(props.leagueData.end).format("dddd, MMMM Do YYYY")}</h3>
       <h3>Joining period ends {moment(props.leagueData.start).add(7, 'd').format("dddd, MMMM Do YYYY")}</h3>
-      <button onClick={(() => joinLeague())}>Join League</button>
+      <Button 
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        onClick={(() => joinLeague())}>
+        Join League
+      </Button>
     </div>
   );
 }

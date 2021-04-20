@@ -23,7 +23,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import './Header.css';
 import logo from '../Images/notn.png';
-import { ClassSharp } from '@material-ui/icons';
 
 // Material UI styles
 const useStyles = makeStyles({

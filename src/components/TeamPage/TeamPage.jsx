@@ -3,11 +3,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
 import Header from '../Header/Header';
 import './TeamPage.css';
-import {climberWeekCalc} from '../../scripts/climberWeekCalc'
+import {climberWeekCalc} from '../../scripts/climberWeekCalc';
+
+const useStyles = makeStyles({
+  btn: {
+    width: '150px',
+    height: '45px',
+    fontSize: '12px',
+  },
+});
 
 function TeamPage() {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -101,7 +113,13 @@ function TeamPage() {
           </div>
         </div>
       </div>
-        <button onClick={() => toggleAccessCode()}>Team Code</button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn} 
+          onClick={() => toggleAccessCode()}>
+          Team Code
+        </Button>
       </>
       : 
       <div>

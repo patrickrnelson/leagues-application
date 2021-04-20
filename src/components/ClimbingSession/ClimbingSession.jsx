@@ -8,7 +8,19 @@ import './ClimbingSession.css'
 import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 import Checkbox from '@material-ui/core/Checkbox';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles({
+  btn: {
+    width: '165px',
+    height: '45px',
+    fontSize: '12px',
+  },
+});
+
 function ClimbingSession() {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -160,7 +172,13 @@ function ClimbingSession() {
       {/* IF it's the first week (weekCalc = 0) display 'Determined by this week's submissions
           ELSE Display the handicap from our big function */}
       <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
-      <button onClick={() => history.push('/climb/add')}>Add a Climb</button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        onClick={() => history.push('/climb/add')}>
+        Add a Climb
+      </Button>
       <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber</p>
       {user.id === conditionalData[0].captainId ? 
       teammates.map((mate) => (

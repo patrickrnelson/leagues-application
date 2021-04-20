@@ -25,7 +25,7 @@ function CaptainClimberPage() {
           </tr>
         </tbody>
       </table>
-      <button>Back toTeam </button>
+      <button>Back to Team </button>
     </div>
   );
 }

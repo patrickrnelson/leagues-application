@@ -10,8 +10,15 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   btn: {
-    width: '125px',
-    height: '50px',
+    width: '165px',
+    height: '45px',
+    fontSize: '12px',
+  },
+  start: {
+    padding: '10px',
+  },
+  bye: {
+    padding: '10px',
   },
 });
 
@@ -88,21 +95,26 @@ function StartSession(props) {
       <h4>Team: {conditionalData[0].teamName}</h4>
       <h4>Week {props.weekCalc + 1}</h4>
       
-      <div className="btn-climb">
-      <Button 
-        variant="outlined" 
-        className={classes.btn} 
-        style={{ border: '2px solid' }} 
-        onClick={() => history.push('/climb/session')}>{currentClimbs.length === 0 ? 'Start Session' : 'Continue Session'}
-      </Button>
-      {/* Check if user is a captain and if they are display bye week Button */}
-      {conditionalData[0].captainId === conditionalData[0].userId && conditionalData[0].byeWeek === null && 
-      <Button 
-        variant="outlined" 
-        className={classes.btn} 
-        style={{ border: '2px solid' }}>
+      <div className={classes.start}>
+        <Button 
+          variant="outlined" 
+          color="secondary"
+          className={classes.btn} 
+          style={{ border: '2px solid' }} 
+          onClick={() => history.push('/climb/session')}>{currentClimbs.length === 0 ? 'Start Session' : 'Continue Session'}
+        </Button>
+      </div>
+
+      <div className={classes.bye}>
+        {/* Check if user is a captain and if they are display bye week Button */}
+        {conditionalData[0].captainId === conditionalData[0].userId && conditionalData[0].byeWeek === null && 
+        <Button 
+          variant="outlined" 
+          color="secondary"
+          className={classes.btn} 
+          style={{ border: '2px solid' }}>
           Initiate Bye Week
-      </Button>}
+        </Button>}
       </div>
     </div>
   );

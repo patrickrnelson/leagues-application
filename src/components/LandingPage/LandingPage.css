@@ -2,7 +2,32 @@
 Grid
 -------------------------------------------------------------------------------- */
 
+.landing {
+  background-image: url("../Images/bouldering.png");
+  background-size: cover;
+  min-height: 812px;
+  padding: 20px;
+  text-align: center;
+}
 
+.landing-header {
+  display: flex;
+  padding-bottom: 75px;
+}
+
+.heading {
+  color: white;
+}
+
+.heading-climb {
+  color: white;
+  padding-top: 18px;
+  padding-left: 20px;
+}
+
+.form-change {
+  color: white;
+}
 
 .grid {
   display: flex;
@@ -19,7 +44,6 @@ Grid
   flex: 0 0 auto;
   padding: 0 0.5rem 0.5rem;
   box-sizing: border-box;
-  
 }
 
 .grid-col_1 {
