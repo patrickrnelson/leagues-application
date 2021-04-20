@@ -1,5 +1,6 @@
 -- create database 'notn'
 
+
 CREATE TABLE "users" (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR (80) NOT NULL,
@@ -9,12 +10,16 @@ CREATE TABLE "users" (
     "password" VARCHAR (1000) NOT NULL
 );
 
+--DROP TABLE "leagues";
+
 CREATE TABLE "leagues" (
   "id" SERIAL PRIMARY KEY,
   "name" VARCHAR (256),
   "start" DATE,
   "end" DATE
 );
+
+--DROP TABLE "teams";
 
 CREATE TABLE "teams" (
   "id" SERIAL PRIMARY KEY,
@@ -23,10 +28,14 @@ CREATE TABLE "teams" (
   "accessCode" TEXT
 );
 
+--DROP TABLE "locations";
+
 CREATE TABLE "locations" (
   "id" SERIAL PRIMARY KEY,
   "name" VARCHAR (256)
 );
+
+--DROP TABLE "climbs";
 
 CREATE TABLE "climbs" (
   "id" SERIAL PRIMARY KEY,
@@ -39,21 +48,25 @@ CREATE TABLE "climbs" (
   "userId" INT REFERENCES "users"
 );
 
+--DROP TABLE "usersTeams";
+
 CREATE TABLE "usersTeams" (
   "id" SERIAL PRIMARY KEY,
   "userId" INT REFERENCES "users",
   "teamId" INT REFERENCES "teams"
 );
 
+--DROP TABLE "leaguesTeams";
+
 CREATE TABLE "leaguesTeams" (
   "id" SERIAL PRIMARY KEY, 
   "teamId" INT REFERENCES "teams",
-  "leagueId" INT REFERENCES "leagues",
+  "leagueId" INT REFERENCES "leagues" ON DELETE CASCADE,
   "isPaid" BOOLEAN DEFAULT FALSE,
   "byeWeek" DATE
 );
 
---- Test Data
+---- Test Data
 
 -- League
 
