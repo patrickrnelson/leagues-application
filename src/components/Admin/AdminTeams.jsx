@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import Nav from '../Nav/Nav'
+
 import { Grid, makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';

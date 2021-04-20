@@ -7,6 +7,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import Nav from '../Nav/Nav'
+
 function AdminCreate() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -26,6 +28,8 @@ function handleSubmit() {
 
 
   return (
+    <>
+    <Nav />
     <Grid
       container
       item
@@ -126,6 +130,7 @@ function handleSubmit() {
       </Grid>
       
     </Grid>
+    </>
   );
 }
 
