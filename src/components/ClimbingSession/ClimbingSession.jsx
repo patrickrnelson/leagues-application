@@ -34,6 +34,8 @@ function ClimbingSession() {
     getCheckedClimbs();
   }, [])
 
+
+
   const getCurrentLeague = () => {
     for(let league of leagues) {
       if(moment().isBetween(league.start, league.end)) {
@@ -137,6 +139,7 @@ function ClimbingSession() {
       
     }    
   }
+  
 
   let teammates = [];
 
@@ -147,25 +150,35 @@ function ClimbingSession() {
   }
 
   const getCheckedClimbs = () => {
-    currentClimbs.map((climb) => {
-      console.log('climb.userId and teammates[0]', climb.userId, teammates[0].userId. climb.isSubmitted)
+    let climberOne = 0;
+    let climberTwo = 0;
+    let climberThree = 0;
+    for(let climb of currentClimbs) {
+      console.log('genereal if statement', climb.userId === teammates[0].userId && climb.isSubmitted)
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
-        setClimberOneCount(climberOneCount + 1)
-        console.log('climberOneCount', climberOneCount)
-
+        climberOne += 1
+        console.log('climberOneCount if statement', climb.userId, teammates[0].userId, climb.isSubmitted)
       } else if(climb.userId === teammates[1].userId && climb.isSubmitted) {
-        setClimberTwoCount(climberTwoCount + 1)
+        climberTwo += 1
+        console.log('climberTwoCount if statement', climb.userId, teammates[1].userId, climb.isSubmitted)
       } else if (climb.userId === teammates[2].userId && climb.isSubmitted) {
-        setClimberThreeCount(climberThreeCount + 1)
+        climberThree += 1
+        console.log('climberThreeCount if statement', climb.userId, teammates[2].userId, climb.isSubmitted)
       }
-    })
+    }
+    setClimberOneCount(climberOne);
+    setClimberTwoCount(climberTwo);
+    setClimberThreeCount(climberThree);
   }
 
+  
 
   return (
     <div className="container">
       <Header />
       <h2>Week {weekCalc} Climbing Session</h2>
+      <p>climberOneCounts{climberOneCount}</p>
+      <p>climberTwoCounts{climberTwoCount}</p>
       {/* IF it's the first week (weekCalc = 0) display 'Determined by this week's submissions
           ELSE Display the handicap from our big function */}
       <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
