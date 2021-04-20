@@ -15,12 +15,29 @@ img {
 }
 
 /* --------------------------------------------------------------------------------
+Header
+-------------------------------------------------------------------------------- */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background: #272727;
+  color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  position: fixed;
+  padding-top: 5px;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------------
 Container
 -------------------------------------------------------------------------------- */
 
 .container {
   text-align: center;
-  padding: 20px;
+  padding: 55px;
   align-items: center;
   justify-content: center;
   text-align: center;
