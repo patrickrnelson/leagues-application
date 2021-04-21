@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Nav from '../Nav/Nav'
+import './AdminTeams.css'
 
 import { Grid, makeStyles } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -16,6 +20,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
@@ -58,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 // ];
 
 function AdminTeams() {
-
+  const dispatch = useDispatch();
   const history = useHistory();
 
   // let allWeeks = [];
@@ -106,17 +111,17 @@ function AdminTeams() {
   const [selectedLeagueStart, setSelectedLeagueStart] = useState('');
   const [selectedLeagueEnd, setSelectedLeagueEnd] = useState('');
   const [teamScore, setTeamScore] = useState(0);
+  const [teamPaidStatus, setTeamPaidStatus] = useState(false);
 
-  const dispatch = useDispatch();
+  const [value, setValue] = useState('');
 
+  const conditionalData = useSelector(store => store.conditional);
   const leagues = useSelector((store) => store.leaguesReducer);
   const leagueTeams = useSelector((store) => store.leagueTeamReducer);
   const climbers = useSelector((store) => store.teams);
   const userClimbs = useSelector((store) => store.climbs);
 
   const classes = useStyles();
-
-  const [value, setValue] = useState('');
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -130,9 +135,10 @@ function AdminTeams() {
     
   };
 
-  const handleTeamSelected = (id) => {
+  const handleTeamSelected = (id, paidStatus) => {
     setAllWeeks([selectedLeagueStart])
     setSelectedTeam(id);
+    setTeamPaidStatus(paidStatus);
     findTeamScore(id);
     dateStuff();
   };
@@ -141,6 +147,10 @@ function AdminTeams() {
     setSelectedClimber(id);
     history.push('/admin/climbers')
   };
+
+  const handlePaidChange = () => {
+    console.log('Paid Status');
+  }
 
   const findTeamScore = (teamId) => {
     let teamScore = 0;
@@ -152,7 +162,8 @@ function AdminTeams() {
               climber.userId,
               selectedLeagueStart,
               selectedLeagueEnd,
-              userClimbs
+              userClimbs,
+              conditionalData[0].byeWeek
             ).totalScore);
           }
         }
@@ -177,6 +188,8 @@ function AdminTeams() {
       <Grid item xs={6}>
         <h1>Teams</h1>
       </Grid>
+
+      {/* League Dropdown */}
       <Grid>
         <FormControl className={classes.formControl}>
           <InputLabel>Select a League</InputLabel>
@@ -201,28 +214,42 @@ function AdminTeams() {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={6}>
-        {leagueTeams.map((team) => {
-          return team.leagueId === selectedLeague ? (
-            <h1
-              key={team.teamId}
-              value={team.teamId}
-              onClick={() => handleTeamSelected(team.teamId)}
-            >
-              {team.teamName}
-            </h1>
-          ) : (
-            <div></div>
-          );
-        })}
+
+      {/* Show the Teams in the selected League */}
+      <Grid item xs={10}>
+        <div className="teamNameContainer">
+        {leagueTeams.map((team) => 
+          team.leagueId === selectedLeague ? 
+          <>
+            <div className={team.teamId === selectedTeam ? 'clickedTeam teamDiv' : 'teamDiv'}>
+              <h3
+                key={team.teamId}
+                value={team.teamId} 
+                onClick={() => handleTeamSelected(team.teamId, team.isPaid)}
+                className={team.teamId === selectedTeam ? 'clickedTeam teamNameSelector' : 'teamNameSelector'}
+              >
+                {team.teamName}
+              </h3>
+              {team.isPaid ? null :
+                <p className="paidStatus">Has Not Paid</p>
+              }
+            </div>
+          
+            </>
+          : null
+        )}
+        </div>
       </Grid>
-      <div>
+
+      {/* Show the climbers in the selected team */}
+      <div className="climbersContainer">
         {climbers.map((climber) => {
           return climber.teamId === selectedTeam ? (
             <h3
               key={climber.id}
               value={climber.id}
               onClick={() => handleClimberSelected(climber.userId)}
+              className="climberNameLink"
             >
               {climber.username}
             </h3>
@@ -230,13 +257,24 @@ function AdminTeams() {
             <div></div>
           );
         })}
+        {selectedTeam !== 0 ?
+        <>
+        <Checkbox
+          checked={teamPaidStatus}
+          onChange={handlePaidChange}
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+        />
+        <p>Paid?</p>
+        </>
+          : null
+        }
       </div>
-      <div></div>
-
+      {/* Don't show the table until there is a selected league and a selected team */}
       {selectedTeam !== 0 && selectedLeague !== 0 ? 
         <>
         <h3>Team Score: {teamScore}</h3>
 
+        {/* Show the table of climbs after selecting a team */}
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -245,12 +283,15 @@ function AdminTeams() {
                 <TableCell align="right">Climber</TableCell>
                 <TableCell align="right">Color</TableCell>
                 <TableCell align="right">Location</TableCell>
-                <TableCell align="right">Difficulty</TableCell>
-                <TableCell align="right">Attempts</TableCell>
+                <TableCell align="center">Difficulty</TableCell>
+                <TableCell align="center">Attempts</TableCell>
                 <TableCell align="right">Date</TableCell>
+                <TableCell align="center">Submitted?</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
+
+              {/* Find the climbers that are on the selected team in the selected league */}
               {
               leagueTeams.map((team) => 
                 team.teamId === selectedTeam ? 
@@ -258,17 +299,27 @@ function AdminTeams() {
                     team.teamId === climber.teamId ?
                       userClimbs.map((climb) => 
                         climb.userId === climber.userId ?
+                          moment(climb.climbDate).isBetween(selectedLeagueStart, selectedLeagueEnd) ?
                           <TableRow key={climb.climbId}>
                             {/* <TableCell></TableCell> */}
-                            <TableCell align="right">{climb.username}</TableCell>
+                            <TableCell align="right">{climb.name}</TableCell>
                             <TableCell align="right">{climb.color}</TableCell>
                             <TableCell align="right">{climb.locationName}</TableCell>
-                            <TableCell align="right">V{climb.level}</TableCell>
-                            <TableCell align="right">{climb.attempts}</TableCell>
+                            <TableCell align="center">V{climb.level}</TableCell>
+                            <TableCell align="center">{climb.attempts}</TableCell>
                             <TableCell align="right">
                               {moment(climb.climbDate).format('MM-DD-YYYY')}
                             </TableCell>
+                            <TableCell align="center">
+                              <Checkbox
+                                key={climb.climbId}
+                                checked={climb.isSubmitted}
+                                disabled
+                                inputProps={{ 'aria-label': 'primary checkbox' }}
+                                />
+                              </TableCell>
                           </TableRow>
+                        : null
                         : null
                       )
                     : null
