@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
+import ReactModal from 'react-modal';
 
 import Header from '../Header/Header';
+
 import {climberWeekCalc} from '../../scripts/climberWeekCalc';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,52 +30,57 @@ function ClimberPage() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const climberTeams = useSelector(store => store.teams);
-  const conditionalData = useSelector(store => store.conditional);
-  const user = useSelector(store => store.user)
-  const climbs = useSelector(store => store.climbs)
-  const leagues = useSelector(store => store.leaguesReducer);
-  let { id } = useParams()
+  const climberTeams = useSelector((store) => store.teams);
+  const conditionalData = useSelector((store) => store.conditional);
+  const user = useSelector((store) => store.user);
+  const climbs = useSelector((store) => store.climbs);
+  const leagues = useSelector((store) => store.leaguesReducer);
+  let { id } = useParams();
 
-  const [climber, setClimber] = useState('')
-  const [climberId, setClimberId] = useState('')
-  const [currentLeague, setCurrentLeague] = useState('')
-  const [currentLeagueId, setCurrentLeagueId] = useState(0)
-  const [currentLeagueStart, setCurrentLeagueStart] = useState('')
-  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
+  const [climber, setClimber] = useState('');
+  const [climberId, setClimberId] = useState('');
+  const [climberPhone, setClimberPhone] = useState('');
+  const [climberEmail, setClimberEmail] = useState('');
+  const [currentLeague, setCurrentLeague] = useState('');
+  const [currentLeagueId, setCurrentLeagueId] = useState(0);
+  const [currentLeagueStart, setCurrentLeagueStart] = useState('');
+  const [currentLeagueEnd, setCurrentLeagueEnd] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     findClimber();
     getCurrentLeague();
-  }, [])
+  }, []);
 
   // grab the climber username and id
   const findClimber = () => {
-    for(let climber of climberTeams) {
-      if(climber.userId == id) {
-        setClimber(climber.username)
-        setClimberId(climber.userId)
+    for (let climber of climberTeams) {
+      if (climber.userId == id) {
+        setClimber(climber.username);
+        setClimberId(climber.userId);
+        // setClimberPhone(climber.phone);
+        // setClimberEmail(climber.Email);
       }
     }
-  }
+  };
 
   // sets the correct information for a league that is currently in place
   const getCurrentLeague = () => {
-    for(let league of leagues) {
-      if(moment().isBetween(league.start, league.end)) {
+    for (let league of leagues) {
+      if (moment().isBetween(league.start, league.end)) {
         setCurrentLeague(league.name);
         setCurrentLeagueId(league.id);
         setCurrentLeagueStart(league.start);
         setCurrentLeagueEnd(league.end);
         return;
-      } 
+      }
     }
   }
   
   // captain view only
   // used to remove a team mate from the team
   const removeTeamMember = (climberId) => {
-    console.log('removing Team Member', climberId)
+    console.log('removing Team Member', climberId);
     dispatch({
       type: 'REMOVE_TEAM_MEMBER',
       payload: {
@@ -88,29 +95,33 @@ function ClimberPage() {
     <div className="container">
       <Header />
       <h2>{climber}</h2>
+      {/* This does not work at the moment. */}
+
+      {/* <ReactModal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        key={user.id}
+      >
+         <p>Name: {climber}</p>
+        <p>Phone: {climber.phone}</p>
+        <p>Email: {climber.username}</p> 
+        <button onClick={() => setModalIsOpen(false)}>X</button>
+      </ReactModal> */}
+      {/* <button onClick={() => setModalIsOpen(true)}>{climber}'s Info</button> */}
+
       {/* check if user is a captain */}
       {user.id === conditionalData[0].captainId && climber !== user.name ?
         <button onClick={() => removeTeamMember(climberId)}>Remove Climber from team</button> 
       : <> </> 
       }
-      <div className={classes.climber}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          className={classes.btn}>
-          {climber}'s Info
-        </Button>
-      </div>
       <table>
-
         <thead>
-          <tr> 
+          <tr>
             <td>Total Score </td>
             <td> Average Score </td>
             <td> Last Week </td>
             <td> Handicap </td>
           </tr>
-          
         </thead>
         <tbody>
           <tr>
