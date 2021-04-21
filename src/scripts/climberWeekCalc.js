@@ -86,9 +86,14 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
   
 
   for (let i = 1; i < allWeeks.length; i++) {
-    totalScore += currentWeekClimberScore(i).currentWeekScore;
-    if(i === weekCalc) {
-      lastWeekScore = currentWeekClimberScore(i).currentWeekScore;
+    // IF the calculation is truthy (aka not NaN) then add to the total score.
+    // when it came back as NaN it was ruining the data 
+    if(currentWeekClimberScore(i).currentWeekScore){
+      totalScore += currentWeekClimberScore(i).currentWeekScore;
+        if(i === weekCalc) {
+          lastWeekScore = currentWeekClimberScore(i).currentWeekScore;
+          
+        }
     }
   }
 
@@ -96,7 +101,7 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
   // IF last week was the bye week 
   // then use the handicap that would have been for the bye week for this week
   if(weekCalc - 1 === byeWeek) {
-    handicap = currentClimberScore(weekCalc - 1).handicap
+    handicap = currentWeekClimberScore(weekCalc - 1).handicap
   } else {
     handicap = currentWeekClimberScore(weekCalc).handicap;
   }
