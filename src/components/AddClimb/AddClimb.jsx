@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -27,6 +27,7 @@ function AddClimb() {
   const teams = useSelector(store => store.teams);
   
   // local state to store climb info from inputs 
+  const [captainId, setCaptainId] = useState('')
   const [climber, setClimber] = useState(user.name)
   const [climberId, setClimberId] = useState(user.id)
   const [color, setColor] = useState('')
@@ -37,6 +38,11 @@ function AddClimb() {
   let colors = ['Black', 'Blue', 'Green', 'Red', 'White', 'Yellow']
   let locations = ['Left Barrel', 'Overhang', 'Right Barrel', 'Slab', 'Slight Overhang'] // can change this to live in the store eventually
   let difficulties = ['V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12']
+
+
+  useEffect(() => {
+    findCaptainId();
+  }, [])
 
   const handleAddClimb = () => {
     // make sure each input is selected
@@ -58,7 +64,7 @@ function AddClimb() {
     else {
       alert('Please select all inputs')
     }
-  }
+  } // end handleAddClimb
 
   // Used to find climberID since we can't pass it in the 'select' onChange
   // This will set both the climber and climberId state when the climber 'select' is changed
@@ -73,6 +79,12 @@ function AddClimb() {
     }
   }
 
+  const findCaptainId = () => {
+    for(let team of teams) {
+      setCaptainId(team.captainId)
+    }
+  }
+
   return (
     <div className="container">
       <Header />
@@ -80,16 +92,19 @@ function AddClimb() {
       <h3>Add a Climb</h3>
 
       {/* Captain Only - Select Climber */}
-      <h4>Climber:</h4>
-      <select value={climber} onChange={(event) => findClimberId(event)}>
-      {teams.map((team) => (
-        user.id === team.captainId ?
-          <option>
-            {team.username}
-          </option>
-      : null
-      ))}
-      </select>
+      {captainId === user.id ?
+        <>
+          <h4>Climber:</h4>
+          <select value={climber} onChange={(event) => findClimberId(event)}>
+          {teams.map((team) => (
+            
+              <option>
+                {team.username}
+              </option>
+          ))}
+          </select>
+        </>
+      : null}
 
       {/* Color Dropdown */}
       <h4>Color:</h4>

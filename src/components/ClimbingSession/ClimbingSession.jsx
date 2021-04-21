@@ -227,7 +227,6 @@ function ClimbingSession() {
       
       {/* IF it's the first week (weekCalc = 0) display 'Determined by this week's submissions
           ELSE Display the handicap from our big function */}
-      <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
 
       <Button
         variant="outlined"
@@ -237,12 +236,15 @@ function ClimbingSession() {
         Add a Climb
       </Button>
 
+      {user.id === conditionalData[0].captainId ?
       <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber</p>
+      : null}
+      
       {user.id === conditionalData[0].captainId ? 
       teammates.map((mate) => (
         <>
         <h4>{mate.username}</h4>
-        <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
+        <h4>{weekCalc === 1 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
 
         <TableContainer>
           <Table className={classes.table}>
