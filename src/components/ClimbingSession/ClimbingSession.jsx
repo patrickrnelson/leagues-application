@@ -201,6 +201,7 @@ function ClimbingSession() {
   }
 
     // loop through the climbs and update the climber count for climbs that have been submitted
+    if (user.id === conditionalData[0].captainId) {
     for(let climb of currentClimbs) {
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
         climberOneCount += 1
@@ -214,6 +215,7 @@ function ClimbingSession() {
         }
       }
     }
+  }
 
     // keep track of total amount of submitted climbs
     let amountOfClimbs = climberOneCount + climberTwoCount + climberThreeCount;
