@@ -200,17 +200,15 @@ function ClimbingSession() {
     }
   }
 
-  console.log('currentClimbs', currentClimbs)
-
     // loop through the climbs and update the climber count for climbs that have been submitted
     for(let climb of currentClimbs) {
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
         climberOneCount += 1
       } else if (teammates.length > 1) {
-        if (climb.userId === teammates[1].userId && climb.isSubmitted && teammates.length > 1) {
+        if(climb.userId === teammates[1].userId && climb.isSubmitted) {
           climberTwoCount += 1;
-        }
-      } else if (teammates.length > 2) {
+        } 
+      } else if (teammates.length>2) {
         if (climb.userId === teammates[2].userId && climb.isSubmitted) {
           climberThreeCount += 1;
         }
@@ -241,6 +239,8 @@ function ClimbingSession() {
       : null}
       
       {user.id === conditionalData[0].captainId ? 
+
+      
       teammates.map((mate) => (
         <>
         <h4>{mate.username}</h4>
