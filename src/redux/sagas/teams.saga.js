@@ -70,7 +70,7 @@ function* joinTeam(action) {
 function* removeFromTeam(action) {
   console.log('remove from team', action.payload);
   try {
-    yield axios.delete(`/api/team/delete/${action.payload.climberId}`);
+    yield axios.delete(`/api/team/delete/${action.payload}`);
     yield put({ type: 'FETCH_TEAMS'})
   }
   catch (error) {

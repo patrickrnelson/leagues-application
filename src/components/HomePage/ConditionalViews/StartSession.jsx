@@ -75,12 +75,14 @@ function StartSession(props) {
     console.log('teamId', teamId);
     console.log('leagueId', leagueId);
     console.log('byeWeek', byeWeek);
+    console.log('captainId', conditionalData[0].captainId);
     dispatch({
       type: 'UPDATE_BYE_WEEK',
       payload: {
         teamId: teamId,
         leagueId: leagueId,
-        byeWeek: byeWeek
+        byeWeek: byeWeek,
+        captainId: conditionalData[0].captainId
       }
     })
   }

@@ -25,6 +25,7 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
     }
   }
 
+  // grab climber score for the week
   const currentWeekClimberScore = (week) => {
 
     let weekClimbs = [];

@@ -129,8 +129,16 @@ router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
  * UPDATE Bye Week
  */
 router.put('/bye', rejectUnauthenticated, (req, res) => {
-  console.log('req.body', req.body);
+  console.log('req.body', req.body, 'req.user', req.user);
   
+  // Only team captain can start a bye week and only for their team
+  if (req.user.id !== req.body.captainId) {
+    res.sendStatus(403);
+
+    // IMPORTANT! Stop the rest of the function from running
+    return;
+  }
+
   let queryText = `
     UPDATE "leaguesTeams"
     SET "byeWeek" = $1
@@ -148,8 +156,15 @@ router.put('/bye', rejectUnauthenticated, (req, res) => {
 })
 
 router.put('/paid', rejectUnauthenticated, (req, res) => {
-  console.log('req.body', req.body);
-  
+
+  // Only admins can mark a team as paid
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    // IMPORTANT! Stop the rest of the function from running
+    return;
+  }
+
   let queryText = `
     UPDATE "leaguesTeams"
     SET "isPaid" = $1
@@ -170,8 +185,16 @@ router.put('/paid', rejectUnauthenticated, (req, res) => {
  * DELETE a User from a Team
  */
 router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
-  
-  console.log('req body', req.params.id)
+
+  // Only team captain can remove a teammate and only for their team
+  if (req.user.id !== req.params.id.captainId) {
+    res.sendStatus(403);
+
+    // IMPORTANT! Stop the rest of the function from running
+    return;
+  }
+
+  console.log('req body', req.params.id.climberId)
 
   let queryText = `
   DELETE FROM "usersTeams"

@@ -58,7 +58,10 @@ function ClimberPage() {
     console.log('removing Team Member', climberId)
     dispatch({
       type: 'REMOVE_TEAM_MEMBER',
-      payload: {climberId: climberId}
+      payload: {
+        climberId: climberId,
+        captainId: conditionalData[0].captainId
+      }
     })
     history.push('/team')
   }
