@@ -123,6 +123,7 @@ router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
   };
 });
 
+
 router.put('/bye', rejectUnauthenticated, (req, res) => {
   console.log('req.body', req.body);
   
@@ -141,5 +142,26 @@ router.put('/bye', rejectUnauthenticated, (req, res) => {
       res.sendStatus(500)
     })
 })
+
+router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
+  
+  console.log('req body', req.params.id)
+
+  let queryText = `
+  DELETE FROM "usersTeams"
+  WHERE $1 = "userId"
+  `
+  
+  pool.query(queryText, [req.params.id])
+  .then((result) => {
+    console.log('user removed')
+    res.sendStatus(200);
+  })
+  .catch(err => {
+    console.log('error removing from team', err);
+    res.sendStatus(500)
+  });
+});
+
 
 module.exports = router;

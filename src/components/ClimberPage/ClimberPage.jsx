@@ -8,13 +8,17 @@ import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 
 function ClimberPage() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const climberTeams = useSelector(store => store.teams);
+  const conditionalData = useSelector(store => store.conditional);
+  const user = useSelector(store => store.user)
   const climbs = useSelector(store => store.climbs)
   const leagues = useSelector(store => store.leaguesReducer);
   let { id } = useParams()
 
   const [climber, setClimber] = useState('')
+  const [climberId, setClimberId] = useState('')
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
@@ -29,6 +33,7 @@ function ClimberPage() {
     for(let climber of climberTeams) {
       if(climber.userId == id) {
         setClimber(climber.username)
+        setClimberId(climber.userId)
       }
     }
   }
@@ -46,12 +51,25 @@ function ClimberPage() {
     }
   }
   
+  const removeTeamMember = (climberId) => {
+    console.log('removing Team Member', climberId)
+    dispatch({
+      type: 'REMOVE_TEAM_MEMBER',
+      payload: {climberId: climberId}
+    })
+    history.push('/team')
+  }
+
   return (
     <div className="container">
       <Header />
       <h2>{climber}</h2>
       <button>{climber}'s Info</button>
-      <table>
+      {user.id === conditionalData[0].captainId && climber !== user.name ?
+        <button onClick={() => removeTeamMember(climberId)}>Remove Climber from team</button> 
+      : <> </> 
+      }
+        <table>
         <thead>
           <tr> 
             <td>Total Score </td>
@@ -71,6 +89,7 @@ function ClimberPage() {
         </tbody>
       </table>
       <button onClick={() => history.push('/team')}>Back toTeam </button>
+        
     </div>
   );
 }
