@@ -52,6 +52,8 @@ function Nav() {
             <Typography className={classes.title} variant="h6" color="white">
               Nature of the North
             </Typography>
+
+          <LogOutButton />
           
         </Toolbar>
       </AppBar>

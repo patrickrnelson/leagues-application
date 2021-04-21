@@ -89,21 +89,16 @@ router.put('/saveEdits', (req, res) => {
     WHERE "id" = $4 ;
   `;
 
-  pool
-    .query(queryText, [
-      req.body.leagueName,
-      req.body.startDate,
-      req.body.endDate,
-      req.body.leagueId,
-    ])
-    .then(() => {
-      res.sendStatus(201);
-    })
-    .catch((err) => {
-      console.log('Error Editing a League, in League.router', err);
-      res.sendStatus(500);
-    });
-});
+
+  pool.query(queryText, [req.body.leagueName, req.body.startDate, req.body.endDate, req.body.leagueId])
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch((err) => {
+    console.log('Error Editing a League, in League.router', err);
+    res.sendStatus(500);
+  })
+})
 
 router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   // console.log('req.params deleteLeague in League.router', deleteLeague );

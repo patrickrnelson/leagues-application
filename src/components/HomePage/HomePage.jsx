@@ -48,7 +48,7 @@ function HomePage() {
   let to = new Date(conditionalData[0].end).getTime();
   let week = 604800000;
   let day = 86400000;
-  let allWeeks = [];
+  let allWeeks = [currentLeagueStart];
   let current =  1;
   let today = moment();
   // determine the number of weeks in the league
@@ -85,7 +85,7 @@ function HomePage() {
     } else if (!moment(conditionalData[0].start).isSameOrBefore()) {
       return <LeagueNotStarted />;
       // if they are on their bye week display ByeWeek page
-    } else if (conditionalData[0].byeWeek !== null && moment(conditionalData[0].ByeWeek).isSameOrBefore(allWeeks[weekCalc])) {
+    } else if (conditionalData[0].byeWeek !== null && conditionalData[0].byeWeek === weekCalc) {
       return <ByeWeek />
     } else {
       // else return StartSession page  

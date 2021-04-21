@@ -61,37 +61,45 @@ function AdminTeams() {
 
   const history = useHistory();
 
-  let from = new Date(selectedLeagueStart).getTime();
-  let to = new Date(selectedLeagueEnd).getTime();
-  let week = 604800000;
-  let day = 86400000;
-  let allWeeks = [selectedLeagueStart];
-  let current = 1;
-  // determine the number of weeks in the league
-  let weeks = (to - from) / day / 7;
+  // let allWeeks = [];
 
-  // loop over weeks array to add each end of  week date to allWeeks array
-  for (let i = 0; i < weeks; i++) {
-    allWeeks.push(new Date((from += week)).toLocaleDateString());
-  }
+  const dateStuff = () => {
+    let from = new Date(selectedLeagueStart).getTime();
+    let to = new Date(selectedLeagueEnd).getTime();
+    let week = 604800000;
+    let day = 86400000;
+    let current = 1;
+    // setAllWeeks( allWeeks => [...allWeeks, selectedLeagueStart]);
+    // determine the number of weeks in the league
+    let weeks = (to - from) / day / 7;
 
-  // Loop to determine the index of the week so we can check if today is before the end of that week
-  let weekCalc = 0;
-  for (let i = 0; i < allWeeks.length; i++) {
-    if (moment().isSameOrBefore(allWeeks[i])) {
-      weekCalc = i;
-      break;
+    // loop over weeks array to add each end of  week date to allWeeks array
+    for (let i = 0; i < weeks; i++) {
+      setAllWeeks( allWeeks => [...allWeeks, (new Date((from += week)).toLocaleDateString())]);
+    }
+
+    // Loop to determine the index of the week so we can check if today is before the end of that week
+    let weekCalc = 0;
+    for (let i = 0; i < allWeeks.length; i++) {
+      if (moment().isSameOrBefore(allWeeks[i])) {
+        weekCalc = i;
+        break;
+      }
+    }
+    
+    console.log('start date', from);
+
+    for(let week of allWeeks) {
+      console.log('allWeeks', week);
     }
   }
-
-  for(let week of allWeeks) {
-    console.log('weeks', week);
-  }
+  
 
   useEffect(() => {
     dispatch({ type: 'FETCH_LEAGUES' });
   }, []);
 
+  const [allWeeks, setAllWeeks] = useState([])
   const [selectedLeague, setSelectedLeague] = useState(0);
   const [selectedTeam, setSelectedTeam] = useState(0);
   const [selectedClimber, setSelectedClimber] = useState();
@@ -115,14 +123,18 @@ function AdminTeams() {
   };
 
   const handleLeagueSelected = (id, start, end) => {
+    setSelectedTeam(0)
     setSelectedLeague(id);
     setSelectedLeagueStart(start);
     setSelectedLeagueEnd(end);
+    
   };
 
   const handleTeamSelected = (id) => {
+    setAllWeeks([selectedLeagueStart])
     setSelectedTeam(id);
     findTeamScore(id);
+    dateStuff();
   };
 
   const handleClimberSelected = (id) => {
@@ -167,7 +179,7 @@ function AdminTeams() {
       </Grid>
       <Grid>
         <FormControl className={classes.formControl}>
-          <InputLabel>League List</InputLabel>
+          <InputLabel>Select a League</InputLabel>
           <Select
             labelId="teams"
             id="teamList"
@@ -222,109 +234,53 @@ function AdminTeams() {
       <div></div>
 
       {selectedTeam !== 0 && selectedLeague !== 0 ? 
-      <>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Week</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>2</TableCell>
-              <TableCell>3</TableCell>
-              <TableCell>4</TableCell>
-              <TableCell>5</TableCell>
-              <TableCell>6</TableCell>
-              <TableCell>7</TableCell>
-              <TableCell>Total</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* 
-              Loop through the teams reducer
-              IF team.id === selectedTeamId
-              IF climber.id === climbs.userId
-              Then use that climber ID in the scores function and add up all of the scores 
-            */}
-            <TableRow>
-              <TableCell>Score</TableCell>
-              {allWeeks.map((week) => (
-                <TableCell>{week}</TableCell>
-              ))}
-              <TableCell>{teamScore}</TableCell>
-              {/*
-                    ) : (
-                      <TableCell></TableCell>
-                    )
-                  ) : (
-                    <TableCell></TableCell>
-                  )
-                )
-               )} */}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+        <>
+        <h3>Team Score: {teamScore}</h3>
 
-      <br></br>
-
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              {/* <TableCell></TableCell> */}
-              <TableCell align="right">Climber</TableCell>
-              <TableCell align="right">Color</TableCell>
-              <TableCell align="right">Location</TableCell>
-              <TableCell align="right">Difficulty</TableCell>
-              <TableCell align="right">Score</TableCell>
-              <TableCell align="right">Attempts</TableCell>
-              <TableCell align="right">Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* {userClimbs.map((climb) => {
-          return climb.userId === selectedClimber ? (
-            <h3 key={climb.id} value={climb.id}>
-                {climb.color} {climb.locationName} {climb.level} {climb.score} {climb.attempts} {moment(climb.climbDate).format('MM-DD-YYYY')}  
-            </h3>
-          ) : (
-            <div></div>
-          );
-        })} */}
-            {/* {climbers.map((team) => {
-          return (
-            <TableCell key={team.teamId}>{team.username}</TableCell>
-          )
-        })} */}
-
-            {userClimbs.map((climb) => (
-              <TableRow key={climb.climbId}>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
                 {/* <TableCell></TableCell> */}
-                <TableCell align="right">{climb.userName}</TableCell>
-                <TableCell align="right">{climb.color}</TableCell>
-                <TableCell align="right">{climb.locationName}</TableCell>
-                <TableCell align="right">V{climb.level}</TableCell>
-                <TableCell align="right">
-                  {
-                    climberWeekCalc(
-                      climb.userId,
-                      selectedLeagueStart,
-                      selectedLeagueEnd,
-                      userClimbs
-                    ).totalScore
-                  }
-                </TableCell>
-                <TableCell align="right">{climb.attempts}</TableCell>
-                <TableCell align="right">
-                  {moment(climb.climbDate).format('MM-DD-YYYY')}
-                </TableCell>
+                <TableCell align="right">Climber</TableCell>
+                <TableCell align="right">Color</TableCell>
+                <TableCell align="right">Location</TableCell>
+                <TableCell align="right">Difficulty</TableCell>
+                <TableCell align="right">Attempts</TableCell>
+                <TableCell align="right">Date</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      </>
-      : <div></div>}
+            </TableHead>
+            <TableBody>
+              {
+              leagueTeams.map((team) => 
+                team.teamId === selectedTeam ? 
+                  climbers.map((climber) => 
+                    team.teamId === climber.teamId ?
+                      userClimbs.map((climb) => 
+                        climb.userId === climber.userId ?
+                          <TableRow key={climb.climbId}>
+                            {/* <TableCell></TableCell> */}
+                            <TableCell align="right">{climb.username}</TableCell>
+                            <TableCell align="right">{climb.color}</TableCell>
+                            <TableCell align="right">{climb.locationName}</TableCell>
+                            <TableCell align="right">V{climb.level}</TableCell>
+                            <TableCell align="right">{climb.attempts}</TableCell>
+                            <TableCell align="right">
+                              {moment(climb.climbDate).format('MM-DD-YYYY')}
+                            </TableCell>
+                          </TableRow>
+                        : null
+                      )
+                    : null
+                  )
+                :null
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        </>
+      : null
+      }
     </Grid>
     </>
   );
