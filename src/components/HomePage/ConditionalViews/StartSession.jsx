@@ -72,10 +72,7 @@ function StartSession(props) {
     let teamId = conditionalData[0].teamId;
     let leagueId = currentLeagueId;
     let byeWeek = weekCalc;
-    console.log('teamId', teamId);
-    console.log('leagueId', leagueId);
-    console.log('byeWeek', byeWeek);
-    console.log('captainId', conditionalData[0].captainId);
+
     dispatch({
       type: 'UPDATE_BYE_WEEK',
       payload: {

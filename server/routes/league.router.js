@@ -40,8 +40,7 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/join', rejectUnauthenticated, (req, res) => {
-  // console.log('what is my team id', req.body.teamId);
-  // console.log('what is my league id', req.body.leagueId);
+
   let queryText = `
     INSERT INTO "leaguesTeams" ("teamId", "leagueId")
     VALUES ($1, $2);
