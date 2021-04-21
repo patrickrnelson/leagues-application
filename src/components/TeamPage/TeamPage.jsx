@@ -107,7 +107,7 @@ function TeamPage() {
       <>
       <h2 className="teamName">{userTeam}</h2><br/>
       <h3 className="leagueName">League: {currentLeague}</h3>
-
+{/* 
       <FormControl className={classes.formControl}>
         <NativeSelect>
           <option value="" disabled>Week</option>
@@ -116,7 +116,7 @@ function TeamPage() {
           <option>Week 3</option>
         </NativeSelect>
         <FormHelperText>Week</FormHelperText>
-      </FormControl>
+      </FormControl> */}
 
       <TableContainer className={classes.container}>
         <Table className={classes.table}>
