@@ -90,6 +90,7 @@ function TeamPage() {
     }
   }
 
+  // loop through teams to get team for current climber
   const findUserTeam = () => {
     for(let climber of climberTeams) {
       if (climber.userId === user.id) {

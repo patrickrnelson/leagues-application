@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
@@ -27,8 +27,8 @@ const useStyles = makeStyles({
 
 function StartSession(props) {
   const classes = useStyles();
-
   const history = useHistory();
+
 
   // Grab our conditionalData from the store
   const conditionalData = useSelector(store => store.conditional);
@@ -79,6 +79,7 @@ function StartSession(props) {
     }
   }
 
+  // grab climbs for this week
   let currentClimbs = []
   for(let climb of climbs) {
     if (climb.userId === user.id) {
@@ -88,7 +89,23 @@ function StartSession(props) {
     }
   }
 
-  // console.log('current climbs', currentClimbs);
+  // captain only
+  // let captain start a bye week
+  const initiateByeWeek = () => {
+    let teamId = conditionalData[0].teamId;
+    let leagueId = currentLeagueId;
+    let byeWeek = weekCalc;
+
+    dispatch({
+      type: 'UPDATE_BYE_WEEK',
+      payload: {
+        teamId: teamId,
+        leagueId: leagueId,
+        byeWeek: byeWeek,
+        captainId: conditionalData[0].captainId
+      }
+    })
+  }
 
   return (
     <div className="container-start">
@@ -96,6 +113,7 @@ function StartSession(props) {
       
       <p style={{fontStyle: 'italic', color: 'green'}}>{currentClimbs.length === 0 ? '' : 'Session In Progress'}</p>
       <h4>Team: {conditionalData[0].teamName}</h4>
+
       <h4>Week {props.weekCalc + 1}</h4>
 
       <div className={classes.start}>

@@ -23,7 +23,8 @@ function ClimberProfile() {
 
   const user = useSelector(store => store.user)
   const climberTeams = useSelector(store => store.teams);
-  const climbs = useSelector(store => store.climbs)
+  const climbs = useSelector(store => store.climbs);
+  const conditionalData = useSelector(store => store.conditional);
   const leagues = useSelector(store => store.leaguesReducer);
 
   const [climber, setClimber] = useState('')
@@ -53,7 +54,7 @@ function ClimberProfile() {
     <div className="container-profile">
       <Header />
       <h2>{user.name}</h2>
-      <h4>Handicap: {climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap ? climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap : 'Not Set'}</h4>
+      <h4>Handicap: {climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap ? climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap : 'Not Set'}</h4>
       <h4>{user.username}</h4>
       <h4>{user.phone}</h4>
       <Button

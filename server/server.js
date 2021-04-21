@@ -12,6 +12,7 @@ const userRouter = require('./routes/user.router');
 const teamRouter = require('./routes/team.router');
 const climbRouter = require('./routes/climb.router');
 const leagueRouter = require('./routes/league.router');
+const adminRouter = require('./routes/admin.router');
 
 
 // Body parser middleware
@@ -30,6 +31,7 @@ app.use('/api/user', userRouter);
 app.use('/api/team', teamRouter);
 app.use('/api/climb', climbRouter);
 app.use('/api/league', leagueRouter);
+app.use('/api/admin', adminRouter);
 
 // Serve static files
 app.use(express.static('build'));

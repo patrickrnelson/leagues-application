@@ -20,7 +20,6 @@ import AdminCreate from '../Admin/AdminCreate';
 import AdminEdit from '../Admin/AdminEdit';
 import AdminLeagues from '../Admin/AdminLeagues';
 import AdminTeams from '../Admin/AdminTeams';
-import CaptainClimberPage from '../CaptainClimberPage/CaptainClimberPage';
 import ClimberPage from '../ClimberPage/ClimberPage';
 import ClimberProfile from '../ClimberProfile/ClimberProfile';
 import ClimberProfileEdit from '../ClimberProfileEdit/ClimberProfileEdit';
@@ -30,7 +29,6 @@ import HomePage from '../HomePage/HomePage';
 import JoinTeam from '../JoinTeam/JoinTeam';
 import LandingPage from '../LandingPage/LandingPage';
 import Leaderboard from '../Leaderboard/Leaderboard';
-import ReviewSession from '../ReviewSession/ReviewSession';
 import RulesPage from '../RulesPage/RulesPage';
 import TeamPage from '../TeamPage/TeamPage';
 
@@ -108,7 +106,7 @@ function App() {
           {/* Admin - view climbers*/}
           <ProtectedRoute
             exact
-            path="/admin/climbers"
+            path="/admin/climbers/:id"
           >
             <AdminClimber />
           </ProtectedRoute>
@@ -161,13 +159,6 @@ function App() {
             <ClimberPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            exact
-            path="/climber/captain"
-          >
-            <CaptainClimberPage />
-          </ProtectedRoute>
-
           {/* Climber contact */}
           <ProtectedRoute
             exact
@@ -198,14 +189,6 @@ function App() {
             path="/climb/add"
           >
             <AddClimb />
-          </ProtectedRoute>
-
-          {/* Review a climb session */}
-          <ProtectedRoute
-            exact
-            path="/climb/session/review"
-          >
-            <ReviewSession />
           </ProtectedRoute>
 
           {/* League leaderboard */}

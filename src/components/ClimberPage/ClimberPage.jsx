@@ -26,13 +26,17 @@ const useStyles = makeStyles({
 function ClimberPage() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const climberTeams = useSelector(store => store.teams);
+  const conditionalData = useSelector(store => store.conditional);
+  const user = useSelector(store => store.user)
   const climbs = useSelector(store => store.climbs)
   const leagues = useSelector(store => store.leaguesReducer);
   let { id } = useParams()
 
   const [climber, setClimber] = useState('')
+  const [climberId, setClimberId] = useState('')
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
@@ -43,10 +47,12 @@ function ClimberPage() {
     getCurrentLeague();
   }, [])
 
+  // grab the climber username and id
   const findClimber = () => {
     for(let climber of climberTeams) {
       if(climber.userId == id) {
         setClimber(climber.username)
+        setClimberId(climber.userId)
       }
     }
   }
@@ -64,10 +70,25 @@ function ClimberPage() {
     }
   }
   
+  // captain view only
+  // used to remove a team mate from the team
+  const removeTeamMember = (climberId) => {
+    console.log('removing Team Member', climberId)
+    dispatch({
+      type: 'REMOVE_TEAM_MEMBER',
+      payload: {
+        climberId: climberId,
+        captainId: conditionalData[0].captainId
+      }
+    })
+    history.push('/team')
+  }
+
   return (
     <div className="container">
       <Header />
       <h2>{climber}</h2>
+
       <div className={classes.climber}>
         <Button
           variant="outlined"
@@ -77,6 +98,7 @@ function ClimberPage() {
         </Button>
       </div>
       <table>
+
         <thead>
           <tr> 
             <td>Total Score </td>
@@ -91,10 +113,11 @@ function ClimberPage() {
             <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).totalScore} </td>
             <td> {(climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).averageScore).toFixed(2)} </td>
             <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).lastWeekScore} </td>
-            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).handicap ? climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).handicap : 'Not Set'}   </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap ? climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap : 'Not Set'}   </td>
           </tr>
         </tbody>
       </table>
+
       <div className={classes.back}>
         <Button
           variant="outlined"

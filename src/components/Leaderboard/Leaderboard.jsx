@@ -39,7 +39,6 @@ function Leaderboard() {
   const conditionalData = useSelector(store => store.conditional);
   const teams = useSelector(store => store.teams);
 
-  const [currentWeek, setCurrentWeek] = useState('')
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
@@ -65,6 +64,7 @@ function Leaderboard() {
     }
   }
 
+  // loop through teams in league and get their total scores
   for(let team of leagueTeams) {
     if(team.leagueId === currentLeagueId) {
     let teamScore = 0
@@ -79,6 +79,7 @@ function Leaderboard() {
 
   // console.log('teamsInLeague', teamsInLeague)
 
+  // sort teams by score
   teamsInLeague.sort((a, b) => {
     return b.teamScore - a.teamScore;
   })
