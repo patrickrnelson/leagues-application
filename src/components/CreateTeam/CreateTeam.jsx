@@ -24,7 +24,6 @@ function CreateTeam() {
 
   const registerTeam = (event) => {
     event.preventDefault();
-
     dispatch({
       type: 'CREATE_TEAM',
       payload: {
@@ -39,7 +38,6 @@ function CreateTeam() {
       <div className="container">
         <Header />
       </div>
-      <form onSubmit={registerTeam}>
         <h2>Create Team</h2>
         <input 
           type="text" 
@@ -52,10 +50,10 @@ function CreateTeam() {
         <Button 
           variant="outlined"
           color="secondary"
+          onClick={registerTeam}
           className={classes.btn}>
           Create Team
         </Button>
-      </form>
     </>
   );
 }
