@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import Nav from '../Nav/Nav'
+import './AdminTeams.css'
+
 import { Grid, makeStyles } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -13,6 +20,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
@@ -55,49 +63,59 @@ const useStyles = makeStyles((theme) => ({
 // ];
 
 function AdminTeams() {
-
+  const dispatch = useDispatch();
   const history = useHistory();
 
-  let from = new Date(selectedLeagueStart).getTime();
-  let to = new Date(selectedLeagueEnd).getTime();
-  let week = 604800000;
-  let day = 86400000;
-  let allWeeks = [selectedLeagueStart];
-  let current = 1;
-  // determine the number of weeks in the league
-  let weeks = (to - from) / day / 7;
+  // let allWeeks = [];
 
-  // loop over weeks array to add each end of  week date to allWeeks array
-  for (let i = 0; i < weeks; i++) {
-    allWeeks.push(new Date((from += week)).toLocaleDateString());
-  }
+  const dateStuff = () => {
+    let from = new Date(selectedLeagueStart).getTime();
+    let to = new Date(selectedLeagueEnd).getTime();
+    let week = 604800000;
+    let day = 86400000;
+    let current = 1;
+    // setAllWeeks( allWeeks => [...allWeeks, selectedLeagueStart]);
+    // determine the number of weeks in the league
+    let weeks = (to - from) / day / 7;
 
-  // Loop to determine the index of the week so we can check if today is before the end of that week
-  let weekCalc = 0;
-  for (let i = 0; i < allWeeks.length; i++) {
-    if (moment().isSameOrBefore(allWeeks[i])) {
-      weekCalc = i;
-      break;
+    // loop over weeks array to add each end of  week date to allWeeks array
+    for (let i = 0; i < weeks; i++) {
+      setAllWeeks( allWeeks => [...allWeeks, (new Date((from += week)).toLocaleDateString())]);
+    }
+
+    // Loop to determine the index of the week so we can check if today is before the end of that week
+    let weekCalc = 0;
+    for (let i = 0; i < allWeeks.length; i++) {
+      if (moment().isSameOrBefore(allWeeks[i])) {
+        weekCalc = i;
+        break;
+      }
+    }
+    
+    console.log('start date', from);
+
+    for(let week of allWeeks) {
+      console.log('allWeeks', week);
     }
   }
-
-  for(let week of allWeeks) {
-    
-  }
+  
 
   useEffect(() => {
     dispatch({ type: 'FETCH_LEAGUES' });
   }, []);
 
+  const [allWeeks, setAllWeeks] = useState([])
   const [selectedLeague, setSelectedLeague] = useState(0);
-  const [selectedTeam, setSelectedTeam] = useState();
+  const [selectedTeam, setSelectedTeam] = useState(0);
   const [selectedClimber, setSelectedClimber] = useState();
   const [selectedLeagueStart, setSelectedLeagueStart] = useState('');
   const [selectedLeagueEnd, setSelectedLeagueEnd] = useState('');
   const [teamScore, setTeamScore] = useState(0);
+  const [teamPaidStatus, setTeamPaidStatus] = useState(false);
 
-  const dispatch = useDispatch();
+  const [value, setValue] = useState('');
 
+  const conditionalData = useSelector(store => store.conditional);
   const leagues = useSelector((store) => store.leaguesReducer);
   const leagueTeams = useSelector((store) => store.leagueTeamReducer);
   const climbers = useSelector((store) => store.teams);
@@ -106,36 +124,45 @@ function AdminTeams() {
 
   const classes = useStyles();
 
-  const [value, setValue] = useState('');
-
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   const handleLeagueSelected = (id, start, end) => {
-    console.log('leagueTeams', id);
+    setSelectedTeam(0)
     setSelectedLeague(id);
     setSelectedLeagueStart(start);
     setSelectedLeagueEnd(end);
+    
   };
 
-  const handleTeamSelected = (id) => {
-    console.log('what is my selected team?', selectedTeam);
+  const handleTeamSelected = (id, paidStatus) => {
+    setAllWeeks([selectedLeagueStart])
     setSelectedTeam(id);
+    setTeamPaidStatus(paidStatus);
     findTeamScore(id);
     dispatch({ type: 'FETCH_ADMIN_TEAMS', payload: id})
+    dateStuff();
+
   };
 
   const handleClimberSelected = (id) => {
-    console.log('climb stats', id);
     setSelectedClimber(id);
     dispatch({ type: 'FETCH_ADMIN_CLIMBS', payload: id});
     history.push(`/admin/climbers/${id}`)
   };
-  console.log('who are the climbers', userClimbs);
 
-  console.log('Selected League', selectedLeague);
-  console.log('Selected Team', selectedTeam);
+  const handlePaidChange = () => {
+    setTeamPaidStatus(!teamPaidStatus)
+    dispatch({
+      type: 'UPDATE_PAID_STATUS',
+      payload: {
+        paidStatus: !teamPaidStatus,
+        teamId: selectedTeam,
+        leagueId: selectedLeague
+      }
+    })
+  }
 
   const findTeamScore = (teamId) => {
     let teamScore = 0;
@@ -143,12 +170,13 @@ function AdminTeams() {
       if (team.teamId === teamId) {
         for (let climber of climbers) {
           if (team.teamId === climber.teamId) {
-            teamScore += climberWeekCalc(
+            teamScore += Number(climberWeekCalc(
               climber.userId,
               selectedLeagueStart,
               selectedLeagueEnd,
-              userClimbs
-            ).totalScore;
+              userClimbs,
+              conditionalData[0].byeWeek
+            ).totalScore);
           }
         }
       }
@@ -158,6 +186,8 @@ function AdminTeams() {
   };
 
   return (
+    <>
+    <Nav />
     <Grid
       container
       item
@@ -166,12 +196,15 @@ function AdminTeams() {
       justify="space-around"
       alignItems="center"
     >
+      
       <Grid item xs={6}>
         <h1>Teams</h1>
       </Grid>
+
+      {/* League Dropdown */}
       <Grid>
         <FormControl className={classes.formControl}>
-          <InputLabel>League List</InputLabel>
+          <InputLabel>Select a League</InputLabel>
           <Select
             labelId="teams"
             id="teamList"
@@ -193,127 +226,161 @@ function AdminTeams() {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={6}>
-        {leagueTeams.map((team) => {
-          return team.leagueId === selectedLeague ? (
-            <h1
-              key={team.teamId}
-              value={team.teamId}
-              onClick={() => handleTeamSelected(team.teamId)}
-            >
-              {team.teamName}
-            </h1>
-          ) : (
-            <div></div>
-          );
-        })}
-      </Grid>
-      <div>
+
+      {/* Show the Teams in the selected League */}
+        <div className="teamNameContainer">
+        {leagueTeams.map((team) => 
+          team.leagueId === selectedLeague ? 
+          <>
+            <div className='teamDiv'>
+              <h3
+                key={team.teamId}
+                value={team.teamId} 
+                onClick={() => handleTeamSelected(team.teamId, team.isPaid)}
+                className={team.teamId === selectedTeam ? 'clickedTeam teamNameSelector' : 'teamNameSelector'}
+              >
+                {team.teamName}
+              </h3>
+              {team.isPaid ? null :
+                <p className="paidStatus">Has Not Paid</p>
+              }
+            </div>
+          
+          </>
+          : null
+        )}
+        </div>
+
+      {/* Show the climbers in the selected team */}
+      {selectedTeam !== 0 && selectedLeague !== 0 ? 
+        <>
+      <div className="climbersContainer">
+        <p>Climbers:</p>
         {climbers.map((climber) => {
           return climber.teamId === selectedTeam ? (
-            <h3
+            <p
               key={climber.id}
               value={climber.id}
               onClick={() => handleClimberSelected(climber.userId)}
+              className="climberNameLink"
             >
               {climber.username}
-            </h3>
-          ) : (
-            <div></div>
-          );
+            </p>
+          ) : null
+          
         })}
+        {selectedTeam !== 0 ?
+        <>
+        <Checkbox
+          checked={teamPaidStatus}
+          onChange={handlePaidChange}
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+        />
+        <p>Paid?</p>
+        </>
+          : null
+        }
       </div>
-      <div></div>
 
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Week</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>2</TableCell>
-              <TableCell>3</TableCell>
-              <TableCell>4</TableCell>
-              <TableCell>5</TableCell>
-              <TableCell>6</TableCell>
-              <TableCell>7</TableCell>
-              <TableCell>Total</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* 
-              Loop through the teams reducer
-              IF team.id === selectedTeamId
-              IF climber.id === climbs.userId
-              Then use that climber ID in the scores function and add up all of the scores 
-            */}
-            <TableRow>
-              <TableCell>Score</TableCell>
-              {allWeeks.map((week) => (
-                <TableCell>{week}</TableCell>
-              ))}
-              <TableCell>{teamScore}</TableCell>
-              {/*          
-                    ) : (
-                      <TableCell></TableCell>
-                    )
-                  ) : (
-                    <TableCell></TableCell>
-                  )
-                )
-               )} */}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <br></br>
+      
+      <h3>Team Score: {teamScore}</h3>
 
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              {/* <TableCell></TableCell> */}
               <TableCell align="right">Climber</TableCell>
               <TableCell align="right">Color</TableCell>
               <TableCell align="right">Location</TableCell>
               <TableCell align="right">Difficulty</TableCell>
-              <TableCell align="right">Score</TableCell>
               <TableCell align="right">Attempts</TableCell>
               <TableCell align="right">Date</TableCell>
             </TableRow>
           </TableHead>
+        
           <TableBody>
             
-
             {adminTeams.map((climb) => (
               <TableRow key={climb.climbId}>
-                {/* <TableCell></TableCell> */}
                 <TableCell align="right">{climb.name}</TableCell>
                 <TableCell align="right">{climb.color}</TableCell>
                 <TableCell align="right">{climb.locationName}</TableCell>
                 <TableCell align="right">V{climb.level}</TableCell>
-                <TableCell align="right">
-                  {
-                    climberWeekCalc(
-                      climb.userId,
-                      selectedLeagueStart,
-                      selectedLeagueEnd,
-                      userClimbs
-                    ).totalScore
-                  }
-                </TableCell>
                 <TableCell align="right">{climb.attempts}</TableCell>
                 <TableCell align="right">
                   {moment(climb.climbDate).format('MM-DD-YYYY')}
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            ))  }
+            </TableBody>
+          </Table>
+        </TableContainer>
+        </>
+      : null
+      }
     </Grid>
-  );
+    </>
+  )
+
+      {/* Don't show the table until there is a selected league and a selected team */}
+      
+        
+
+        {/* Show the table of climbs after selecting a team */}
+        {/* <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                
+                <TableCell align="right">Climber</TableCell>
+                <TableCell align="right">Color</TableCell>
+                <TableCell align="right">Location</TableCell>
+                <TableCell align="center">Difficulty</TableCell>
+                <TableCell align="center">Attempts</TableCell>
+                <TableCell align="right">Date</TableCell>
+                <TableCell align="center">Submitted?</TableCell>
+
+              </TableRow>
+            </TableHead> */}
+            {/* <TableBody>
+
+          
+              {
+              leagueTeams.map((team) => 
+                team.teamId === selectedTeam ? 
+                  climbers.map((climber) => 
+                    team.teamId === climber.teamId ?
+                      userClimbs.map((climb) => 
+                        climb.userId === climber.userId ?
+                          moment(climb.climbDate).isBetween(selectedLeagueStart, selectedLeagueEnd) ?
+                          <TableRow key={climb.climbId}>
+                           
+                            <TableCell align="right">{climb.name}</TableCell>
+                            <TableCell align="right">{climb.color}</TableCell>
+                            <TableCell align="right">{climb.locationName}</TableCell>
+                            <TableCell align="center">V{climb.level}</TableCell>
+                            <TableCell align="center">{climb.attempts}</TableCell>
+                            <TableCell align="right">
+                              {moment(climb.climbDate).format('MM-DD-YYYY')}
+                            </TableCell>
+                            <TableCell align="center">
+                              <Checkbox
+                                key={climb.climbId}
+                                checked={climb.isSubmitted}
+                                disabled
+                                inputProps={{ 'aria-label': 'primary checkbox' }}
+                                />
+                              </TableCell>
+                          </TableRow>
+                        : null
+                        : null
+                      )
+                    : null
+                  )
+                :null
+              )}
+            </TableBody> */}
+      
 }
 
 export default AdminTeams;

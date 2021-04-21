@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
-import {climberWeekCalc} from '../../../scripts/climberWeekCalc'
-
 function StartSession(props) {
-
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const history = useHistory(); 
 
   // Grab our conditionalData from the store
   const conditionalData = useSelector(store => store.conditional);
@@ -67,6 +65,23 @@ function StartSession(props) {
     }
   }
 
+  const initiateByeWeek = () => {
+    let teamId = conditionalData[0].teamId;
+    let leagueId = currentLeagueId;
+    let byeWeek = weekCalc;
+    console.log('teamId', teamId);
+    console.log('leagueId', leagueId);
+    console.log('byeWeek', byeWeek);
+    dispatch({
+      type: 'UPDATE_BYE_WEEK',
+      payload: {
+        teamId: teamId,
+        leagueId: leagueId,
+        byeWeek: byeWeek
+      }
+    })
+  }
+
   // console.log('current climbs', currentClimbs);
 
   return (
@@ -75,11 +90,12 @@ function StartSession(props) {
       
       <p style={{fontStyle: 'italic', color: 'green'}}>{currentClimbs.length === 0 ? '' : 'Session In Progress'}</p>
       <h4>Team: {conditionalData[0].teamName}</h4>
-      <h4>Week {props.weekCalc + 1}</h4>
+      {/* weekCalc is an index. weekCalc + 1 represents the correct week number */}
+      <h4>Week {weekCalc}</h4>
       
       <button onClick={() => history.push('/climb/session')}>{currentClimbs.length === 0 ? 'Start Session' : 'Continue Session'}</button>
       {/* Check if user is a captain and if they are display bye week button */}
-      {conditionalData[0].captainId === conditionalData[0].userId && conditionalData[0].byeWeek === null && <button>Initiate Bye Week</button>}
+      {conditionalData[0].captainId === conditionalData[0].userId && conditionalData[0].byeWeek === null ? <button onClick={initiateByeWeek}>Initiate Bye Week</button> : null}
     </div>
   );
 }

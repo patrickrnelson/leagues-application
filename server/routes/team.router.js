@@ -5,6 +5,9 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
+/**
+ * GET all Teams and Climbers on those Teams
+ *  */ 
 router.get('/', rejectUnauthenticated, (req, res) => {
   // console.log('in teams GET router');
   let queryText = `
@@ -26,6 +29,9 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * GET all Teams in a specific League (leagueTeams)
+ *  */ 
 router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
   // console.log('test1', req.body);
   let queryText = `SELECT * FROM teams WHERE "teams"."leagueId" = $1`;
@@ -39,6 +45,9 @@ router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
   });
 });
 
+/**
+ * GET access codes?
+ */
 router.get('/access/:id', rejectUnauthenticated, (req, res) => {
   let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
   // console.log('access code in router', req.params.id);
@@ -52,19 +61,9 @@ router.get('/access/:id', rejectUnauthenticated, (req, res) => {
   });
 });
 
-router.get('/access/:id', rejectUnauthenticated, (req, res) => {
-  let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
-  console.log('access code in router', req.params.id);
-  pool.query(queryText, [req.params.id])
-  .then((result) => {
-    res.send(result.rows);
-  })
-  .catch(err => {
-    console.log('error getting team access code', err);
-    res.sendStatus(500)
-  })
-})
-
+/**
+ * CREATE a Team
+ */
 router.post('/', rejectUnauthenticated, async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
@@ -95,6 +94,9 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
   };
 });
 
+/**
+ * JOIN a Team
+ */
 router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
   const connection = await pool.connect();
   try{
@@ -122,5 +124,70 @@ router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500)
   };
 });
+
+/**
+ * UPDATE Bye Week
+ */
+router.put('/bye', rejectUnauthenticated, (req, res) => {
+  console.log('req.body', req.body);
+  
+  let queryText = `
+    UPDATE "leaguesTeams"
+    SET "byeWeek" = $1
+    WHERE "leagueId" = $3 AND "teamId" = $2;
+  `
+  pool.query(queryText, [req.body.byeWeek, req.body.teamId, req.body.leagueId])
+    .then((results) => {
+      console.log('Updated Bye Week');
+      res.sendStatus(200)
+    })
+    .catch((err) => {
+      console.log('Error updating Bye Week', err);
+      res.sendStatus(500)
+    })
+})
+
+router.put('/paid', rejectUnauthenticated, (req, res) => {
+  console.log('req.body', req.body);
+  
+  let queryText = `
+    UPDATE "leaguesTeams"
+    SET "isPaid" = $1
+    WHERE "leagueId" = $3 AND "teamId" = $2;
+  `
+  pool.query(queryText, [req.body.paidStatus, req.body.teamId, req.body.leagueId])
+    .then((results) => {
+      console.log('Updated Paid Status');
+      res.sendStatus(200)
+    })
+    .catch((err) => {
+      console.log('Error updating Paid Status', err);
+      res.sendStatus(500)
+    })
+})
+
+/**
+ * DELETE a User from a Team
+ */
+router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
+  
+  console.log('req body', req.params.id)
+
+  let queryText = `
+  DELETE FROM "usersTeams"
+  WHERE $1 = "userId"
+  `
+  
+  pool.query(queryText, [req.params.id])
+  .then((result) => {
+    console.log('user removed')
+    res.sendStatus(200);
+  })
+  .catch(err => {
+    console.log('error removing from team', err);
+    res.sendStatus(500)
+  });
+});
+
 
 module.exports = router;

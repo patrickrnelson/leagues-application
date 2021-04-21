@@ -79,12 +79,24 @@ function* joinTeam(action) {
   }
 }
 
+function* removeFromTeam(action) {
+  console.log('remove from team', action.payload);
+  try {
+    yield axios.delete(`/api/team/delete/${action.payload.climberId}`);
+    yield put({ type: 'FETCH_TEAMS'})
+  }
+  catch (error) {
+    console.log('Error deleting team', error)
+  }
+}
+
 function* teamsSaga() {
   yield takeLatest('FETCH_TEAMS', fetchTeams);
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);
   yield takeLatest('FETCH_ACCESS_CODE', fetchAccessCode);
   yield takeLatest('FETCH_ADMIN_TEAMS', fetchAdminTeams);
+  yield takeLatest('REMOVE_TEAM_MEMBER', removeFromTeam)
 }
 
 export default teamsSaga;

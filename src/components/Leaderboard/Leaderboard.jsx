@@ -14,7 +14,6 @@ function Leaderboard() {
   const conditionalData = useSelector(store => store.conditional);
   const teams = useSelector(store => store.teams);
 
-  const [currentWeek, setCurrentWeek] = useState('')
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
@@ -63,13 +62,6 @@ function Leaderboard() {
       <Header />
       <h2 className="pageTitle">League Leaderboard</h2>
       <h3 className="leagueName">{currentLeague}</h3>
-      {/* <h4>{currentWeek == '--Total--' ? '' : currentWeek}</h4> */}
-      <select onChange={(event) => setCurrentWeek(event.target.value)}> 
-        <option>--Total--</option>
-        {weeks.map((week) => { return (
-          <option>{week}</option>
-        )})}
-      </select>
       <table className="leagueTable">
         <thead>
           <tr> 

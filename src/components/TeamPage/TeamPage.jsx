@@ -67,11 +67,6 @@ function TeamPage() {
       <>
       <h2 className="teamName">{userTeam}</h2>
       <h3 className="leagueName">{currentLeague}</h3>
-      <select>
-        <option>Week 1</option>
-        <option>Week 2</option>
-        <option>Week 3</option>
-      </select>
       <table className="teamTable">
         <thead>
           <tr>
@@ -85,7 +80,7 @@ function TeamPage() {
               return (
                 <tr>
                   <td key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</td>
-                  <td>{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs).totalScore}</td>
+                  <td>{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).totalScore}</td>
                 </tr>
               )
             }

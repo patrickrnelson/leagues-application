@@ -48,7 +48,7 @@ function HomePage() {
   let to = new Date(conditionalData[0].end).getTime();
   let week = 604800000;
   let day = 86400000;
-  let allWeeks = [];
+  let allWeeks = [currentLeagueStart];
   let current =  1;
   let today = moment();
   // determine the number of weeks in the league
@@ -72,12 +72,6 @@ function HomePage() {
   
 
   const ConditionalDisplay = () => {
-    // If user is not on a team or is on a team that is not in the current league
-    // and today's date is more than a week after the league start, then they can't join the league. 
-    if (conditionalData[0].leagueName !== currentLeague && today.isAfter(start + week)) {
-      // console.log('No League');
-      return <NoLeague />;
-    }
     // If user is not on a team display the JoinCreateTeam page
     if (conditionalData[0].teamId === null) {
       return <JoinCreateTeam />;
@@ -91,7 +85,7 @@ function HomePage() {
     } else if (!moment(conditionalData[0].start).isSameOrBefore()) {
       return <LeagueNotStarted />;
       // if they are on their bye week display ByeWeek page
-    } else if (conditionalData[0].byeWeek !== null && moment(conditionalData[0].ByeWeek).isSameOrBefore(allWeeks[weekCalc])) {
+    } else if (conditionalData[0].byeWeek !== null && conditionalData[0].byeWeek === weekCalc) {
       return <ByeWeek />
     } else {
       // else return StartSession page  

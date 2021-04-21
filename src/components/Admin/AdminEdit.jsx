@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './AdminCreate.css';
+
+import Nav from '../Nav/Nav'
 import { Grid } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
@@ -50,6 +52,8 @@ function AdminEdit() {
   }
 
   return (
+    <>
+    <Nav />
     <Grid
       container
       item
@@ -58,6 +62,7 @@ function AdminEdit() {
       justify="space-around"
       alignItems="center"
     >
+      
       <Grid
         container
         item
@@ -153,6 +158,7 @@ function AdminEdit() {
       </Grid>
     </form>
     </Grid>
+    </>
   );
 }
 

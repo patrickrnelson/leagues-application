@@ -69,22 +69,9 @@ const testMap = () => {
       <h2>Team Cullen</h2>
       <h3>{climberName}</h3>
 
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Week</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>Score</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      
 
-      <br></br>
+      
       <p>Week 2</p>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -95,7 +82,6 @@ const testMap = () => {
               <TableCell align="right">Color</TableCell>
               <TableCell align="right">Location</TableCell>
               <TableCell align="right">Difficulty</TableCell>
-              <TableCell align="right">Score</TableCell>
               <TableCell align="right">Attempts</TableCell>
               <TableCell align="right">Date</TableCell>
             </TableRow>
@@ -111,16 +97,6 @@ const testMap = () => {
                   <TableCell align="right">{climb.color}</TableCell>
                   <TableCell align="right">{climb.locationName}</TableCell>
                   <TableCell align="right">V{climb.level}</TableCell>
-                  <TableCell align="right">
-                    {/* {
-                    climberWeekCalc(
-                      climb.userId,
-                      selectedLeagueStart,
-                      selectedLeagueEnd,
-                      userClimbs
-                    ).totalScore
-                  } */}
-                  </TableCell>
                   <TableCell align="right">{climb.attempts}</TableCell>
                   <TableCell align="right">
                     {moment(climb.climbDate).format('MM-DD-YYYY')}

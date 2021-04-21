@@ -11,6 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import Nav from '../Nav/Nav'
 
 function AdminCreate() {
   const history = useHistory();
@@ -20,7 +21,6 @@ function AdminCreate() {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
 
-
 function handleSubmit() {
   dispatch({
     type: 'CREATE_NEW_LEAGUE',
@@ -29,8 +29,9 @@ function handleSubmit() {
     history.push(`/admin/leagues`)
 }
 
-
   return (
+    <>
+    <Nav />
     <Grid
       container
       item
@@ -130,11 +131,8 @@ function handleSubmit() {
       </Grid>
       
     </Grid>
+    </>
   );
 }
 
 export default AdminCreate;
-
-
-
-// test

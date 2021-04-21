@@ -1,0 +1,58 @@
+.teamNameContainer {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.teamDiv {
+  margin: 20px 25px 0 0;
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.teamDiv:hover {
+  cursor: pointer;
+}
+
+.clickedTeam {
+  background-color: #FFBD59;
+  border-radius: 5px;
+
+}
+
+.teamNameSelector {
+  margin: 0;
+  font-size: 20px;
+  padding: 10px;
+}
+
+.paidStatus {
+  margin: 0;
+  padding-left: 10px;
+  color: red;
+}
+
+.climbersContainer {
+  margin-top: 30px;
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.climberNameLink {
+  font-weight: normal;
+  color: blue;
+}
+
+.climberNameLink:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
