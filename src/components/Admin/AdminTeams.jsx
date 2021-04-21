@@ -102,6 +102,7 @@ function AdminTeams() {
   const leagueTeams = useSelector((store) => store.leagueTeamReducer);
   const climbers = useSelector((store) => store.teams);
   const userClimbs = useSelector((store) => store.climbs);
+  const adminTeams = useSelector((store) => store.adminTeamsReducer);
 
   const classes = useStyles();
 
@@ -122,11 +123,13 @@ function AdminTeams() {
     console.log('what is my selected team?', selectedTeam);
     setSelectedTeam(id);
     findTeamScore(id);
+    dispatch({ type: 'FETCH_ADMIN_TEAMS', payload: id})
   };
 
   const handleClimberSelected = (id) => {
     console.log('climb stats', id);
     setSelectedClimber(id);
+    dispatch({ type: 'FETCH_ADMIN_CLIMBS', payload: id});
     history.push(`/admin/climbers/${id}`)
   };
   console.log('who are the climbers', userClimbs);
@@ -281,25 +284,12 @@ function AdminTeams() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {userClimbs.map((climb) => {
-          return climb.userId === selectedClimber ? (
-            <h3 key={climb.id} value={climb.id}>
-                {climb.color} {climb.locationName} {climb.level} {climb.score} {climb.attempts} {moment(climb.climbDate).format('MM-DD-YYYY')}  
-            </h3>
-          ) : (
-            <div></div>
-          );
-        })} */}
-            {/* {climbers.map((team) => {
-          return (
-            <TableCell key={team.teamId}>{team.username}</TableCell>
-          )
-        })} */}
+            
 
-            {userClimbs.map((climb) => (
+            {adminTeams.map((climb) => (
               <TableRow key={climb.climbId}>
                 {/* <TableCell></TableCell> */}
-                <TableCell align="right">{climb.userName}</TableCell>
+                <TableCell align="right">{climb.name}</TableCell>
                 <TableCell align="right">{climb.color}</TableCell>
                 <TableCell align="right">{climb.locationName}</TableCell>
                 <TableCell align="right">V{climb.level}</TableCell>

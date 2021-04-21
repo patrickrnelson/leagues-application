@@ -8,6 +8,8 @@ import leagueTeamReducer from './leagueTeam.reducer';
 import leaguesReducer from './leagues.reducer'
 import climbsSubmittedReducer from './submittedClimbs.reducer';
 import accessCodeReducer from './access.code.reducer';
+import adminClimbsReducer from './admin.climbs.reducer';
+import adminTeamsReducer from './admin.teams.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -25,6 +27,8 @@ const rootReducer = combineReducers({
   leaguesReducer,
   climbsSubmittedReducer,
   accessCodeReducer,
+  adminClimbsReducer,
+  adminTeamsReducer
 });
 
 export default rootReducer;

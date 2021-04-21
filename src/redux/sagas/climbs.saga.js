@@ -13,6 +13,17 @@ function* fetchClimbs() {
   }
 }
 
+function* fetchAdminClimbs(action) {
+  try {
+    let adminClimbs = yield axios.get(`/api/climb/${action.payload}`)
+
+    yield put ({ type: 'SET_ADMIN_CLIMBS', payload: adminClimbs.data});
+  }
+  catch (err) {
+    console.log("Error if admin_get_climbs:", err);
+  }
+}
+
 function* addNewClimb(action) {
   try {
     // POST a new climb to the DB
@@ -48,6 +59,7 @@ function* submitClimb(action) {
 function* climbsSaga() {
   yield takeLatest('ADD_NEW_CLIMB', addNewClimb);
   yield takeLatest('FETCH_CLIMBS', fetchClimbs);
+  yield takeLatest('FETCH_ADMIN_CLIMBS', fetchAdminClimbs);
   yield takeLatest('UNSUBMIT_CLIMB', unsubmitClimb);
   yield takeLatest('SUBMIT_CLIMB', submitClimb);
 }

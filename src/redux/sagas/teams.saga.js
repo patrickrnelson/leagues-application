@@ -1,5 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
+import adminTeamsReducer from '../reducers/admin.teams.reducer';
 
 function* fetchTeams() {
   try {
@@ -39,6 +40,17 @@ function* createTeam(action) {
   }
 }
 
+function* fetchAdminTeams(action) {
+  try {
+    let adminTeams = yield axios.get(`api/admin/${action.payload}`)
+    yield put({type: 'SET_ADMIN_TEAMS', payload: adminTeams.data})
+  }
+  catch (err) {
+    console.log("Error if admin_get_teams:", err);
+  }
+}
+
+
 
 // function* getLeagueViewInfo() {
 //   try{
@@ -72,6 +84,7 @@ function* teamsSaga() {
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);
   yield takeLatest('FETCH_ACCESS_CODE', fetchAccessCode);
+  yield takeLatest('FETCH_ADMIN_TEAMS', fetchAdminTeams);
 }
 
 export default teamsSaga;

@@ -10,12 +10,32 @@ const router = express.Router();
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
   queryText = `
-    SELECT "climbs".id as "climbId", "climbs".attempts, "climbs"."climbDate", "climbs".color, "climbs"."isSubmitted", "climbs".level,
-    "climbs"."userId", "locations".name AS "locationName"
-    FROM "climbs"
-    JOIN "locations" ON "climbs"."locationId" = "locations".id;
+  SELECT "climbs".id as "climbId", "climbs".attempts, "climbs"."climbDate", "climbs".color, "climbs"."isSubmitted", "climbs".level,
+  "climbs"."userId", "locations".name AS "locationName", "users"."name"
+  FROM "climbs"
+  JOIN "locations" ON "climbs"."locationId" = "locations".id
+  JOIN "users" ON "climbs"."userId" = "users".id;
   `
   pool.query(queryText)
+  .then((dbRes) => {
+    res.send(dbRes.rows)
+  })
+  .catch((err) => {
+    console.log('Error in GET all climbs');
+    res.sendStatus(500);
+  })
+});
+
+router.get('/:id', rejectUnauthenticated, (req, res) => {
+  queryText = `
+  SELECT "climbs".id as "climbId", "climbs".attempts, "climbs"."climbDate", "climbs".color, "climbs"."isSubmitted", "climbs".level,
+  "climbs"."userId", "locations".name AS "locationName", "users"."name"
+  FROM "climbs"
+  JOIN "locations" ON "climbs"."locationId" = "locations".id
+  JOIN "users" ON "climbs"."userId" = "users".id
+  WHERE "users".id = $1
+  `
+  pool.query(queryText, [req.params.id])
   .then((dbRes) => {
     res.send(dbRes.rows)
   })
