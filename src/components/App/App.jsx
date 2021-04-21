@@ -6,6 +6,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import ReactModal from 'react-modal';
+
 import { useDispatch } from 'react-redux';
 
 // import Nav from '../Nav/Nav';
@@ -41,9 +43,10 @@ function App() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
-    dispatch({ type: 'FETCH_CONDITIONAL'});
+    dispatch({ type: 'FETCH_CONDITIONAL' });
   }, [dispatch]);
 
+  // ReactModal.setAppElement('#root');
   return (
     <Router>
       <div>
@@ -52,153 +55,96 @@ function App() {
           <Redirect exact from="/" to="/home" />
 
           {/* About Page - Unprotected */}
-          <Route
-            exact
-            path="/about"
-          >
+          <Route exact path="/about">
             <AboutPage />
           </Route>
 
           {/* Rules Page - Unprotected */}
-          <Route
-            exact
-            path="/rules"
-          >
+          <Route exact path="/rules">
             <RulesPage />
           </Route>
 
           {/* Admin - leagues view */}
-          <ProtectedRoute
-            exact
-            path="/admin/leagues"
-          >
+          <ProtectedRoute exact path="/admin/leagues">
             <AdminLeagues />
           </ProtectedRoute>
 
           {/* Admin - create a league */}
-          <ProtectedRoute
-            exact
-            path="/admin/leagues/new"
-          >
+          <ProtectedRoute exact path="/admin/leagues/new">
             <AdminCreate />
           </ProtectedRoute>
 
           {/* Admin - edit a league */}
-          <ProtectedRoute
-            exact
-            path="/admin/leagues/edit/:id"
-          >
+          <ProtectedRoute exact path="/admin/leagues/edit/:id">
             <AdminEdit />
           </ProtectedRoute>
 
           {/* Admin - view climbers*/}
-          <ProtectedRoute
-            exact
-            path="/admin/climbers"
-          >
+          <ProtectedRoute exact path="/admin/climbers">
             <AdminClimber />
           </ProtectedRoute>
 
           {/* Admin - view teams*/}
-          <ProtectedRoute
-            exact
-            path="/admin/teams"
-          >
+          <ProtectedRoute exact path="/admin/teams">
             <AdminTeams />
           </ProtectedRoute>
 
           {/* Homepage - not on a team */}
-          <ProtectedRoute
-            exact
-            path="/home"
-          >
+          <ProtectedRoute exact path="/home">
             <HomePage />
           </ProtectedRoute>
 
           {/* Create a team page */}
-          <ProtectedRoute
-            exact
-            path="/team/create"
-          >
+          <ProtectedRoute exact path="/team/create">
             <CreateTeam />
           </ProtectedRoute>
 
           {/* Join a team page */}
-          <ProtectedRoute
-            exact
-            path="/team/join"
-          >
+          <ProtectedRoute exact path="/team/join">
             <JoinTeam />
           </ProtectedRoute>
 
           {/* My team */}
-          <ProtectedRoute
-            exact
-            path="/team"
-          >
+          <ProtectedRoute exact path="/team">
             <TeamPage />
           </ProtectedRoute>
 
           {/* Climber Details */}
-          <ProtectedRoute
-            exact
-            path="/climber/:id"
-          >
+          <ProtectedRoute exact path="/climber/:id">
             <ClimberPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            exact
-            path="/climber/captain"
-          >
+          <ProtectedRoute exact path="/climber/captain">
             <CaptainClimberPage />
           </ProtectedRoute>
 
           {/* Climber contact */}
-          <ProtectedRoute
-            exact
-            path="/climberProfile"
-          >
+          <ProtectedRoute exact path="/climberProfile">
             <ClimberProfile />
           </ProtectedRoute>
 
           {/* Climber Profile - Edit */}
-          <ProtectedRoute
-            exact
-            path="/climber/profile/edit"
-          >
+          <ProtectedRoute exact path="/climber/profile/edit">
             <ClimberProfileEdit />
           </ProtectedRoute>
 
           {/* Climb Session */}
-          <ProtectedRoute
-            exact
-            path="/climb/session"
-          >
+          <ProtectedRoute exact path="/climb/session">
             <ClimbingSession />
           </ProtectedRoute>
 
           {/* Add a climb */}
-          <ProtectedRoute
-            exact
-            path="/climb/add"
-          >
+          <ProtectedRoute exact path="/climb/add">
             <AddClimb />
           </ProtectedRoute>
 
           {/* Review a climb session */}
-          <ProtectedRoute
-            exact
-            path="/climb/session/review"
-          >
+          <ProtectedRoute exact path="/climb/session/review">
             <ReviewSession />
           </ProtectedRoute>
 
           {/* League leaderboard */}
-          <ProtectedRoute
-            exact
-            path="/leaderboard"
-          >
+          <ProtectedRoute exact path="/leaderboard">
             <Leaderboard />
           </ProtectedRoute>
 

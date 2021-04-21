@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 import axios from 'axios';
 
 function* fetchTeams() {
@@ -8,7 +8,6 @@ function* fetchTeams() {
     // console.log('GET climber teams', climberTeams.data);
     // SET the characteristics in the reducer
     yield put({ type: 'SET_TEAMS', payload: climberTeams.data });
-
   } catch (error) {
     console.log('Error getting teams', error);
   }
@@ -18,11 +17,14 @@ function* fetchAccessCode(action) {
   try {
     // gets the characteristics from the DB
 
-    // console.log('action in saga', action.payload); 
+    // console.log('action in saga', action.payload);
     let teamCode = yield axios.get(`/api/team/access/${action.payload}`);
     // console.log('GET access code', teamCode.data[0].accessCode);
 
-    yield put({ type: 'SET_ACCESS_CODE', payload: teamCode.data[0].accessCode })
+    yield put({
+      type: 'SET_ACCESS_CODE',
+      payload: teamCode.data[0].accessCode,
+    });
   } catch (error) {
     console.log('Error getting team access code', error);
   }
@@ -32,13 +34,11 @@ function* createTeam(action) {
   // console.log('postNewTeam', action.payload);
   try {
     yield axios.post('/api/team', action.payload);
-    yield put({ type: 'FETCH_TEAMS'})
-  }
-  catch (error) {
-    console.log('Error posting new team', error)
+    yield put({ type: 'FETCH_TEAMS' });
+  } catch (error) {
+    console.log('Error posting new team', error);
   }
 }
-
 
 // function* getLeagueViewInfo() {
 //   try{
@@ -52,13 +52,16 @@ function* createTeam(action) {
 // }
 
 function* joinTeam(action) {
-  try{
+  try {
     yield put({ type: 'CLEAR_JOIN_ERROR' });
-    yield axios.post(`/api/team/join/${action.payload}`)
-    yield put({ type: 'FETCH_TEAMS'})
-  }
-  catch (error) {
-    console.log('Error joining team', error)
+    yield axios.post(`/api/team/join/${action.payload}`);
+
+    yield all([
+      put({ type: 'FETCH_CONDITIONAL' }),
+      put({ type: 'FETCH_TEAMS' }),
+    ]);
+  } catch (error) {
+    console.log('Error joining team', error);
     if (error.response.status === 404) {
       // The 404 is the error status sent from router
       // if the access code does not match
@@ -71,10 +74,9 @@ function* removeFromTeam(action) {
   console.log('remove from team', action.payload);
   try {
     yield axios.delete(`/api/team/delete/${action.payload.climberId}`);
-    yield put({ type: 'FETCH_TEAMS'})
-  }
-  catch (error) {
-    console.log('Error deleting team', error)
+    yield put({ type: 'FETCH_TEAMS' });
+  } catch (error) {
+    console.log('Error deleting team', error);
   }
 }
 
@@ -83,7 +85,7 @@ function* teamsSaga() {
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);
   yield takeLatest('FETCH_ACCESS_CODE', fetchAccessCode);
-  yield takeLatest('REMOVE_TEAM_MEMBER', removeFromTeam)
+  yield takeLatest('REMOVE_TEAM_MEMBER', removeFromTeam);
 }
 
 export default teamsSaga;
