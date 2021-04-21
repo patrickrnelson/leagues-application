@@ -37,6 +37,7 @@ function RegisterForm() {
             type="text"
             name="Name"
             id="name"
+            placeholder="Name"
             value={name}
             minlength="2"
             required
@@ -49,6 +50,9 @@ function RegisterForm() {
             type="email"
             name="email"
             id="email"
+            minlength="3"
+            maxlength="64"
+            placeholder="johndoe@email.com"
             value={username}
             required
             onChange={(event) => setUsername(event.target.value)}
@@ -60,7 +64,7 @@ function RegisterForm() {
             type="tel"
             name="phone number"
             id="phone number"
-            placeholder="000-000-0000"
+            placeholder="123-456-7890"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             value={phoneNumber}
             required
@@ -72,6 +76,7 @@ function RegisterForm() {
           <input
             type="password"
             name="password"
+            placeholder="Password"
             value={password}
             required
             onChange={(event) => setPassword(event.target.value)}

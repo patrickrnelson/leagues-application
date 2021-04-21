@@ -3,9 +3,32 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
+import {climberWeekCalc} from '../../../scripts/climberWeekCalc'
+
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles({
+  btn: {
+    fontSize: '12px',
+  },
+  startBtn: {
+    width: '220px',
+    height: '45px',
+    fontSize: '16px',
+  },
+  start: {
+    paddingTop: '10px',
+  },
+  bye: {
+    paddingTop: '100px',
+  },
+});
+
 function StartSession(props) {
-  const dispatch = useDispatch();
-  const history = useHistory(); 
+  const classes = useStyles();
+  const history = useHistory();
+
 
   // Grab our conditionalData from the store
   const conditionalData = useSelector(store => store.conditional);
@@ -85,17 +108,36 @@ function StartSession(props) {
   }
 
   return (
-    <div className="container">
+    <div className="container-start">
       <h2>Climb Session</h2>
       
       <p style={{fontStyle: 'italic', color: 'green'}}>{currentClimbs.length === 0 ? '' : 'Session In Progress'}</p>
       <h4>Team: {conditionalData[0].teamName}</h4>
-      {/* weekCalc is an index. weekCalc + 1 represents the correct week number */}
-      <h4>Week {weekCalc}</h4>
-      
-      <button onClick={() => history.push('/climb/session')}>{currentClimbs.length === 0 ? 'Start Session' : 'Continue Session'}</button>
-      {/* Check if user is a captain and if they are display bye week button */}
-      {conditionalData[0].captainId === conditionalData[0].userId && conditionalData[0].byeWeek === null ? <button onClick={initiateByeWeek}>Initiate Bye Week</button> : null}
+
+      <h4>Week {props.weekCalc + 1}</h4>
+
+      <div className={classes.start}>
+        <Button
+          variant="outlined" 
+          color="secondary"
+          className={classes.startBtn} 
+          style={{ border: '2px solid' }} 
+          onClick={() => history.push('/climb/session')}>{currentClimbs.length === 0 ? 'Start Session' : 'Continue Session'}
+        </Button>
+      </div>
+
+      <div className={classes.bye}>
+        {/* Check if user is a captain and if they are display bye week Button */}
+        {conditionalData[0].captainId === conditionalData[0].userId && conditionalData[0].byeWeek === null && 
+        <Button
+          variant="outlined" 
+          color="secondary"
+          className={classes.btn} 
+          style={{ border: '2px solid' }}>
+          Initiate Bye Week
+        </Button>}
+      </div>
+
     </div>
   );
 }

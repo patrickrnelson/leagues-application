@@ -3,11 +3,50 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
+
 import Header from '../Header/Header';
 import './TeamPage.css';
-import {climberWeekCalc} from '../../scripts/climberWeekCalc'
+import {climberWeekCalc} from '../../scripts/climberWeekCalc';
+
+const useStyles = makeStyles({
+  btn: {
+    width: '150px',
+    height: '45px',
+    fontSize: '12px',
+  },
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  table: {
+    maxWidth: '300px',
+  },
+  tableHead: {
+    fontSize: '18px',
+  },
+  tableLink: {
+    color: '#0000EE',
+  },
+  formControl: {
+    minWidth: '120',
+    paddingBottom: '20px',
+  },
+});
 
 function TeamPage() {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -66,28 +105,42 @@ function TeamPage() {
       <Header />
       {conditionalData[0].teamName ?
       <>
-      <h2 className="teamName">{userTeam}</h2>
-      <h3 className="leagueName">{currentLeague}</h3>
-      <table className="teamTable">
-        <thead>
-          <tr>
-            <td> Climber </td>
-            <td> Total Score </td>
-          </tr>
-        </thead>
-        <tbody>
+      <h2 className="teamName">{userTeam}</h2><br/>
+      <h3 className="leagueName">League: {currentLeague}</h3>
+
+      <FormControl className={classes.formControl}>
+        <NativeSelect>
+          <option value="" disabled>Week</option>
+          <option>Week 1</option>
+          <option>Week 2</option>
+          <option>Week 3</option>
+        </NativeSelect>
+        <FormHelperText>Week</FormHelperText>
+      </FormControl>
+
+      <TableContainer className={classes.container}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.tableHead} align="center">Climber</TableCell>
+              <TableCell className={classes.tableHead} align="center">Total Score</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
           {climberTeams.map((climber) => {
             if(climber.teamName === userTeam) {
               return (
-                <tr>
-                  <td key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</td>
-                  <td>{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).totalScore}</td>
-                </tr>
+                <TableRow>
+                  <TableCell className={classes.tableLink} align="center" key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</TableCell>
+                  <TableCell align="center">{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs).totalScore}</TableCell>
+                </TableRow>
               )
             }
           })}
-        </tbody>
-      </table>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      
       <div className={`modalBackground modalShowing-${showAccessCode}`}>
         <div className="modalInner">
           <div className="modalText">
@@ -97,7 +150,15 @@ function TeamPage() {
           </div>
         </div>
       </div>
-        <button onClick={() => toggleAccessCode()}>Team Code</button>
+      <div className="modal-button">
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn} 
+          onClick={() => toggleAccessCode()}>
+          Team Code
+        </Button>
+      </div>
       </>
       : 
       <div>

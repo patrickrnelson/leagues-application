@@ -3,10 +3,22 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
-import Header from '../Header/Header'
-import {climberWeekCalc} from '../../scripts/climberWeekCalc'
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+import Header from '../Header/Header';
+import {climberWeekCalc} from '../../scripts/climberWeekCalc';
+
+const useStyles = makeStyles({
+  btn: {
+    width: '185px',
+    height: '45px',
+    fontSize: '12px',
+  },
+});
 
 function ClimberProfile() {
+  const classes = useStyles();
   const history = useHistory();
 
   const user = useSelector(store => store.user)
@@ -39,13 +51,20 @@ function ClimberProfile() {
   }
 
   return (
-    <div className="container">
+    <div className="container-profile">
       <Header />
       <h2>{user.name}</h2>
       <h4>Handicap: {climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap ? climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap : 'Not Set'}</h4>
       <h4>{user.username}</h4>
       <h4>{user.phone}</h4>
-      <button onClick={() => history.push('/climber/profile/edit')}>Edit My Information</button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        style={{ border: '2px solid' }}
+        onClick={() => history.push('/climber/profile/edit')}>
+        Edit My Information
+      </Button>
     </div>
   );
 }

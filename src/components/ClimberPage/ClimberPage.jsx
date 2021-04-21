@@ -3,10 +3,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 
-import Header from '../Header/Header'
-import {climberWeekCalc} from '../../scripts/climberWeekCalc'
+import Header from '../Header/Header';
+import {climberWeekCalc} from '../../scripts/climberWeekCalc';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles({
+  btn: {
+    height: '30px',
+    fontSize: '12px',
+  },
+  climber: {
+    padding: '15px',
+    paddingBottom: '25px',
+  },
+  back: {
+    padding: '25px',
+  }
+});
 
 function ClimberPage() {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -70,13 +88,17 @@ function ClimberPage() {
     <div className="container">
       <Header />
       <h2>{climber}</h2>
-      <button>{climber}'s Info</button>
-      {/* check if user is a captain */}
-      {user.id === conditionalData[0].captainId && climber !== user.name ?
-        <button onClick={() => removeTeamMember(climberId)}>Remove Climber from team</button> 
-      : <> </> 
-      }
-        <table>
+
+      <div className={classes.climber}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}>
+          {climber}'s Info
+        </Button>
+      </div>
+      <table>
+
         <thead>
           <tr> 
             <td>Total Score </td>
@@ -95,8 +117,16 @@ function ClimberPage() {
           </tr>
         </tbody>
       </table>
-      <button onClick={() => history.push('/team')}>Back toTeam </button>
-        
+
+      <div className={classes.back}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          onClick={() => history.push('/team')}>
+          Back to Team 
+        </Button>
+      </div>
     </div>
   );
 }

@@ -2,9 +2,19 @@ import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
 import Header from '../Header/Header'
 
+const useStyles = makeStyles({
+  btn: {
+    fontSize: '12px',
+  },
+});
+
 function ClimberProfileEdit() {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -34,7 +44,8 @@ function ClimberProfileEdit() {
 
 
   return (
-    <div className="container">
+    <>
+    <div className="container-edit">
       <Header />
 
     <h2>Edit My Profile</h2>
@@ -50,15 +61,21 @@ function ClimberProfileEdit() {
         onChange={(event) => setName(event.target.value)}
       />
 
+      <br/>
+
       {/* Email Input */}
       <label for="emailEditInput">Email:</label>
       <input 
         type="email" 
-        id="emailEditInput" 
+        id="emailEditInput"
+        minlength="3"
+        maxlength="64"
         required
         value={email}
         onChange={(event) => setEmail(event.target.value)}
       />
+
+      <br/>
 
       {/* Phone Input */}
       <label for="phoneEditInput">Phone:</label>
@@ -70,10 +87,24 @@ function ClimberProfileEdit() {
         value={phone}
         onChange={(event) => setPhone(event.target.value)}
       />
-
-      <button onClick={handleProfileEdit}>Save</button>
-      <button onClick={() => history.push('/climberProfile')}>Cancel</button>
-    </div>
+      </div>
+      <div>
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        onClick={handleProfileEdit}>
+        Save
+      </Button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        onClick={() => history.push('/climberProfile')}>
+        Cancel
+      </Button>
+      </div>
+      </>
   );
 }
 

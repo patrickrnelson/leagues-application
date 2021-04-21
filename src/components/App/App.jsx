@@ -32,7 +32,20 @@ import Leaderboard from '../Leaderboard/Leaderboard';
 import RulesPage from '../RulesPage/RulesPage';
 import TeamPage from '../TeamPage/TeamPage';
 
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import './App.css';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#272727',
+    },
+    secondary: {
+      main: '#E66B06',
+    },
+  },
+});
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +56,7 @@ function App() {
   }, [dispatch]);
 
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <div>
         <Switch>
@@ -240,6 +254,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </ThemeProvider>
   );
 }
 

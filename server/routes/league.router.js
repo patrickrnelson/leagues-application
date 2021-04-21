@@ -112,8 +112,9 @@ router.put('/saveEdits', rejectUnauthenticated, (req, res) => {
   .catch((err) => {
     console.log('Error Editing a League, in League.router', err);
     res.sendStatus(500);
-  })
-})
+  });
+});
+
 
 router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   

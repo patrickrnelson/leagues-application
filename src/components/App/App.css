@@ -14,16 +14,58 @@ img {
   max-width: 100%;
 }
 
+h2 {
+  padding-top: 20px;
+  font-size: 28px;
+}
+
 /* --------------------------------------------------------------------------------
-Container
+Header
+-------------------------------------------------------------------------------- */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background: #272727;
+  color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  position: fixed;
+  padding-top: 5px;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------------
+Containers
 -------------------------------------------------------------------------------- */
 
 .container {
   text-align: center;
-  padding: 20px;
+  padding: 40px;
   align-items: center;
   justify-content: center;
+}
+
+.container-edit {
   text-align: center;
+  padding: 40px;
+  align-items: left;
+  justify-content: left;
+}
+
+.container-start {
+  text-align: center;
+  padding-top: 150px;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-profile {
+  text-align: center;
+  padding-top: 175px;
+  align-items: center;
+  justify-content: center;
 }
 
 /* --------------------------------------------------------------------------------
@@ -36,7 +78,7 @@ Button
   border-color: #014041;
   border-width: 1px 1px 3px;
   border-radius: 4px;
-  background-color: #ffa600;
+  background-color: #e66b06;
 ;
   color: #f8f8f8;
   font-size: 1.1rem;
@@ -60,8 +102,12 @@ Button
 }
 
 .btn:hover {
-  background-color: #ff8c00;
+  background-color: #e66b06;
   text-decoration: none;
+}
+
+.btn-climb {
+  display: inline-block;
 }
 
 /* This line makes the "Register" and "Login" buttons look like links */
@@ -77,8 +123,8 @@ Button
 
 .btn_asLink:hover {
   background-color: transparent;
-  border-color: #ff8c00;
-  color: #ff8c00;
+  border-color: #e66b06;
+  color: #e66b06;
 }
 
 /* --------------------------------------------------------------------------------
@@ -106,13 +152,14 @@ Form Treatment
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  width: 400px;
+  width: 250px;
+  padding-bottom: 20px;
   max-width: 100%;
-  padding: 25px;
   margin: 0 auto 20px;
-  background-color: #efefef;
+  background-color: rgba(39, 39, 39, 0.9);
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+  color: white;
 }
 
 .registerInputs {
@@ -150,7 +197,7 @@ Modal Access Code
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
 }
 
@@ -160,7 +207,7 @@ Modal Access Code
 }
 
 .modalInner {
-  background: #1e2939;
+  background: #272727;
   width: 230px;
   max-width: calc(100% - 60px);
   margin: auto;
