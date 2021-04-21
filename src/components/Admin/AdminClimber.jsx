@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Nav from '../Nav/Nav'
-import './adminClimber.css'
+import './AdminClimber.css'
 
 import { TableContainer } from '@material-ui/core';
 import { Grid, makeStyles } from '@material-ui/core';
