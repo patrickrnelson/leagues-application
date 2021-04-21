@@ -36,32 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// function adminTotal(week, score) {
-//   return { week, score };
-// }
-
-// const weeks = [adminTotal(1, 2, 3, 4, 5, 6, 7)];
-
-// function createData(
-//   climber,
-//   color,
-//   location,
-//   difficulty,
-//   score,
-//   attempts,
-//   date
-// ) {
-//   return { climber, color, location, difficulty, score, attempts, date };
-// }
-
-// const rows = [
-//   createData('Alvin', 'Red', 'Slab', 4, 3, 5, 4),
-//   createData('John', 'Green', 'Overhang', 5, 6, 7, 4),
-//   createData('Patrick', 'Blue', 'Left Barrel', 6, 7, 8, 4),
-//   createData('Zack', 'Yellow', 'Slab', 7, 8, 9, 4),
-//   createData('Johnny', 'Orange', 'Overhang', 3, 4, 1, 4),
-// ];
-
 function AdminTeams() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -121,6 +95,7 @@ function AdminTeams() {
   const climbers = useSelector((store) => store.teams);
   const userClimbs = useSelector((store) => store.climbs);
   const adminTeams = useSelector((store) => store.adminTeamsReducer);
+  const user = useSelector((store) => store.user);
 
   const classes = useStyles();
 
@@ -186,6 +161,8 @@ function AdminTeams() {
   };
 
   return (
+    user.authLevel === 'ADMIN' ?
+
     <>
     <Nav />
     <Grid
@@ -320,6 +297,7 @@ function AdminTeams() {
       }
     </Grid>
     </>
+    : <h2>404  Page Not Found</h2>
   )
 
       {/* Don't show the table until there is a selected league and a selected team */}
@@ -381,6 +359,7 @@ function AdminTeams() {
               )}
             </TableBody> */}
       
+  
 }
 
 export default AdminTeams;
