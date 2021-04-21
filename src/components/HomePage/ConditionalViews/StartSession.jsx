@@ -56,6 +56,7 @@ function StartSession(props) {
     }
   }
 
+  // grab climbs for this week
   let currentClimbs = []
   for(let climb of climbs) {
     if (climb.userId === user.id) {
@@ -65,6 +66,8 @@ function StartSession(props) {
     }
   }
 
+  // captain only
+  // let captain start a bye week
   const initiateByeWeek = () => {
     let teamId = conditionalData[0].teamId;
     let leagueId = currentLeagueId;
@@ -81,8 +84,6 @@ function StartSession(props) {
       }
     })
   }
-
-  // console.log('current climbs', currentClimbs);
 
   return (
     <div className="container">
