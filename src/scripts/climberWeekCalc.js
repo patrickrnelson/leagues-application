@@ -1,7 +1,6 @@
 import moment from 'moment';
 
-
-export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd, climbs) {
+export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd, climbs, byeWeek) {
   // grab our start date and end date
   let from = new Date(currentLeagueStart).getTime();
   let to = new Date(currentLeagueEnd).getTime();
@@ -49,13 +48,11 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
     }
 
     let handicap = 0;
-    let handicapToDisplay = 0;
     
     if (week === 1) {
       handicap = Math.round(average(weekClimbs));
     } else if (week === weekCalc){
         handicap = Math.round(average(previousWeekClimbs));
-        handicapToDisplay = Math.round(average(previousWeekClimbs));
     } else {
       handicap = Math.round(average(previousWeekClimbs));
     }
@@ -95,7 +92,14 @@ export function climberWeekCalc(climberId, currentLeagueStart, currentLeagueEnd,
     }
   }
 
-  handicap = currentWeekClimberScore(weekCalc).handicap;
+
+  // IF last week was the bye week 
+  // then use the handicap that would have been for the bye week for this week
+  if(weekCalc - 1 === byeWeek) {
+    handicap = currentClimberScore(weekCalc - 1).handicap
+  } else {
+    handicap = currentWeekClimberScore(weekCalc).handicap;
+  }
 
   let averageScore = totalScore / weekCalc;
 
