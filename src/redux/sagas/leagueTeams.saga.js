@@ -31,10 +31,21 @@ function* updateByeWeek(action) {
   }
 }
 
+function* updatePaidStatus(action) {
+  try {
+    yield axios.put(`/api/team/paid`, action.payload)
+    yield put({ type: 'FETCH_LEAGUE_TEAMS' })
+
+  } catch(err) {
+    console.log('Error in updating Bye Paid Status', err);
+  }
+}
+
 function* leagueTeamsSaga() {
   yield takeLatest('FETCH_LEAGUE_TEAMS', fetchLeagueTeams);
   yield takeLatest('JOIN_LEAGUE', joinLeague);
-  yield takeLatest('UPDATE_BYE_WEEK', updateByeWeek)
+  yield takeLatest('UPDATE_BYE_WEEK', updateByeWeek);
+  yield takeLatest('UPDATE_PAID_STATUS', updatePaidStatus);
 }
 
 export default leagueTeamsSaga;

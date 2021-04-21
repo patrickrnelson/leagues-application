@@ -149,7 +149,15 @@ function AdminTeams() {
   };
 
   const handlePaidChange = () => {
-    console.log('Paid Status');
+    setTeamPaidStatus(!teamPaidStatus)
+    dispatch({
+      type: 'UPDATE_PAID_STATUS',
+      payload: {
+        paidStatus: !teamPaidStatus,
+        teamId: selectedTeam,
+        leagueId: selectedLeague
+      }
+    })
   }
 
   const findTeamScore = (teamId) => {
@@ -216,12 +224,11 @@ function AdminTeams() {
       </Grid>
 
       {/* Show the Teams in the selected League */}
-      <Grid item xs={10}>
         <div className="teamNameContainer">
         {leagueTeams.map((team) => 
           team.leagueId === selectedLeague ? 
           <>
-            <div className={team.teamId === selectedTeam ? 'clickedTeam teamDiv' : 'teamDiv'}>
+            <div className='teamDiv'>
               <h3
                 key={team.teamId}
                 value={team.teamId} 
@@ -239,20 +246,22 @@ function AdminTeams() {
           : null
         )}
         </div>
-      </Grid>
 
       {/* Show the climbers in the selected team */}
+      {selectedTeam !== 0 && selectedLeague !== 0 ? 
+        <>
       <div className="climbersContainer">
+        <p>Climbers:</p>
         {climbers.map((climber) => {
           return climber.teamId === selectedTeam ? (
-            <h3
+            <p
               key={climber.id}
               value={climber.id}
               onClick={() => handleClimberSelected(climber.userId)}
               className="climberNameLink"
             >
               {climber.username}
-            </h3>
+            </p>
           ) : (
             <div></div>
           );
@@ -270,8 +279,7 @@ function AdminTeams() {
         }
       </div>
       {/* Don't show the table until there is a selected league and a selected team */}
-      {selectedTeam !== 0 && selectedLeague !== 0 ? 
-        <>
+      
         <h3>Team Score: {teamScore}</h3>
 
         {/* Show the table of climbs after selecting a team */}
