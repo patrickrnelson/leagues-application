@@ -88,7 +88,11 @@ function ClimberPage() {
     <div className="container">
       <Header />
       <h2>{climber}</h2>
-
+      {/* check if user is a captain */}
+      {user.id === conditionalData[0].captainId && climber !== user.name ?
+        <button onClick={() => removeTeamMember(climberId)}>Remove Climber from team</button> 
+      : <> </> 
+      }
       <div className={classes.climber}>
         <Button
           variant="outlined"
