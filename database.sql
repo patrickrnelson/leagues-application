@@ -63,7 +63,7 @@ CREATE TABLE "leaguesTeams" (
   "teamId" INT REFERENCES "teams",
   "leagueId" INT REFERENCES "leagues" ON DELETE CASCADE,
   "isPaid" BOOLEAN DEFAULT FALSE,
-  "byeWeek" DATE
+  "byeWeek" INTEGER
 );
 
 ---- Test Data
