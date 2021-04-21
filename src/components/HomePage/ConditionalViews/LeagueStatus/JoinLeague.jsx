@@ -25,7 +25,7 @@ function JoinLeague(props) {
 
   useEffect(() => {
     findTeamId();
-  }, [])
+  }, [dispatch])
 
   const findTeamId = () => {
     for(let team of teamData) {
