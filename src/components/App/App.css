@@ -37,7 +37,7 @@ Header
 }
 
 /* --------------------------------------------------------------------------------
-Container
+Containers
 -------------------------------------------------------------------------------- */
 
 .container {
@@ -45,7 +45,6 @@ Container
   padding: 40px;
   align-items: center;
   justify-content: center;
-  text-align: center;
 }
 
 .container-edit {
@@ -53,6 +52,20 @@ Container
   padding: 40px;
   align-items: left;
   justify-content: left;
+}
+
+.container-start {
+  text-align: center;
+  padding-top: 150px;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-profile {
+  text-align: center;
+  padding-top: 175px;
+  align-items: center;
+  justify-content: center;
 }
 
 /* --------------------------------------------------------------------------------

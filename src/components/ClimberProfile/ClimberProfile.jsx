@@ -50,7 +50,7 @@ function ClimberProfile() {
   }
 
   return (
-    <div className="container">
+    <div className="container-profile">
       <Header />
       <h2>{user.name}</h2>
       <h4>Handicap: {climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap ? climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap : 'Not Set'}</h4>
@@ -60,6 +60,7 @@ function ClimberProfile() {
         variant="outlined"
         color="secondary"
         className={classes.btn}
+        style={{ border: '2px solid' }}
         onClick={() => history.push('/climber/profile/edit')}>
         Edit My Information
       </Button>

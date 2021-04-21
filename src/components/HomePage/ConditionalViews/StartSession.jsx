@@ -18,10 +18,10 @@ const useStyles = makeStyles({
     fontSize: '16px',
   },
   start: {
-    paddingTop: '100px',
+    paddingTop: '10px',
   },
   bye: {
-    padding: '10px',
+    paddingTop: '100px',
   },
 });
 
@@ -91,12 +91,22 @@ function StartSession(props) {
   // console.log('current climbs', currentClimbs);
 
   return (
-    <div className="container">
+    <div className="container-start">
       <h2>Climb Session</h2>
       
       <p style={{fontStyle: 'italic', color: 'green'}}>{currentClimbs.length === 0 ? '' : 'Session In Progress'}</p>
       <h4>Team: {conditionalData[0].teamName}</h4>
       <h4>Week {props.weekCalc + 1}</h4>
+
+      <div className={classes.start}>
+        <Button
+          variant="outlined" 
+          color="secondary"
+          className={classes.startBtn} 
+          style={{ border: '2px solid' }} 
+          onClick={() => history.push('/climb/session')}>{currentClimbs.length === 0 ? 'Start Session' : 'Continue Session'}
+        </Button>
+      </div>
 
       <div className={classes.bye}>
         {/* Check if user is a captain and if they are display bye week Button */}
@@ -110,15 +120,6 @@ function StartSession(props) {
         </Button>}
       </div>
 
-      <div className={classes.start}>
-        <Button
-          variant="outlined" 
-          color="secondary"
-          className={classes.startBtn} 
-          style={{ border: '2px solid' }} 
-          onClick={() => history.push('/climb/session')}>{currentClimbs.length === 0 ? 'Start Session' : 'Continue Session'}
-        </Button>
-      </div>
     </div>
   );
 }

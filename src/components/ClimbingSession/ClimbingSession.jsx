@@ -3,18 +3,30 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Checkbox from '@material-ui/core/Checkbox';
+
 import Header from '../Header/Header'
 import './ClimbingSession.css'
 import {climberWeekCalc} from '../../scripts/climberWeekCalc'
-import Checkbox from '@material-ui/core/Checkbox';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   btn: {
     height: '45px',
     fontSize: '12px',
+  },
+  table: {
+    minWidth: '250px',
+  },
+  tableHead: {
+    fontSize: '14px',
   },
 });
 
@@ -165,12 +177,14 @@ function ClimbingSession() {
   }
 
   return (
-    <div className="container">
+    <div className="climbsContainer">
       <Header />
       <h2>Week {weekCalc} Climbing Session</h2>
+      
       {/* IF it's the first week (weekCalc = 0) display 'Determined by this week's submissions
           ELSE Display the handicap from our big function */}
       <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
+
       <Button
         variant="outlined"
         color="secondary"
@@ -178,74 +192,78 @@ function ClimbingSession() {
         onClick={() => history.push('/climb/add')}>
         Add a Climb
       </Button>
+
       <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber</p>
+
       {user.id === conditionalData[0].captainId ? 
       teammates.map((mate) => (
         <>
         <h4>{mate.username}</h4>
         <h4>{weekCalc === 0 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs).handicap}`}</h4>
-        <div className="climbsContainer">
-          {/* Start Table For Climber Captain */}
-          <table className="climbsTable">
-            <thead>
-              <tr> 
-                <td>Color</td> 
-                <td>Location</td>
-                <td>Attempts</td> 
-                <td>Level</td> 
-                <td>Submit</td>
-              </tr>
-            </thead>
-            <tbody>
-              {currentClimbs.map((climb) => climb.userId === mate.userId ? 
-                <tr key={climb.climbId}>  
-                <td> {climb.color} </td>
-                <td> {climb.locationName} </td>
-                <td> {climb.attempts} </td>
-                <td> {climb.level} </td>
-                <td>
+
+        <TableContainer>
+          <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.tableHead} align="center">Submit</TableCell>
+              <TableCell className={classes.tableHead} align="center">Color</TableCell>
+              <TableCell className={classes.tableHead} align="center">Location</TableCell>
+              <TableCell className={classes.tableHead} align="center">Level</TableCell>
+              {/* <TableCell className={classes.tableHead} align="center">Attempts</TableCell> */}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {currentClimbs.map((climb) => climb.userId === mate.userId ? 
+                <TableRow key={climb.climbId}>
+                <TableCell align="center">
                   <Checkbox
                   key={climb.climbId}
                   checked={climb.isSubmitted}
                   onChange={(event) => handleCheckBoxChange(climb.climbId, climb.isSubmitted, climb.userId, event)}
                   inputProps={{ 'aria-label': 'primary checkbox' }}
                   />
-                </td>
-              </tr>
+                </TableCell>
+                <TableCell align="center"> {climb.color} </TableCell>
+                <TableCell align="center"> {climb.locationName} </TableCell>
+                <TableCell align="center"> {climb.level} </TableCell>
+                {/* <TableCell align="center"> {climb.attempts} </TableCell> */}
+              </TableRow>
               :
-              <tr></tr>
+              <TableRow></TableRow>
               )}
-            </tbody>
-          </table> 
-          </div>
-          </>
+          </TableBody>
+          </Table>
+        </TableContainer>
+        </>
       ))
       :
       <>
       <h4>My Climbs</h4>
       <div className="climbsContainer">
-        <table className="climbsTable">
-          <thead>
-            <tr> 
-              <td>Color</td> 
-              <td>Location</td>
-              <td>Attempts</td> 
-              <td>Level</td> 
-            </tr>
-          </thead>
-          <tbody>
+        <TableContainer>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.tableHead} align="center">Color</TableCell>
+                <TableCell className={classes.tableHead} align="center">Location</TableCell>
+                <TableCell className={classes.tableHead} align="center">Attempts</TableCell>
+                <TableCell className={classes.tableHead} align="center">Level</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
             {currentClimbs.map((climb) => climb.userId === user.id ? 
-              <tr key={climb.climbId}>  
-              <td> {climb.color} </td>
-              <td> {climb.locationName} </td>
-              <td> {climb.attempts} </td>
-              <td> {climb.level} </td>
-            </tr>
+              <TableRow key={climb.climbId}>  
+              <TableCell align="center"> {climb.color} </TableCell>
+              <TableCell align="center"> {climb.locationName} </TableCell>
+              <TableCell align="center"> {climb.attempts} </TableCell>
+              <TableCell align="center"> {climb.level} </TableCell>
+            </TableRow>
             :
-            <tr></tr>
+            <TableRow></TableRow>
             )}
-          </tbody>
-        </table>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
       </>     
       }

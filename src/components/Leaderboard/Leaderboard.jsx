@@ -5,7 +5,32 @@ import Header from '../Header/Header'
 import './Leaderboard.css'
 import moment from 'moment';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: '350x',
+  },
+  tableHead: {
+    fontSize: '18px',
+  },
+  formControl: {
+    minWidth: '120',
+    paddingBottom: '20px',
+  },
+});
+
 function Leaderboard() {
+  const classes = useStyles();
 
   const leagues = useSelector(store => store.leaguesReducer);
   const leagueTeams = useSelector(store => store.leagueTeamReducer);
@@ -61,36 +86,44 @@ function Leaderboard() {
   return (
     <div className="container">
       <Header />
-      <h2 className="pageTitle">League Leaderboard</h2>
+
+      <h2 className="pageTitle">League Leaderboard</h2><br/>
       <h3 className="leagueName">{currentLeague}</h3>
+
       {/* <h4>{currentWeek == '--Total--' ? '' : currentWeek}</h4> */}
-      <select onChange={(event) => setCurrentWeek(event.target.value)}> 
-        <option>--Total--</option>
-        {weeks.map((week) => { return (
-          <option>{week}</option>
-        )})}
-      </select>
-      <table className="leagueTable">
-        <thead>
-          <tr> 
-            <td></td> 
-            <td>Team</td>
-            <td>Score</td>
-          </tr>
-        </thead>
-        <tbody>
+      <FormControl className={classes.formControl}>
+        <NativeSelect onChange={(event) => setCurrentWeek(event.target.value)}> 
+          <option>Total</option>
+          {weeks.map((week) => { return (
+            <option>{week}</option>
+          )})}
+        </NativeSelect>
+        <FormHelperText>Week</FormHelperText>
+      </FormControl>
+
+      <TableContainer>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+            <TableCell className={classes.tableHead} align="center">#</TableCell>
+              <TableCell className={classes.tableHead} align="center">Team</TableCell>
+              <TableCell className={classes.tableHead} align="center">Score</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
           {teamsInLeague.map((team, index) => {
             // if(team.leagueName === currentLeague) {
             return (
-              <tr>
-                <td> {index + 1} </td>
-                <td> {team.teamName} </td>
-                <td> {team.teamScore} </td>
-              </tr>
+              <TableRow>
+                <TableCell align="center"> {index + 1} </TableCell>
+                <TableCell align="center"> {team.teamName} </TableCell>
+                <TableCell align="center"> {team.teamScore} </TableCell>
+              </TableRow>
             )
           })}
-        </tbody>
-      </table>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }

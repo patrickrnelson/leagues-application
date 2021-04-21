@@ -1,6 +1,8 @@
 .climbsContainer {
+  padding: 30px;
   align-items: center;
   text-align: center;
+  justify-content: center;
 }
 
 .climbsTable {
