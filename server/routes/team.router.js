@@ -123,4 +123,23 @@ router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
   };
 });
 
+router.put('/bye', rejectUnauthenticated, (req, res) => {
+  console.log('req.body', req.body);
+  
+  let queryText = `
+    UPDATE "leaguesTeams"
+    SET "byeWeek" = $1
+    WHERE "leagueId" = $3 AND "teamId" = $2;
+  `
+  pool.query(queryText, [req.body.byeWeek, req.body.teamId, req.body.leagueId])
+    .then((results) => {
+      console.log('Updated Bye Week');
+      res.sendStatus(200)
+    })
+    .catch((err) => {
+      console.log('Error updating Bye Week', err);
+      res.sendStatus(500)
+    })
+})
+
 module.exports = router;

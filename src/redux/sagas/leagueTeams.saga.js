@@ -21,9 +21,20 @@ function* joinLeague(action) {
   }
 }
 
+function* updateByeWeek(action) {
+  try {
+    yield axios.put(`/api/team/bye`, action.payload)
+    yield put({ type: 'FETCH_CONDITIONAL' })
+
+  } catch(err) {
+    console.log('Error in updating Bye Week', err);
+  }
+}
+
 function* leagueTeamsSaga() {
   yield takeLatest('FETCH_LEAGUE_TEAMS', fetchLeagueTeams);
   yield takeLatest('JOIN_LEAGUE', joinLeague);
+  yield takeLatest('UPDATE_BYE_WEEK', updateByeWeek)
 }
 
 export default leagueTeamsSaga;
