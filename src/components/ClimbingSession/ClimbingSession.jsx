@@ -206,10 +206,14 @@ function ClimbingSession() {
     for(let climb of currentClimbs) {
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
         climberOneCount += 1
-      } else if(climb.userId === teammates[1].userId && climb.isSubmitted) {
-        climberTwoCount += 1
-      } else if (climb.userId === teammates[2].userId && climb.isSubmitted) {
-        climberThreeCount += 1
+      } else if (teammates.length > 1) {
+        if (climb.userId === teammates[1].userId && climb.isSubmitted && teammates.length > 1) {
+          climberTwoCount += 1;
+        }
+      } else if (teammates.length > 2) {
+        if (climb.userId === teammates[2].userId && climb.isSubmitted) {
+          climberThreeCount += 1;
+        }
       }
     }
 
