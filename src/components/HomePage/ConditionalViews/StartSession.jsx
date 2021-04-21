@@ -28,6 +28,7 @@ const useStyles = makeStyles({
 function StartSession(props) {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
 
   // Grab our conditionalData from the store
@@ -133,6 +134,7 @@ function StartSession(props) {
           variant="outlined" 
           color="secondary"
           className={classes.btn} 
+          onClick={initiateByeWeek}
           style={{ border: '2px solid' }}>
           Initiate Bye Week
         </Button>}
