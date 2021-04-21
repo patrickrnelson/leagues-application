@@ -1,5 +1,6 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
 import axios from 'axios';
+import adminTeamsReducer from '../reducers/admin.teams.reducer';
 
 function* fetchTeams() {
   try {
@@ -40,6 +41,16 @@ function* createTeam(action) {
   }
 }
 
+function* fetchAdminTeams(action) {
+  try {
+    let adminTeams = yield axios.get(`api/admin/${action.payload}`)
+    yield put({type: 'SET_ADMIN_TEAMS', payload: adminTeams.data})
+  }
+  catch (err) {
+    console.log("Error if admin_get_teams:", err);
+  }
+}
+
 // function* getLeagueViewInfo() {
 //   try{
 //     let leagueInfo = yield axios.get(`/api/league`)
@@ -73,10 +84,11 @@ function* joinTeam(action) {
 function* removeFromTeam(action) {
   console.log('remove from team', action.payload);
   try {
-    yield axios.delete(`/api/team/delete/${action.payload.climberId}`);
-    yield put({ type: 'FETCH_TEAMS' });
-  } catch (error) {
-    console.log('Error deleting team', error);
+    yield axios.delete(`/api/team/delete/${action.payload.climberId}/${action.payload.captainId}`);
+    yield put({ type: 'FETCH_TEAMS'})
+  }
+  catch (error) {
+    console.log('Error deleting team', error)
   }
 }
 
@@ -85,7 +97,8 @@ function* teamsSaga() {
   yield takeLatest('CREATE_TEAM', createTeam);
   yield takeLatest('JOIN_TEAM', joinTeam);
   yield takeLatest('FETCH_ACCESS_CODE', fetchAccessCode);
-  yield takeLatest('REMOVE_TEAM_MEMBER', removeFromTeam);
+  yield takeLatest('FETCH_ADMIN_TEAMS', fetchAdminTeams);
+  yield takeLatest('REMOVE_TEAM_MEMBER', removeFromTeam)
 }
 
 export default teamsSaga;

@@ -22,7 +22,6 @@ import AdminCreate from '../Admin/AdminCreate';
 import AdminEdit from '../Admin/AdminEdit';
 import AdminLeagues from '../Admin/AdminLeagues';
 import AdminTeams from '../Admin/AdminTeams';
-import CaptainClimberPage from '../CaptainClimberPage/CaptainClimberPage';
 import ClimberPage from '../ClimberPage/ClimberPage';
 import ClimberProfile from '../ClimberProfile/ClimberProfile';
 import ClimberProfileEdit from '../ClimberProfileEdit/ClimberProfileEdit';
@@ -32,11 +31,23 @@ import HomePage from '../HomePage/HomePage';
 import JoinTeam from '../JoinTeam/JoinTeam';
 import LandingPage from '../LandingPage/LandingPage';
 import Leaderboard from '../Leaderboard/Leaderboard';
-import ReviewSession from '../ReviewSession/ReviewSession';
 import RulesPage from '../RulesPage/RulesPage';
 import TeamPage from '../TeamPage/TeamPage';
 
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import './App.css';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#272727',
+    },
+    secondary: {
+      main: '#E66B06',
+    },
+  },
+});
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +59,7 @@ function App() {
 
   // ReactModal.setAppElement('#root');
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <div>
         <Switch>
@@ -80,7 +92,10 @@ function App() {
           </ProtectedRoute>
 
           {/* Admin - view climbers*/}
-          <ProtectedRoute exact path="/admin/climbers">
+          <ProtectedRoute
+            exact
+            path="/admin/climbers/:id"
+          >
             <AdminClimber />
           </ProtectedRoute>
 
@@ -114,10 +129,6 @@ function App() {
             <ClimberPage />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/climber/captain">
-            <CaptainClimberPage />
-          </ProtectedRoute>
-
           {/* Climber contact */}
           <ProtectedRoute exact path="/climberProfile">
             <ClimberProfile />
@@ -136,11 +147,6 @@ function App() {
           {/* Add a climb */}
           <ProtectedRoute exact path="/climb/add">
             <AddClimb />
-          </ProtectedRoute>
-
-          {/* Review a climb session */}
-          <ProtectedRoute exact path="/climb/session/review">
-            <ReviewSession />
           </ProtectedRoute>
 
           {/* League leaderboard */}
@@ -203,6 +209,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </ThemeProvider>
   );
 }
 

@@ -38,6 +38,9 @@ function LoginForm() {
             type="text"
             name="email"
             id="email"
+            minlength="3"
+            maxlength="64"
+            placeholder="johndoe@email.com"
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}
@@ -49,6 +52,7 @@ function LoginForm() {
             type="password"
             name="password"
             id="password"
+            placeholder="Password"
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}

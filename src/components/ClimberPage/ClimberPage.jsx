@@ -5,9 +5,28 @@ import moment from 'moment';
 import ReactModal from 'react-modal';
 
 import Header from '../Header/Header';
-import { climberWeekCalc } from '../../scripts/climberWeekCalc';
+
+import {climberWeekCalc} from '../../scripts/climberWeekCalc';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles({
+  btn: {
+    height: '30px',
+    fontSize: '12px',
+  },
+  climber: {
+    padding: '15px',
+    paddingBottom: '25px',
+  },
+  back: {
+    padding: '25px',
+  }
+});
 
 function ClimberPage() {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -33,6 +52,7 @@ function ClimberPage() {
     getCurrentLeague();
   }, []);
 
+  // grab the climber username and id
   const findClimber = () => {
     for (let climber of climberTeams) {
       if (climber.userId == id) {
@@ -55,16 +75,21 @@ function ClimberPage() {
         return;
       }
     }
-  };
-
+  }
+  
+  // captain view only
+  // used to remove a team mate from the team
   const removeTeamMember = (climberId) => {
     console.log('removing Team Member', climberId);
     dispatch({
       type: 'REMOVE_TEAM_MEMBER',
-      payload: { climberId: climberId },
-    });
-    history.push('/team');
-  };
+      payload: {
+        climberId: climberId,
+        captainId: conditionalData[0].captainId
+      }
+    })
+    history.push('/team')
+  }
 
   return (
     <div className="container">
@@ -83,13 +108,12 @@ function ClimberPage() {
         <button onClick={() => setModalIsOpen(false)}>X</button>
       </ReactModal> */}
       {/* <button onClick={() => setModalIsOpen(true)}>{climber}'s Info</button> */}
-      {user.id === conditionalData[0].captainId && climber !== user.name ? (
-        <button onClick={() => removeTeamMember(climberId)}>
-          Remove Climber from team
-        </button>
-      ) : (
-        <> </>
-      )}
+
+      {/* check if user is a captain */}
+      {user.id === conditionalData[0].captainId && climber !== user.name ?
+        <button onClick={() => removeTeamMember(climberId)}>Remove Climber from team</button> 
+      : <> </> 
+      }
       <table>
         <thead>
           <tr>
@@ -101,57 +125,23 @@ function ClimberPage() {
         </thead>
         <tbody>
           <tr>
-            <td>
-              {' '}
-              {
-                climberWeekCalc(
-                  Number(id),
-                  currentLeagueStart,
-                  currentLeagueEnd,
-                  climbs
-                ).totalScore
-              }{' '}
-            </td>
-            <td>
-              {' '}
-              {climberWeekCalc(
-                Number(id),
-                currentLeagueStart,
-                currentLeagueEnd,
-                climbs
-              ).averageScore.toFixed(2)}{' '}
-            </td>
-            <td>
-              {' '}
-              {
-                climberWeekCalc(
-                  Number(id),
-                  currentLeagueStart,
-                  currentLeagueEnd,
-                  climbs
-                ).lastWeekScore
-              }{' '}
-            </td>
-            <td>
-              {' '}
-              {climberWeekCalc(
-                Number(id),
-                currentLeagueStart,
-                currentLeagueEnd,
-                climbs
-              ).handicap
-                ? climberWeekCalc(
-                    Number(id),
-                    currentLeagueStart,
-                    currentLeagueEnd,
-                    climbs
-                  ).handicap
-                : 'Not Set'}{' '}
-            </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).totalScore} </td>
+            <td> {(climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).averageScore).toFixed(2)} </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).lastWeekScore} </td>
+            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap ? climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap : 'Not Set'}   </td>
           </tr>
         </tbody>
       </table>
-      <button onClick={() => history.push('/team')}>Back toTeam </button>
+
+      <div className={classes.back}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          onClick={() => history.push('/team')}>
+          Back to Team 
+        </Button>
+      </div>
     </div>
   );
 }

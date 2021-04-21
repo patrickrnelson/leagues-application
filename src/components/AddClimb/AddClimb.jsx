@@ -9,13 +9,24 @@ import Header from '../Header/Header'
 import './AddClimb.css'
 import { useRadioGroup } from '@material-ui/core';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles({
+  btn: {
+    fontSize: '12px',
+  },
+});
+
 function AddClimb() {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
   const user = useSelector(store => store.user);
   const teams = useSelector(store => store.teams);
   
+  // local state to store climb info from inputs 
   const [climber, setClimber] = useState(user.name)
   const [climberId, setClimberId] = useState(user.id)
   const [color, setColor] = useState('')
@@ -28,8 +39,9 @@ function AddClimb() {
   let difficulties = ['V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12']
 
   const handleAddClimb = () => {
+    // make sure each input is selected
     if(color !== '' && location !== '' && difficulty !== '' && attempts !== 0) {
-      // console.log(color, location, Number(difficulty.substring(1)), attempts);
+      // send new climb to climbs saga which sends to climb reducer to store in database
       dispatch ({
         type: 'ADD_NEW_CLIMB',
         payload: {
@@ -39,9 +51,7 @@ function AddClimb() {
           difficulty: difficulty.substring(1), // Removes the 'V' so we send only a number to the DB
           attempts: attempts
         },
-        // onComplete: () => {
-        //   history.push('/climb/session')
-        // }
+
       })
       history.push('/climb/session')
     }
@@ -111,8 +121,22 @@ function AddClimb() {
       </div>
 
       {/* Submit or Cancel */}
-      <button onClick={handleAddClimb}>Submit!</button>
-      <button onClick={() => history.push('/climb/session')}>Cancel</button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        style={{ border: '2px solid' }}
+        onClick={handleAddClimb}>
+        Submit!
+      </Button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.btn}
+        style={{ border: '2px solid' }}
+        onClick={() => history.push('/climb/session')}>
+        Cancel
+      </Button>
     </div>
   );
 }

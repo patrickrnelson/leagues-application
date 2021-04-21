@@ -1,10 +1,11 @@
 .teamContainer {
   align-items: center;
   text-align: center;
-  padding: 20px;
+  padding-top: 85px;
 }
 
 .teamName {
+  padding-top: 60px;
   margin: 0;
   font-size: 28px;
 }
@@ -15,17 +16,6 @@
   margin-bottom: 40px;
 }
 
-.teamTable {
-  width: 80%;
-  margin: 20px auto;
-  font-size: 20px;
-  margin-bottom: 75px;
-}
-
-.teamTable thead {
-  font-weight: bold;
-}
-
-.teamTable td {
-  padding: 5px 0;
+.modal-button {
+  padding-top: 40px;
 }

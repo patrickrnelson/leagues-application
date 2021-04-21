@@ -40,8 +40,7 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/join', rejectUnauthenticated, (req, res) => {
-  // console.log('what is my team id', req.body.teamId);
-  // console.log('what is my league id', req.body.leagueId);
+
   let queryText = `
     INSERT INTO "leaguesTeams" ("teamId", "leagueId")
     VALUES ($1, $2);
@@ -57,7 +56,16 @@ router.post('/join', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
+
+  // Only admins can add a league
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    // IMPORTANT! Stop the rest of the function from running
+    return;
+  }
+
   const newLeague = req.body;
   console.log('new league', newLeague);
   let queryText = `
@@ -80,8 +88,15 @@ router.post('/', (req, res) => {
     });
 });
 
-router.put('/saveEdits', (req, res) => {
-  // console.log('req.body saveEdits in League.router', req.body);
+router.put('/saveEdits', rejectUnauthenticated, (req, res) => {
+
+  // Only admins can edit leagues
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    // IMPORTANT! Stop the rest of the function from running
+    return;
+  }
 
   let queryText = `
     UPDATE "leagues"
@@ -97,11 +112,19 @@ router.put('/saveEdits', (req, res) => {
   .catch((err) => {
     console.log('Error Editing a League, in League.router', err);
     res.sendStatus(500);
-  })
-})
+  });
+});
+
 
 router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
-  // console.log('req.params deleteLeague in League.router', deleteLeague );
+  
+  // Only admins can delete a league
+  if (req.user.authLevel !== 'ADMIN') {
+    res.sendStatus(403);
+
+    // IMPORTANT! Stop the rest of the function from running
+    return;
+  }
 
   const deleteQuery = `DELETE FROM "leagues" WHERE "id" = $1;`;
 

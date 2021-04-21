@@ -41,7 +41,8 @@ function ByeWeek() {
       payload: {
         teamId: teamId,
         leagueId: leagueId,
-        byeWeek: null
+        byeWeek: null,
+        captainId: conditionalData[0].captainId
       }
     })
   }
