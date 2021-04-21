@@ -94,7 +94,7 @@ function App() {
           {/* Admin - view climbers*/}
           <ProtectedRoute
             exact
-            path="/admin/climbers"
+            path="/admin/climbers/:id"
           >
             <AdminClimber />
           </ProtectedRoute>

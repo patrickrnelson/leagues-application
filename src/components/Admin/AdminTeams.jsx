@@ -120,6 +120,7 @@ function AdminTeams() {
   const leagueTeams = useSelector((store) => store.leagueTeamReducer);
   const climbers = useSelector((store) => store.teams);
   const userClimbs = useSelector((store) => store.climbs);
+  const adminTeams = useSelector((store) => store.adminTeamsReducer);
 
   const classes = useStyles();
 
@@ -140,12 +141,15 @@ function AdminTeams() {
     setSelectedTeam(id);
     setTeamPaidStatus(paidStatus);
     findTeamScore(id);
+    dispatch({ type: 'FETCH_ADMIN_TEAMS', payload: id})
     dateStuff();
+
   };
 
   const handleClimberSelected = (id) => {
     setSelectedClimber(id);
-    history.push('/admin/climbers')
+    dispatch({ type: 'FETCH_ADMIN_CLIMBS', payload: id});
+    history.push(`/admin/climbers/${id}`)
   };
 
   const handlePaidChange = () => {
@@ -242,7 +246,7 @@ function AdminTeams() {
               }
             </div>
           
-            </>
+          </>
           : null
         )}
         </div>
@@ -262,9 +266,8 @@ function AdminTeams() {
             >
               {climber.username}
             </p>
-          ) : (
-            <div></div>
-          );
+          ) : null
+          
         })}
         {selectedTeam !== 0 ?
         <>
@@ -278,16 +281,57 @@ function AdminTeams() {
           : null
         }
       </div>
+
+      
+      <h3>Team Score: {teamScore}</h3>
+
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="right">Climber</TableCell>
+              <TableCell align="right">Color</TableCell>
+              <TableCell align="right">Location</TableCell>
+              <TableCell align="right">Difficulty</TableCell>
+              <TableCell align="right">Attempts</TableCell>
+              <TableCell align="right">Date</TableCell>
+            </TableRow>
+          </TableHead>
+        
+          <TableBody>
+            
+            {adminTeams.map((climb) => (
+              <TableRow key={climb.climbId}>
+                <TableCell align="right">{climb.name}</TableCell>
+                <TableCell align="right">{climb.color}</TableCell>
+                <TableCell align="right">{climb.locationName}</TableCell>
+                <TableCell align="right">V{climb.level}</TableCell>
+                <TableCell align="right">{climb.attempts}</TableCell>
+                <TableCell align="right">
+                  {moment(climb.climbDate).format('MM-DD-YYYY')}
+                </TableCell>
+              </TableRow>
+            ))  }
+            </TableBody>
+          </Table>
+        </TableContainer>
+        </>
+      : null
+      }
+    </Grid>
+    </>
+  )
+
       {/* Don't show the table until there is a selected league and a selected team */}
       
-        <h3>Team Score: {teamScore}</h3>
+        
 
         {/* Show the table of climbs after selecting a team */}
-        <TableContainer component={Paper}>
+        {/* <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                {/* <TableCell></TableCell> */}
+                
                 <TableCell align="right">Climber</TableCell>
                 <TableCell align="right">Color</TableCell>
                 <TableCell align="right">Location</TableCell>
@@ -295,11 +339,12 @@ function AdminTeams() {
                 <TableCell align="center">Attempts</TableCell>
                 <TableCell align="right">Date</TableCell>
                 <TableCell align="center">Submitted?</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
 
-              {/* Find the climbers that are on the selected team in the selected league */}
+              </TableRow>
+            </TableHead> */}
+            {/* <TableBody>
+
+          
               {
               leagueTeams.map((team) => 
                 team.teamId === selectedTeam ? 
@@ -309,7 +354,7 @@ function AdminTeams() {
                         climb.userId === climber.userId ?
                           moment(climb.climbDate).isBetween(selectedLeagueStart, selectedLeagueEnd) ?
                           <TableRow key={climb.climbId}>
-                            {/* <TableCell></TableCell> */}
+                           
                             <TableCell align="right">{climb.name}</TableCell>
                             <TableCell align="right">{climb.color}</TableCell>
                             <TableCell align="right">{climb.locationName}</TableCell>
@@ -334,15 +379,8 @@ function AdminTeams() {
                   )
                 :null
               )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        </>
-      : null
-      }
-    </Grid>
-    </>
-  );
+            </TableBody> */}
+      
 }
 
 export default AdminTeams;

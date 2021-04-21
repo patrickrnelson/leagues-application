@@ -21,11 +21,18 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.get('/', rejectUnauthenticated, (req, res) => {
-  let queryText = ``
+router.get('/:id', rejectUnauthenticated, (req, res) => {
+  let queryText = `SELECT "climbs".id as "climbId", "climbs".attempts, "climbs"."climbDate", "climbs".color, "climbs"."isSubmitted", "climbs".level,
+  "climbs"."userId", "locations".name AS "locationName", "users"."name"
+  FROM "climbs"
+  JOIN "locations" ON "climbs"."locationId" = "locations".id
+  JOIN "users" ON "climbs"."userId" = "users".id
+  JOIN "usersTeams" ON "usersTeams"."userId" = "users".id
+  JOIN "teams" ON "usersTeams"."teamId" = "teams".id
+  WHERE "teams".id = $1;`
  
   pool
-    .query(queryText)
+    .query(queryText, [req.params.id])
     .then((result) => {
       res.send(result.rows);
     })
