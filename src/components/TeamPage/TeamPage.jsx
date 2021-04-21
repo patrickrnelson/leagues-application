@@ -74,11 +74,8 @@ function TeamPage() {
   }
 
   useEffect(() => {
-    const timer = setTimeout(function() { 
-      findUserTeam();
-      getCurrentLeague();
-    }, 600);
-    return () => clearTimeout(timer);
+    findUserTeam();
+    getCurrentLeague();
   }, [])
 
   const getCurrentLeague = () => {
@@ -104,75 +101,71 @@ function TeamPage() {
   }
 
   return (
-
-    <>
-    <div className="teamContainer">
-      <Header />
-      {conditionalData[0].teamName ?
+    userTeam !== '' ?
       <>
-      <h2 className="teamName">{userTeam}</h2><br/>
-      <h3 className="leagueName">League: {currentLeague}</h3>
-{/* 
-      <FormControl className={classes.formControl}>
-        <NativeSelect>
-          <option value="" disabled>Week</option>
-          <option>Week 1</option>
-          <option>Week 2</option>
-          <option>Week 3</option>
-        </NativeSelect>
-        <FormHelperText>Week</FormHelperText>
-      </FormControl> */}
+      <div className="teamContainer">
+        <Header />
+        {conditionalData[0].teamName ?
+        <>
+        <h2 className="teamName">{userTeam}</h2><br/>
+        <h3 className="leagueName">League: {currentLeague}</h3>
 
-      <TableContainer className={classes.container}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.tableHead} align="center">Climber</TableCell>
-              <TableCell className={classes.tableHead} align="center">Total Score</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {climberTeams.map((climber) => {
-            if(climber.teamName === userTeam) {
-              return (
-                <TableRow>
-                  <TableCell className={classes.tableLink} align="center" key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</TableCell>
-                  <TableCell align="center">{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs).totalScore}</TableCell>
-                </TableRow>
-              )
-            }
-          })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      
-      <div className={`modalBackground modalShowing-${showAccessCode}`}>
-        <div className="modalInner">
-          <div className="modalText">
-            <button className="exitButton" onClick={() => toggleAccessCode()}>X</button>
-            <p>This is your teams access code. You can provide the code to others for them to join your team.</p>
-            <p>{accessCode}</p>
+        <TableContainer className={classes.container}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.tableHead} align="center">Climber</TableCell>
+                <TableCell className={classes.tableHead} align="center">Total Score</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            {climberTeams.map((climber) => {
+              if(climber.teamName === userTeam) {
+                return (
+                  <TableRow>
+                    <TableCell className={classes.tableLink} align="center" key={climber.userId} onClick={() => history.push(`/climber/${climber.userId}`)}>{climber.username}</TableCell>
+                    <TableCell align="center">{climberWeekCalc(climber.userId, currentLeagueStart, currentLeagueEnd, climbs).totalScore}</TableCell>
+                  </TableRow>
+                )
+              }
+            })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        
+        <div className={`modalBackground modalShowing-${showAccessCode}`}>
+          <div className="modalInner">
+            <div className="modalText">
+              <button className="exitButton" onClick={() => toggleAccessCode()}>X</button>
+              <p>This is your teams access code. You can provide the code to others for them to join your team.</p>
+              <p>{accessCode}</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="modal-button">
-        <Button
-          variant="outlined"
-          color="secondary"
-          className={classes.btn} 
-          onClick={() => toggleAccessCode()}>
-          Team Code
-        </Button>
+        <div className="modal-button">
+          <Button
+            variant="outlined"
+            color="secondary"
+            className={classes.btn} 
+            onClick={() => toggleAccessCode()}>
+            Team Code
+          </Button>
+        </div>
+        </>
+        : 
+        <div>
+          <h3>You are not on a team.</h3> 
+          <p>Join a team and check back later! </p>
+        </div>
+          }
       </div>
       </>
-      : 
-      <div>
-        <h3>You are not on a team.</h3> 
-        <p>Join a team and check back later! </p>
-      </div>
-        }
+
+    : 
+    <div className="loadTeamsButton">
+      <Header />
+      <Button color='primary' variant='outlined' onClick={findUserTeam}>See your team</Button>
     </div>
-    </>
   );
 }
 
