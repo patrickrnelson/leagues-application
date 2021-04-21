@@ -177,6 +177,8 @@ function ClimbingSession() {
     }
   }
 
+  console.log('currentClimbs', currentClimbs)
+
     // loop through the climbs and update the climber count for climbs that have been submitted
     for(let climb of currentClimbs) {
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {

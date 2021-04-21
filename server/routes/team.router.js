@@ -184,24 +184,25 @@ router.put('/paid', rejectUnauthenticated, (req, res) => {
 /**
  * DELETE a User from a Team
  */
-router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
+router.delete('/delete/:climberId/:captainId', rejectUnauthenticated, (req, res) => {
+
+  console.log('req body', req.params.climberId, req.params.captainId)
+
 
   // Only team captain can remove a teammate and only for their team
-  if (req.user.id !== req.params.id.captainId) {
+  if (req.user.id != req.params.captainId) {
     res.sendStatus(403);
 
     // IMPORTANT! Stop the rest of the function from running
     return;
   }
 
-  console.log('req body', req.params.id.climberId)
-
   let queryText = `
   DELETE FROM "usersTeams"
   WHERE $1 = "userId"
   `
   
-  pool.query(queryText, [req.params.id])
+  pool.query(queryText, [req.params.climberId])
   .then((result) => {
     console.log('user removed')
     res.sendStatus(200);
