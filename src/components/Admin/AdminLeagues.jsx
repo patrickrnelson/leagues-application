@@ -19,6 +19,7 @@ function AdminLeagues() {
   const history = useHistory();
 
   const leaguesInfo = useSelector((store) => store.leaguesReducer);
+  const user = useSelector((store) => store.user);
 
   const [open, setOpen] = React.useState(false);
 
@@ -56,7 +57,9 @@ function AdminLeagues() {
     setOpen(false);
   };
 
+
   return (
+    user.authLevel === 'ADMIN' ?
     <Grid
       container
       item
@@ -207,6 +210,9 @@ function AdminLeagues() {
         );
       })}
     </Grid>
+
+    
+    : <h2>404  Page Not Found</h2>
   );
 }
 

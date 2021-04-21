@@ -155,6 +155,9 @@ router.put('/bye', rejectUnauthenticated, (req, res) => {
     })
 })
 
+/**
+ * UPDATE Paid Status
+ */
 router.put('/paid', rejectUnauthenticated, (req, res) => {
 
   // Only admins can mark a team as paid

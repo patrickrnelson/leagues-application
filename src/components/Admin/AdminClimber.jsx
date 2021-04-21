@@ -34,6 +34,7 @@ function AdminClimber() {
   const climberInfo = useSelector((store) => store.teams);
 
   const adminClimbs = useSelector((store) => store.adminClimbsReducer)
+  const user = useSelector((store) => store.user);
 
   const [climberName, setClimberName] = useState('');
 
@@ -68,6 +69,7 @@ const testMap = () => {
   console.log('getting', id);
   const classes = useStyles();
   return (
+    user.authLevel === 'ADMIN' ?
     <>
     <Nav />
       <h1 className="climberNameContainer">Climber Profile</h1>
@@ -114,6 +116,8 @@ const testMap = () => {
         </Table>
       </TableContainer>
     </>
+
+  : <h2>404  Page Not Found</h2>
   );
 }
 

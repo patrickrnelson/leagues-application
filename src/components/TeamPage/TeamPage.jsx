@@ -74,8 +74,11 @@ function TeamPage() {
   }
 
   useEffect(() => {
-    findUserTeam();
-    getCurrentLeague();
+    const timer = setTimeout(function() { 
+      findUserTeam();
+      getCurrentLeague();
+    }, 600);
+    return () => clearTimeout(timer);
   }, [])
 
   const getCurrentLeague = () => {
@@ -92,6 +95,7 @@ function TeamPage() {
 
   // loop through teams to get team for current climber
   const findUserTeam = () => {
+    console.log('In Find User Team');
     for(let climber of climberTeams) {
       if (climber.userId === user.id) {
         setUserTeam(climber.teamName)
@@ -100,6 +104,7 @@ function TeamPage() {
   }
 
   return (
+
     <>
     <div className="teamContainer">
       <Header />
