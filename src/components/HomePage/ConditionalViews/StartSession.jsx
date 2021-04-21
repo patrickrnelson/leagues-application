@@ -56,6 +56,7 @@ function StartSession(props) {
     }
   }
 
+  // grab climbs for this week
   let currentClimbs = []
   for(let climb of climbs) {
     if (climb.userId === user.id) {
@@ -65,24 +66,23 @@ function StartSession(props) {
     }
   }
 
+  // captain only
+  // let captain start a bye week
   const initiateByeWeek = () => {
     let teamId = conditionalData[0].teamId;
     let leagueId = currentLeagueId;
     let byeWeek = weekCalc;
-    console.log('teamId', teamId);
-    console.log('leagueId', leagueId);
-    console.log('byeWeek', byeWeek);
+
     dispatch({
       type: 'UPDATE_BYE_WEEK',
       payload: {
         teamId: teamId,
         leagueId: leagueId,
-        byeWeek: byeWeek
+        byeWeek: byeWeek,
+        captainId: conditionalData[0].captainId
       }
     })
   }
-
-  // console.log('current climbs', currentClimbs);
 
   return (
     <div className="container">

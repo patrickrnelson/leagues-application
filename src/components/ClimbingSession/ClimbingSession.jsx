@@ -23,19 +23,19 @@ function ClimbingSession() {
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
 
+  // initial climber submitted count
   let climberOneCount = 0;
   let climberTwoCount = 0;
   let climberThreeCount = 0;
 
-
+  // maximum number of submissions for a climber
   const climbLimit = 4;
 
   useEffect(() => {
     getCurrentLeague();
   }, [])
 
-
-
+  // grab current league info
   const getCurrentLeague = () => {
     for(let league of leagues) {
       if(moment().isBetween(league.start, league.end)) {
@@ -72,6 +72,7 @@ function ClimbingSession() {
     }
   }
 
+  // grab all climbs for the current week
   let currentClimbs = []
   for(let climb of climbs) {
     if(moment(climb.climbDate).isBefore(allWeeks[weekCalc]) && moment(climb.climbDate).isSameOrAfter(allWeeks[weekCalc - 1])) {
@@ -79,60 +80,87 @@ function ClimbingSession() {
     }
   }
 
-
+  // keep track of submitted climbs
+  // also updates database when a climb is submitted or unsubmitted
   const handleCheckBoxChange = (climbId, isSubmitted, climberId, event) => {
+    // if the climb is already submitted then unsubmit the climb
     if (isSubmitted) {
       dispatch({
         type: 'UNSUBMIT_CLIMB',
         payload: {climbId: climbId}
       })
+      // update the count for the first climber in the teammates array
       if(climberId === teammates[0].userId) {
         climberOneCount -= 1;
-      } else if (climberId === teammates[1].userId) {
+      // update the count for the second climber in the teammates array
+    } else if (climberId === teammates[1].userId) {
         climberTwoCount -= 1;
+      // update the count for the third climber in the teammates array
       } else if (climberId === teammates[2].userId) {
         climberThreeCount -= 1;
       }
+      // if climb is not submitted
     } else {
+      // check if the climber is the first team mate in the teammates array
       if (climberId === teammates[0].userId) {
+        // check if this team mate is below the maximum limit of climbs
         if (climberOneCount < climbLimit){
+          // check if they are below the maximum and if climber two or three is at the maximum
           if (climberOneCount === (climbLimit - 1) && (climberTwoCount === climbLimit || climberThreeCount === climbLimit)) {
+            // stop the user from submitting a climb if the above is true
             event.preventDefault();
+          // otherwise let the climber submit the climb
           } else {
             dispatch({
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
             })
+            // update the count for this climber
             climberOneCount += 1;
           }
+        // if they are not less then the limit prevent them from submitting the climb
         } else {
           event.preventDefault();
         }
+      // check if the climber is the second team mate in the teammates array
       } else if (climberId === teammates[1].userId) {
+        // check if this team mate is below the maximum limit of climbs
         if (climberTwoCount < climbLimit){
+          // check if they are below the maximum and if climber one or three is at the maximum
           if (climberTwoCount === (climbLimit - 1) && (climberOneCount === climbLimit || climberThreeCount === climbLimit)) {
+            // stop the user from submitting a climb if the above is true
             event.preventDefault();
+          // otherwise let the climber submit the climb
           } else {
             dispatch({
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
             })
+            // update the count for this climber
             climberTwoCount += 1;
           }
+        // if they are not less then the limit prevent them from submitting the climb
         } else {
           event.preventDefault();
         }
+      // check if the climber is the third team mate in the teammates array
       } else if (climberId === teammates[2].userId) {
+        // check if this team mate is below the maximum limit of climbs
         if (climberThreeCount < climbLimit){
+          // check if they are below the maximum and if climber one or two is at the maximum
           if (climberThreeCount === (climbLimit -  1) && (climberOneCount === climbLimit || climberTwoCount === climbLimit)) {
+            // stop the user from submitting a climb if the above is true
             event.preventDefault();
+          // otherwise let the climber submit the climb
           } else {
             dispatch({
               type: 'SUBMIT_CLIMB',
               payload: {climbId: climbId}
             })
+            // update the count for this climber
             climberThreeCount += 1;
           }
+        // if they are not less then the limit prevent them from submitting the climb
         } else {
           event.preventDefault();
         }
@@ -141,15 +169,15 @@ function ClimbingSession() {
     }    
   }
   
-
+  // grab teammates and put into an array
   let teammates = [];
-
   for(let climber of teams) {
     if(climber.captainId === user.id) {
       teammates.push(climber);
     }
   }
 
+    // loop through the climbs and update the climber count for climbs that have been submitted
     for(let climb of currentClimbs) {
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
         climberOneCount += 1
@@ -160,6 +188,7 @@ function ClimbingSession() {
       }
     }
 
+    // keep track of total amount of submitted climbs
     let amountOfClimbs = climberOneCount + climberTwoCount + climberThreeCount;
 
   return (

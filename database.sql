@@ -6,7 +6,7 @@ CREATE TABLE "users" (
     "name" VARCHAR (80) NOT NULL,
     "username" VARCHAR (256) UNIQUE NOT NULL,
     "phone" VARCHAR (64) NOT NULL,
-    "authLevel" INTEGER,
+    "authLevel" VARCHAR (64),
     "password" VARCHAR (1000) NOT NULL
 );
 

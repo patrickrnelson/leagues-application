@@ -29,6 +29,7 @@ function ClimberPage() {
     getCurrentLeague();
   }, [])
 
+  // grab the climber username and id
   const findClimber = () => {
     for(let climber of climberTeams) {
       if(climber.userId == id) {
@@ -51,11 +52,16 @@ function ClimberPage() {
     }
   }
   
+  // captain view only
+  // used to remove a team mate from the team
   const removeTeamMember = (climberId) => {
     console.log('removing Team Member', climberId)
     dispatch({
       type: 'REMOVE_TEAM_MEMBER',
-      payload: {climberId: climberId}
+      payload: {
+        climberId: climberId,
+        captainId: conditionalData[0].captainId
+      }
     })
     history.push('/team')
   }
@@ -65,6 +71,7 @@ function ClimberPage() {
       <Header />
       <h2>{climber}</h2>
       <button>{climber}'s Info</button>
+      {/* check if user is a captain */}
       {user.id === conditionalData[0].captainId && climber !== user.name ?
         <button onClick={() => removeTeamMember(climberId)}>Remove Climber from team</button> 
       : <> </> 
