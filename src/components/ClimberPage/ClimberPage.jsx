@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
-import ReactModal from 'react-modal';
 
 import Header from '../Header/Header';
 

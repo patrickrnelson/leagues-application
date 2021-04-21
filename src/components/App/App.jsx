@@ -6,7 +6,7 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import ReactModal from 'react-modal';
+// import ReactModal from 'react-modal';
 
 import { useDispatch } from 'react-redux';
 
