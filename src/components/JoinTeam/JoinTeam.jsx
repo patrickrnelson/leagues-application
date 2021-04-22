@@ -34,9 +34,11 @@ function CreateTeam() {
     if (teamCode) {
       dispatch({ 
         type: 'JOIN_TEAM', 
-        payload: teamCode.toUpperCase()
+        payload: teamCode.toUpperCase(),
+        onComplete: () => {
+          history.push('/team')
+        }
       });
-      history.push('/team');
     } else {
       dispatch({ type: 'ACCESS_CODE_INPUT_ERROR' })
     }

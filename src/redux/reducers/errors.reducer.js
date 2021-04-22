@@ -40,6 +40,8 @@ const joinTeamMessage = (state = '', action) => {
       return 'Enter an access code';
     case 'ACCESS_CODE_INVALID':
       return 'The access code you entered does not match a team, please try again or contact your team captain.';
+    case 'TOO_MANY_CLIMBERS':
+      return 'This team already has the Max Amount of climbers.'
     default:
       return state;
   }

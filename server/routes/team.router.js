@@ -102,13 +102,20 @@ router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
   try{
     await connection.query(`BEGIN`);
     let dbRes = await connection.query(`
-      SELECT "teams".id 
-      FROM "teams" 
-      WHERE "teams"."accessCode" = ($1);
+      SELECT "teams".id, COUNT(*)
+      FROM "teams"
+      JOIN "usersTeams" ON "teams".id = "usersTeams"."teamId" 
+      WHERE "teams".id = (SELECT "teams".id FROM "teams" WHERE "teams"."accessCode" = $1)
+      GROUP BY "teams".id;
     `, [req.params.accessCode]);
+
+    console.log('dbRes.rows', dbRes.rows);
     if (dbRes.rows[0] === undefined) {
       console.log('Access Code does not match')
       res.sendStatus(404)
+    } else if (dbRes.rows[0].count == 3) {
+      console.log('Already Three Climbers on this team')
+      res.sendStatus(406) // Not acceptable
     } else {
       await connection.query(`
         INSERT INTO "usersTeams" ("userId", "teamId")

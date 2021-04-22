@@ -80,6 +80,10 @@ function* joinTeam(action) {
       // The 404 is the error status sent from router
       // if the access code does not match
       yield put({ type: 'ACCESS_CODE_INVALID' });
+    } else if (error.response.status === 406) {
+      // The 406 is the error status sent from router
+      // if the team already has 3 climbers
+      yield put({ type: 'TOO_MANY_CLIMBERS' });
     }
   }
 }
