@@ -4,15 +4,23 @@ import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-
+import TextField from '@material-ui/core/TextField';
 
 import Header from '../Header/Header'
 
 const useStyles = makeStyles({
   btn: {
-    width: '165px',
-    height: '45px',
+    width: '110px',
+    height: '35px',
     fontSize: '12px',
+  },
+  buttons: {
+    paddingTop: 30,
+    paddingLeft: 25,
+    paddingRight: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'inline-flex',
   },
 });
 
@@ -45,9 +53,8 @@ function CreateTeam() {
 
   return (
     <>
-    <div className="container">
+    <div className="container-join">
       <Header />
-    </div>
     <form onSubmit={joinTeam}>
       <h2>Join Team</h2>
       {errors.joinTeamMessage && (
@@ -55,22 +62,39 @@ function CreateTeam() {
           {errors.joinTeamMessage}
         </h3>
       )}
-      <label for="teamCodeInput">Enter Team Code from Captain</label>
-      <input 
+      <h4 for="teamCodeInput">Enter Team Code from Captain</h4>
+      
+      <TextField 
         type="text" 
-        id="teamCodeInput" 
-        placeholder="Team Code"
+        id="teamCodeInput"
         maxlength="6"
         required
-        onChange={(event) => setTeamCode(event.target.value)}/>
-      <Button
         variant="outlined"
-        color="secondary"
-        className={classes.btn}
-        type="submit">
-        Join Team
-      </Button>
+        label="Team Code"
+        onChange={(event) => setTeamCode(event.target.value)}/>
+
+      <div className={classes.buttons}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          style={{ border: '2px solid' }}
+          onClick={() => history.push('/home')}>
+          Go Back
+        </Button>
+      </div>
+      <div className={classes.buttons}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          style={{ border: '2px solid' }}
+          type="submit">
+          Join Team
+        </Button>
+      </div>
     </form>
+    </div>
     </>
   );
 }

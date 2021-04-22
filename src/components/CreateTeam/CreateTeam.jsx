@@ -4,14 +4,23 @@ import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import Header from '../Header/Header'
 
 const useStyles = makeStyles({
   btn: {
-    width: '165px',
-    height: '45px',
+    width: '125px',
+    height: '35px',
     fontSize: '12px',
+  },
+  buttons: {
+    paddingTop: 30,
+    paddingLeft: 20,
+    paddingRight: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'inline-flex',
   },
 });
 
@@ -24,7 +33,6 @@ function CreateTeam() {
 
   const registerTeam = (event) => {
     event.preventDefault();
-
     dispatch({
       type: 'CREATE_TEAM',
       payload: {
@@ -36,26 +44,40 @@ function CreateTeam() {
 
   return (
     <>
-      <div className="container">
+      <div className="container-create">
         <Header />
-      </div>
-      <form onSubmit={registerTeam}>
         <h2>Create Team</h2>
-        <input 
+        <TextField 
           type="text" 
-          placeholder="Team Name"
           value={teamName}
           minlength="2"
           maxlength="24"
           required
-          onChange={(event) => setTeamName(event.target.value)}/>
-        <Button 
           variant="outlined"
-          color="secondary"
-          className={classes.btn}>
-          Create Team
-        </Button>
-      </form>
+          label="Team Name"
+          onChange={(event) => setTeamName(event.target.value)}/>
+        
+        <div className={classes.buttons}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            className={classes.btn}
+            style={{ border: '2px solid' }}
+            onClick={() => history.push('/home')}>
+            Go Back
+          </Button>
+        </div>
+        <div className={classes.buttons}>
+          <Button 
+            variant="outlined"
+            color="secondary"
+            className={classes.btn}
+            style={{ border: '2px solid' }}
+            onClick={registerTeam}>
+            Create Team
+          </Button>
+        </div>
+      </div>
     </>
   );
 }

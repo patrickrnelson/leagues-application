@@ -47,6 +47,24 @@ Containers
   justify-content: center;
 }
 
+.container-join {
+  text-align: center;
+  padding-top: 100px;
+  padding-left: 20px;
+  padding-right: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-create {
+  text-align: center;
+  padding-top: 100px;
+  padding-left: 20px;
+  padding-right: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
 .container-edit {
   text-align: center;
   padding-top: 125px;
