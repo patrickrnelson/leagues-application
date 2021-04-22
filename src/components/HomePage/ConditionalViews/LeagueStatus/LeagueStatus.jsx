@@ -34,7 +34,7 @@ function LeagueStatus() {
   }
 
   return (
-    <div className="container">
+    <div>
       <ConditionalLeagueDisplay />
     </div>
   );

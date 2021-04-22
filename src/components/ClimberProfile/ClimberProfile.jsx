@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
 import Header from '../Header/Header';
+import boulder from '../Images/boulder1.png';
+import boulderTwo from '../Images/boulder2.png';
 import {climberWeekCalc} from '../../scripts/climberWeekCalc';
 
 const useStyles = makeStyles({
@@ -63,6 +65,8 @@ function ClimberProfile() {
         onClick={() => history.push('/climber/profile/edit')}>
         Edit My Information
       </Button>
+      <img className="profile-image-two" src = {boulderTwo} alt="boulder" height="150px"  />
+      <img className="profile-image" src = {boulder} alt="boulder" height="150px"  />
     </div>
   );
 }

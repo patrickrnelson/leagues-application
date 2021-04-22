@@ -13,9 +13,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import Header from '../Header/Header'
-import './ClimbingSession.css'
-import {climberWeekCalc} from '../../scripts/climberWeekCalc'
+import Header from '../Header/Header';
+import './ClimbingSession.css';
+import {climberWeekCalc} from '../../scripts/climberWeekCalc';
 
 const useStyles = makeStyles({
   btn: {
@@ -205,11 +205,13 @@ function ClimbingSession() {
     for(let climb of currentClimbs) {
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
         climberOneCount += 1
-      } else if (teammates.length > 1) {
+      } 
+      if (teammates.length > 1) {
         if(climb.userId === teammates[1].userId && climb.isSubmitted) {
           climberTwoCount += 1;
         } 
-      } else if (teammates.length>2) {
+      } 
+      if (teammates.length>2) {
         if (climb.userId === teammates[2].userId && climb.isSubmitted) {
           climberThreeCount += 1;
         }
@@ -219,6 +221,10 @@ function ClimbingSession() {
 
     // keep track of total amount of submitted climbs
     let amountOfClimbs = climberOneCount + climberTwoCount + climberThreeCount;
+
+  console.log('climberOneCount', climberOneCount)
+  console.log('climberTwoCount', climberTwoCount)
+  console.log('climberThreeCount', climberThreeCount  )
 
   return (
     <div className="climbsContainer">
@@ -234,6 +240,7 @@ function ClimbingSession() {
         variant="outlined"
         color="secondary"
         className={classes.btn}
+        style={{ border: '2px solid' }}
         onClick={() => history.push('/climb/add')}>
         Add a Climb
       </Button>
@@ -317,6 +324,7 @@ function ClimbingSession() {
       </>     
       }
     </div>
+    
   );
 }
 

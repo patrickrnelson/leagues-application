@@ -14,9 +14,140 @@ img {
   max-width: 100%;
 }
 
+.session-image {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
+
+.session-image-two {
+  position: absolute;
+  transform: scalex(-1);
+  left: 0px;
+  top: 59px;
+  z-index: -1;
+}
+
+.profile-image {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+}
+
+.profile-image-two {
+  position: absolute;
+  right: 0px;
+  top: 59px;
+  z-index: -1;
+}
+
+.edit-image {
+  position: absolute;
+  transform: scalex(-1);
+  right: 0px;
+  bottom: 0px;
+}
+
+.edit-image-two {
+  position: absolute;
+  transform: scalex(-1);
+  left: 0px;
+  top: 59px;
+  z-index: -1;
+}
+
+.leader-image {
+  position: absolute;
+  left: 0px;
+  top: 56px;
+  z-index: -1;
+}
+
+.team-image {
+  position: absolute;
+  left: 0px;
+  top: 59px;
+  z-index: -1;
+}
+
+.team-image-two {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.team-image-three {
+  position: absolute;
+  transform: scaley(-1);
+  right: 0px;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.team-image-four {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.team-image-five {
+  position: absolute;
+  right: 0px;
+  top: 59px;
+  z-index: -1;
+}
+
+.add-climb-image {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.bye-image {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.bye-image-two {
+  position: absolute;
+  right: 0px;
+  top: 59px;
+  z-index: -1;
+}
+
+.welcome-image {
+  position: absolute;
+  transform: scalex(-1);
+  transform: scaley(-1);
+  right: 0px;
+  bottom: 0px;
+}
+
+.create-image {
+  position: absolute;
+  transform: scalex(-1);
+  right: 0px;
+  bottom: 0px;
+}
+
+.join-image {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+}
+
 h2 {
   padding-top: 20px;
   font-size: 28px;
+}
+
+h3 {
+  font-size: 24px;
 }
 
 /* --------------------------------------------------------------------------------
@@ -47,6 +178,13 @@ Containers
   justify-content: center;
 }
 
+.container-bye {
+  text-align: center;
+  padding-top: 135px;
+  align-items: center;
+  justify-content: center;
+}
+
 .container-join {
   text-align: center;
   padding-top: 100px;
@@ -65,9 +203,18 @@ Containers
   justify-content: center;
 }
 
+.container-conditionals {
+  text-align: center;
+  padding-top: 70px;
+  padding-left: 1px;
+  padding-right: 1px;
+  align-items: center;
+  justify-content: center;
+}
+
 .container-edit {
   text-align: center;
-  padding-top: 125px;
+  padding-top: 140px;
   align-items: left;
   justify-content: left;
 }
@@ -208,6 +355,7 @@ Form Treatment
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 8px;
 }
 
 .loginInputs {
@@ -215,6 +363,7 @@ Form Treatment
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 8px;
 }
 
 input {
@@ -267,4 +416,11 @@ Modal Access Code
   background-color: transparent;
   border: 0;
   color: white;
+}
+
+.modal-button {
+  position:absolute;
+  bottom: 7%;
+  right: 70%;
+  left: 30%;
 }

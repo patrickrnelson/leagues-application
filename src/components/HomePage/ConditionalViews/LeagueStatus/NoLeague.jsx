@@ -6,8 +6,8 @@ import { useState } from 'react';
 function NoLeague() {
 
   return (
-    <div className="container">
-      <h2>Welcome!</h2>
+    <div className="container-conditionals">
+      <h3>Welcome!</h3>
       <p>No open leagues</p>
       <p>Check back later or contact Nature of the North for additional info</p>
 

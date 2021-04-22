@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {climberWeekCalc} from '../../scripts/climberWeekCalc'
-import Header from '../Header/Header'
-import './Leaderboard.css'
 import moment from 'moment';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +12,11 @@ import TableRow from '@material-ui/core/TableRow';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
+
+import Header from '../Header/Header';
+import './Leaderboard.css';
+import {climberWeekCalc} from '../../scripts/climberWeekCalc';
+import boulderNine from '../Images/boulder9.png';
 
 const useStyles = makeStyles({
   table: {
@@ -125,6 +127,7 @@ function Leaderboard() {
           </TableBody>
         </Table>
       </TableContainer>
+      <img className="leader-image" src = {boulderNine} alt="boulder" height="150px"  />
     </div>
   );
 }

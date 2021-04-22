@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-import Header from '../Header/Header'
+import Header from '../Header/Header';
+import boulderSeven from '../Images/boulder7.png';
 
 const useStyles = makeStyles({
   btn: {
@@ -77,6 +78,7 @@ function CreateTeam() {
             Create Team
           </Button>
         </div>
+        <img className="create-image" src = {boulderSeven} alt="boulder" height="150px"  />
       </div>
     </>
   );

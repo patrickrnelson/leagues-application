@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import TextField from '@material-ui/core/TextField';
+
 function RegisterForm() {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -33,20 +35,22 @@ function RegisterForm() {
       )}
       <div className="nameInput registerInputs">
         <label htmlFor="name">Name:</label>
-          <input
+          <TextField
             type="text"
             name="Name"
             id="name"
             placeholder="Name"
             value={name}
             minlength="2"
+            inputProps={{min: 0, style: { textAlign: 'center' }}}
+            style={{ backgroundColor: 'white' }}
             required
             onChange={(event) => setName(event.target.value)}
           />
       </div>
       <div className="emailInput registerInputs">
         <label htmlFor="email">Email:</label>
-          <input
+          <TextField
             type="email"
             name="email"
             id="email"
@@ -54,30 +58,36 @@ function RegisterForm() {
             maxlength="64"
             placeholder="johndoe@email.com"
             value={username}
+            inputProps={{min: 0, style: { textAlign: 'center' }}}
+            style={{ backgroundColor: 'white' }}
             required
             onChange={(event) => setUsername(event.target.value)}
           />
       </div>
       <div className="phoneInput registerInputs">
         <label htmlFor="phone number">Phone Number:</label>
-          <input
+          <TextField
             type="tel"
             name="phone number"
             id="phone number"
             placeholder="123-456-7890"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             value={phoneNumber}
+            inputProps={{min: 0, style: { textAlign: 'center' }}}
+            style={{ backgroundColor: 'white' }}
             required
             onChange={(event) => setPhoneNumber(event.target.value)}
           />
       </div>
       <div className="passwordInput registerInputs">
         <label htmlFor="password">Password:</label>
-          <input
+          <TextField
             type="password"
             name="password"
             placeholder="Password"
             value={password}
+            inputProps={{min: 0, style: { textAlign: 'center' }}}
+            style={{ backgroundColor: 'white' }}
             required
             onChange={(event) => setPassword(event.target.value)}
           />

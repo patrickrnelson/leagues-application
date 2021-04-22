@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
 
+import TextField from '@material-ui/core/TextField';
+
+
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -34,7 +37,7 @@ function LoginForm() {
       )}
       <div className="emailInput loginInputs">
         <label htmlFor="email">Email:</label>
-          <input
+          <TextField
             type="text"
             name="email"
             id="email"
@@ -43,18 +46,22 @@ function LoginForm() {
             placeholder="johndoe@email.com"
             required
             value={username}
+            inputProps={{min: 0, style: { textAlign: 'center' }}}
+            style={{ backgroundColor: 'white' }}
             onChange={(event) => setUsername(event.target.value)}
           />
       </div>
       <div className="passwordInput loginInputs">
         <label htmlFor="password">Password:</label>
-          <input
+          <TextField
             type="password"
             name="password"
             id="password"
             placeholder="Password"
             required
             value={password}
+            inputProps={{min: 0, style: { textAlign: 'center' }}}
+            style={{ backgroundColor: 'white' }}
             onChange={(event) => setPassword(event.target.value)}
           />
       </div>

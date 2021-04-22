@@ -46,17 +46,17 @@ function JoinLeague(props) {
   }
 
   return (
-    <div className="container">
-      <h2>{props.leagueData.name} League is open</h2>
-      <h3>League Dates: {moment(props.leagueData.start).format("dddd, MMMM Do YYYY")} - {moment(props.leagueData.end).format("dddd, MMMM Do YYYY")}</h3>
-      <h3>Joining period ends {moment(props.leagueData.start).add(7, 'd').format("dddd, MMMM Do YYYY")}</h3>
+    <div className="container-conditionals">
+      <h3>{props.leagueData.name} is open!</h3>
+      <h4>League Dates: {moment(props.leagueData.start).format("dddd, MMMM Do YYYY")} - {moment(props.leagueData.end).format("dddd, MMMM Do YYYY")}</h4>
+      <h4>Joining period ends {moment(props.leagueData.start).add(7, 'd').format("dddd, MMMM Do YYYY")}</h4><br/>
       <Button 
         variant="outlined"
         color="secondary"
         className={classes.btn}
         style={{ border: '2px solid' }}
         onClick={(() => joinLeague())}>
-        Join League
+        Join League!
       </Button>
     </div>
   );
