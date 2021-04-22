@@ -87,7 +87,7 @@ function AdminEdit() {
         alignItems="center"
       >
         <Grid>
-          <p>Name:</p>
+          <p>League Name:</p>
         </Grid>
         <Grid>
           <TextField
