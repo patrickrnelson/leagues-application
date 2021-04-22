@@ -164,7 +164,13 @@ function TeamPage() {
     : 
     <div className="loadTeamsButton">
       <Header />
-      <Button color='primary' variant='outlined' onClick={findUserTeam}>See your team</Button>
+      <Button 
+        color='secondary' 
+        variant='outlined'
+        style={{ border: '2px solid' }}
+        onClick={findUserTeam}>
+        Go To Your Team
+      </Button>
     </div>
   );
 }
