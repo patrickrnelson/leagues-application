@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
+import Nav from '../Nav/Nav'
+import './AdminClimber.css'
+
 import { TableContainer } from '@material-ui/core';
 import { Grid, makeStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
@@ -10,6 +14,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import moment from 'moment';
+
 
 import { climberWeekCalc } from '../../scripts/climberWeekCalc';
 
@@ -64,15 +69,15 @@ const testMap = () => {
   const classes = useStyles();
   return (
     <>
-      <h1>Climber Profile</h1>
-      <br></br>
-      <h2>Team Cullen</h2>
-      <h3>{climberName}</h3>
+    <Nav />
+      <h1 className="climberNameContainer">Climber Profile</h1>
+      <h2 className="climberNameContainer">Team Cullen</h2>
+      <h3 className="climberNameContainer">{climberName}</h3>
 
       
 
       
-      <p>Week 2</p>
+      <p className="climberNameContainer">Week 2</p>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
@@ -87,6 +92,7 @@ const testMap = () => {
             </TableRow>
           </TableHead>
           <TableBody>
+            
             {adminClimbs.map((climb) => {
               console.log(climb.userId)
               console.log(id)

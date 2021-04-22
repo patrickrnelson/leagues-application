@@ -107,7 +107,8 @@ function TeamPage() {
       <h2 className="teamName">{userTeam}</h2><br/>
       <h3 className="leagueName">League: {currentLeague}</h3>
 
-      {/* <FormControl className={classes.formControl}>
+{/* 
+      <FormControl className={classes.formControl}>
         <NativeSelect>
           <option value="" disabled>Week</option>
           <option>Week 1</option>
@@ -152,7 +153,8 @@ function TeamPage() {
         <Button
           variant="outlined"
           color="secondary"
-          className={classes.btn} 
+          className={classes.btn}
+          style={{ border: '2px solid' }}
           onClick={() => setShowAccessCode(true)}>
           Team Code
         </Button>

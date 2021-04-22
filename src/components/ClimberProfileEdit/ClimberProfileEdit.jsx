@@ -10,12 +10,14 @@ import Header from '../Header/Header'
 
 const useStyles = makeStyles({
   btn: {
+    height: 30,
+    width: 100,
     fontSize: '12px',
   },
   buttons: {
     paddingTop: 30,
-    paddingLeft: 70,
-    paddingRight: 10,
+    paddingLeft: 35,
+    paddingRight: 35,
     alignItems: 'center',
     justifyContent: 'center',
     display: 'inline-flex',
@@ -96,6 +98,17 @@ function ClimberProfileEdit() {
         value={phone}
         onChange={(event) => setPhone(event.target.value)}
       />
+
+      <div className={classes.buttons}>
+        <Button
+          mt={1}
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          style={{ border: '2px solid' }}
+          onClick={() => history.push('/climberProfile')}>
+          Cancel
+        </Button>
       </div>
       <div className={classes.buttons}>
         <Button
@@ -103,19 +116,11 @@ function ClimberProfileEdit() {
           variant="outlined"
           color="secondary"
           className={classes.btn}
+          style={{ border: '2px solid' }}
           onClick={handleProfileEdit}>
           Save
         </Button>
       </div>
-      <div className={classes.buttons}>
-        <Button
-          mt={1}
-          variant="outlined"
-          color="secondary"
-          className={classes.btn}
-          onClick={() => history.push('/climberProfile')}>
-          Cancel
-        </Button>
       </div>
       </>
   );

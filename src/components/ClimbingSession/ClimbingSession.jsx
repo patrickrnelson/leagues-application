@@ -200,22 +200,22 @@ function ClimbingSession() {
     }
   }
 
-  console.log('currentClimbs', currentClimbs)
-
     // loop through the climbs and update the climber count for climbs that have been submitted
+    if (user.id === conditionalData[0].captainId) {
     for(let climb of currentClimbs) {
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
         climberOneCount += 1
       } else if (teammates.length > 1) {
-        if (climb.userId === teammates[1].userId && climb.isSubmitted && teammates.length > 1) {
+        if(climb.userId === teammates[1].userId && climb.isSubmitted) {
           climberTwoCount += 1;
-        }
-      } else if (teammates.length > 2) {
+        } 
+      } else if (teammates.length>2) {
         if (climb.userId === teammates[2].userId && climb.isSubmitted) {
           climberThreeCount += 1;
         }
       }
     }
+  }
 
     // keep track of total amount of submitted climbs
     let amountOfClimbs = climberOneCount + climberTwoCount + climberThreeCount;
@@ -237,8 +237,9 @@ function ClimbingSession() {
         Add a Climb
       </Button>
 
-      <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber</p>
       {user.id === conditionalData[0].captainId ? 
+
+      
       teammates.map((mate) => (
         <>
         <h4>{mate.username}</h4>
