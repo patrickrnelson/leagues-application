@@ -212,8 +212,8 @@ function AddClimb() {
           color="secondary"
           className={classes.btn}
           style={{ border: '2px solid' }}
-          onClick={handleAddClimb}>
-          Submit!
+          onClick={() => history.push('/climb/session')}>
+          Cancel
         </Button>
       </div>
       <div className={classes.buttons}>
@@ -222,8 +222,8 @@ function AddClimb() {
           color="secondary"
           className={classes.btn}
           style={{ border: '2px solid' }}
-          onClick={() => history.push('/climb/session')}>
-          Cancel
+          onClick={handleAddClimb}>
+          Submit!
         </Button>
       </div>
     </div>
