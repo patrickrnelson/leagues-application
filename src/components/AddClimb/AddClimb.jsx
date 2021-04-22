@@ -144,10 +144,11 @@ function AddClimb() {
         <Typography style={{textAlign: 'left'}} variant="label" >Climber: </Typography>
           <NativeSelect style={{textAlign: 'right'}} className={classes.select} value={climber} onChange={(event) => findClimberId(event)}>
           {teams.map((team) => (
+            team.captainId === user.id ?
               <option>
                 {team.username}
               </option>
-          
+          : null
           ))}
           </NativeSelect>
           </>
