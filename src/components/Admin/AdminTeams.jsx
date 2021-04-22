@@ -76,7 +76,8 @@ function AdminTeams() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_LEAGUES' });
-  }, []);
+    getCurrentLeagueId();
+  }, [dispatch]);
 
   const [allWeeks, setAllWeeks] = useState([])
   const [selectedLeague, setSelectedLeague] = useState(0);
@@ -98,6 +99,15 @@ function AdminTeams() {
   const user = useSelector((store) => store.user);
 
   const classes = useStyles();
+
+  const getCurrentLeagueId = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setSelectedLeague(league.id);
+        console.log('league Id', league.id);
+      } 
+    }
+  }
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -150,7 +160,7 @@ function AdminTeams() {
               selectedLeagueStart,
               selectedLeagueEnd,
               userClimbs,
-              conditionalData[0].byeWeek
+              team.byeWeek
             ).totalScore);
           }
         }
