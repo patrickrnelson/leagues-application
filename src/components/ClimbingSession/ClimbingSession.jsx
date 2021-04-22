@@ -205,11 +205,13 @@ function ClimbingSession() {
     for(let climb of currentClimbs) {
       if(climb.userId === teammates[0].userId && climb.isSubmitted) {
         climberOneCount += 1
-      } else if (teammates.length > 1) {
+      } 
+      if (teammates.length > 1) {
         if(climb.userId === teammates[1].userId && climb.isSubmitted) {
           climberTwoCount += 1;
         } 
-      } else if (teammates.length>2) {
+      } 
+      if (teammates.length>2) {
         if (climb.userId === teammates[2].userId && climb.isSubmitted) {
           climberThreeCount += 1;
         }
@@ -219,6 +221,10 @@ function ClimbingSession() {
 
     // keep track of total amount of submitted climbs
     let amountOfClimbs = climberOneCount + climberTwoCount + climberThreeCount;
+
+  console.log('climberOneCount', climberOneCount)
+  console.log('climberTwoCount', climberTwoCount)
+  console.log('climberThreeCount', climberThreeCount  )
 
   return (
     <div className="climbsContainer">
