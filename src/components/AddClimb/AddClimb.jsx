@@ -67,6 +67,7 @@ function AddClimb() {
 
   const user = useSelector(store => store.user);
   const teams = useSelector(store => store.teams);
+  const conditionalData = useSelector(store => store.conditional);
   
   // local state to store climb info from inputs 
   const [captainId, setCaptainId] = useState('')
@@ -139,7 +140,7 @@ function AddClimb() {
       {/* Captain Only - Select Climber */}
 
       <FormControl className={classes.climber}>
-        {captainId === user.id ?
+        {conditionalData[0].captainId === user.id ?
         <>
         <Typography style={{textAlign: 'left'}} variant="label" >Climber: </Typography>
           <NativeSelect style={{textAlign: 'right'}} className={classes.select} value={climber} onChange={(event) => findClimberId(event)}>
