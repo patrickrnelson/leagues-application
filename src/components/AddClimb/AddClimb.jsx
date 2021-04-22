@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     paddingTop: 30,
-    paddingLeft: 35,
-    paddingRight: 10,
+    paddingLeft: 25,
+    paddingRight: 25,
     alignItems: 'center',
     justifyContent: 'center',
     display: 'inline-flex',
