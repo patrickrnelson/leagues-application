@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   HashRouter as Router,
   Route,
@@ -39,6 +40,8 @@ import './App.css';
 function App() {
   const dispatch = useDispatch();
 
+  const user = useSelector((store) => store.user);
+
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
     dispatch({ type: 'FETCH_CONDITIONAL'});
@@ -50,6 +53,7 @@ function App() {
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
+        
 
           {/* About Page - Unprotected */}
           <Route
@@ -112,7 +116,12 @@ function App() {
             exact
             path="/home"
           >
-            <HomePage />
+              {user.authLevel === 1 ? 
+          <AdminLeagues /> 
+        :
+        <HomePage />
+        }
+            
           </ProtectedRoute>
 
           {/* Create a team page */}
