@@ -35,7 +35,10 @@ function* createTeam(action) {
   // console.log('postNewTeam', action.payload);
   try {
     yield axios.post('/api/team', action.payload);
-    yield put({ type: 'FETCH_TEAMS' });
+    yield all([
+      put({ type: 'FETCH_CONDITIONAL' }),
+      put({ type: 'FETCH_TEAMS' }),
+    ]);
   } catch (error) {
     console.log('Error posting new team', error);
   }
