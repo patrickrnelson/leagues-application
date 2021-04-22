@@ -21,7 +21,10 @@ function AdminLeagues() {
   const leaguesInfo = useSelector((store) => store.leaguesReducer);
   const user = useSelector((store) => store.user);
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  const [deleteId, setDeleteId] = useState(0);
+  const [deleteName, setDeleteName] = useState('');
 
   // console.log('leaguesInfo', leaguesInfo);
   function createNewLeague() {
@@ -47,9 +50,11 @@ function AdminLeagues() {
     handleClose();
   }
 
-  const handleClickOpen = (leaguesID) => {
+  const handleClickOpen = (leaguesID, leagueName) => {
     console.log('what is the id in handleClickOpen', leaguesID);
-    handleDelete(leaguesID);
+    console.log('what is the name in handleClickOpen', leagueName);
+    setDeleteId(leaguesID)
+    setDeleteName(leagueName)
     setOpen(true);
   };
 
@@ -147,16 +152,16 @@ function AdminLeagues() {
             <Grid item xs={2}>
               {/* Status */}
               {/* Compare today's date to the start and end dates of the leagues to find out if it is 'In Progress', 'Completed', or 'Not Started' */}
-              <p>
+              
                 {moment().isBefore(iLeagues.start)
-                  ? 'Not Started'
+                  ? <p>Not Started</p>
                   : moment().isSameOrAfter(iLeagues.start) &&
                     moment().isSameOrBefore(iLeagues.end)
-                  ? 'In Progress'
+                  ? <p style={{color: 'green'}}>In Progress</p>
                   : moment().isAfter(iLeagues.end)
-                  ? 'Completed'
-                  : 'Something is wrong'}
-              </p>
+                  ? <p>Completed</p>
+                  : <p>Something is wrong</p>}
+              
             </Grid>
 
             <Grid item={2}>
@@ -173,7 +178,7 @@ function AdminLeagues() {
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={(event) => handleClickOpen(iLeagues.id)}
+                onClick={() => handleClickOpen(iLeagues.id, iLeagues.name)}
               >
                 Delete
               </Button>
@@ -184,12 +189,12 @@ function AdminLeagues() {
                 aria-describedby="alert-dialog-description"
               >
                 <DialogTitle id="alert-dialog-title">
-                  {'Delete a League'}
+                  Delete {deleteName}?
                 </DialogTitle>
                 <DialogContent>
                   <DialogContentText id="alert-dialog-description">
                     Are you sure you want to delete this league? All information
-                    added into this event will be lost.
+                    added into this league will be lost.
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -199,7 +204,7 @@ function AdminLeagues() {
                   <Button
                     color="secondary"
                     autoFocus
-                    onClick={(event) => handleDelete(iLeagues.id)}
+                    onClick={(event) => handleDelete(deleteId)}
                   >
                     Delete
                   </Button>
