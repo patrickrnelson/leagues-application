@@ -147,7 +147,7 @@ function TeamPage() {
             color="secondary"
             className={classes.btn} 
             style={{ border: '2px solid' }}
-            onClick={() => toggleAccessCode()}>
+            onClick={() => setShowAccessCode(true)}>
             Team Code
           </Button>
         </div>
