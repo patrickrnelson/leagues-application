@@ -17,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     fontSize: '12px',
   },
+  btnCancel: {
+    fontSize: '12px',
+    color: '#ff1744',
+  },
   formControl: {
     minWidth: 120,
     paddingBottom: 20,
@@ -210,7 +214,7 @@ function AddClimb() {
         <Button
           variant="outlined"
           color="secondary"
-          className={classes.btn}
+          className={classes.btnCancel}
           style={{ border: '2px solid' }}
           onClick={() => history.push('/climb/session')}>
           Cancel

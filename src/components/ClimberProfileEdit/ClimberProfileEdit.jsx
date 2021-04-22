@@ -14,6 +14,12 @@ const useStyles = makeStyles({
     width: 100,
     fontSize: '12px',
   },
+  btnCancel: {
+    height: 30,
+    width: 100,
+    fontSize: '12px',
+    color: '#ff1744',
+  },
   buttons: {
     paddingTop: 30,
     paddingLeft: 35,
@@ -104,7 +110,7 @@ function ClimberProfileEdit() {
           mt={1}
           variant="outlined"
           color="secondary"
-          className={classes.btn}
+          className={classes.btnCancel}
           style={{ border: '2px solid' }}
           onClick={() => history.push('/climberProfile')}>
           Cancel

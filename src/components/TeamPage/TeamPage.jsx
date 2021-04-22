@@ -68,10 +68,6 @@ function TeamPage() {
   useEffect(() => {
     findUserTeam();
     getCurrentLeague();
-    dispatch({ 
-      type: 'FETCH_ACCESS_CODE', 
-      payload: conditionalData[0].teamId
-    })
   }, [])
 
   const getCurrentLeague = () => {
@@ -94,6 +90,10 @@ function TeamPage() {
         setUserTeam(climber.teamName)
       }
     }
+    dispatch({ 
+      type: 'FETCH_ACCESS_CODE', 
+      payload: conditionalData[0].teamId
+    });
   }
 
   return (
@@ -131,7 +131,7 @@ function TeamPage() {
         </TableContainer>
         
         <div className={`modalBackground modalShowing-${showAccessCode}`}>
-          <div className="modalInner">
+          <div ref={ref} className="modalInner">
             <div className="modalText">
               <p>This is your teams access code. You can provide the code to others for them to join your team.</p>
               <p>{accessCode}</p>

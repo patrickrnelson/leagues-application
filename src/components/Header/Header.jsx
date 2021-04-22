@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     color: '#ffffff',
   },
   logout: {
-    color: 'red'
+    color: '#ff1744'
   },
   hamburger: {
     color: '#ffffff',
