@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   HashRouter as Router,
   Route,
@@ -51,6 +52,8 @@ const theme = createMuiTheme({
 
 function App() {
   const dispatch = useDispatch();
+
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -106,7 +109,10 @@ function App() {
 
           {/* Homepage - not on a team */}
           <ProtectedRoute exact path="/home">
-            <HomePage />
+            {/* If user is an admin, go to the leagues page instead of Homepage */}
+            {user.authLevel === 'ADMIN' ?
+            <AdminLeagues /> 
+            : <HomePage />}
           </ProtectedRoute>
 
           {/* Create a team page */}
@@ -179,17 +185,18 @@ function App() {
           >
             <LoginPage />
           </ProtectedRoute>
-
-          <ProtectedRoute
+          */}
+          {/* <ProtectedRoute
             // with authRedirect:
             // - if logged in, redirects to "/user"
             // - else shows RegisterPage at "/registration"
             exact
-            path="/registration"
+            path="/home"
+            user.authLevel === 'Admin' ?
             authRedirect="/user"
           >
             <RegisterPage />
-          </ProtectedRoute> */}
+          </ProtectedRoute>  */}
 
           <ProtectedRoute
             // with authRedirect:

@@ -28,6 +28,7 @@ const useStyles = makeStyles({
 function StartSession(props) {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
 
   // Grab our conditionalData from the store
@@ -114,7 +115,7 @@ function StartSession(props) {
       <p style={{fontStyle: 'italic', color: 'green'}}>{currentClimbs.length === 0 ? '' : 'Session In Progress'}</p>
       <h4>Team: {conditionalData[0].teamName}</h4>
 
-      <h4>Week {props.weekCalc + 1}</h4>
+      <h4>Week {props.weekCalc}</h4>
 
       <div className={classes.start}>
         <Button
@@ -133,6 +134,7 @@ function StartSession(props) {
           variant="outlined" 
           color="secondary"
           className={classes.btn} 
+          onClick={initiateByeWeek}
           style={{ border: '2px solid' }}>
           Initiate Bye Week
         </Button>}

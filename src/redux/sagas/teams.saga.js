@@ -35,7 +35,10 @@ function* createTeam(action) {
   // console.log('postNewTeam', action.payload);
   try {
     yield axios.post('/api/team', action.payload);
-    yield put({ type: 'FETCH_TEAMS' });
+    yield all([
+      put({ type: 'FETCH_CONDITIONAL' }),
+      put({ type: 'FETCH_TEAMS' }),
+    ]);
   } catch (error) {
     console.log('Error posting new team', error);
   }
@@ -77,6 +80,10 @@ function* joinTeam(action) {
       // The 404 is the error status sent from router
       // if the access code does not match
       yield put({ type: 'ACCESS_CODE_INVALID' });
+    } else if (error.response.status === 406) {
+      // The 406 is the error status sent from router
+      // if the team already has 3 climbers
+      yield put({ type: 'TOO_MANY_CLIMBERS' });
     }
   }
 }
