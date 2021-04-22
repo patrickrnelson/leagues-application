@@ -1,25 +1,7 @@
 .pageTitle {
-  padding-top: 40px;
-  margin: 0;
-  font-size: 28px;
-}
-
-.leagueName {
-  font-weight: normal;
   margin-bottom: 40px;
 }
 
-.leagueTable {
-  width: 80%;
-  margin: 20px auto;
-  font-size: 18px;
-  margin-bottom: 75px;
-}
-
-.leagueTable thead {
-  font-weight: bold;
-}
-
-.leagueTable td {
-  padding: 5px 0;
+.leagueName {
+  padding-top: 40px;
 }
