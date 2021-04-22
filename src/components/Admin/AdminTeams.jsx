@@ -36,32 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// function adminTotal(week, score) {
-//   return { week, score };
-// }
-
-// const weeks = [adminTotal(1, 2, 3, 4, 5, 6, 7)];
-
-// function createData(
-//   climber,
-//   color,
-//   location,
-//   difficulty,
-//   score,
-//   attempts,
-//   date
-// ) {
-//   return { climber, color, location, difficulty, score, attempts, date };
-// }
-
-// const rows = [
-//   createData('Alvin', 'Red', 'Slab', 4, 3, 5, 4),
-//   createData('John', 'Green', 'Overhang', 5, 6, 7, 4),
-//   createData('Patrick', 'Blue', 'Left Barrel', 6, 7, 8, 4),
-//   createData('Zack', 'Yellow', 'Slab', 7, 8, 9, 4),
-//   createData('Johnny', 'Orange', 'Overhang', 3, 4, 1, 4),
-// ];
-
 function AdminTeams() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -102,7 +76,8 @@ function AdminTeams() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_LEAGUES' });
-  }, []);
+    getCurrentLeagueId();
+  }, [dispatch]);
 
   const [allWeeks, setAllWeeks] = useState([])
   const [selectedLeague, setSelectedLeague] = useState(0);
@@ -121,8 +96,18 @@ function AdminTeams() {
   const climbers = useSelector((store) => store.teams);
   const userClimbs = useSelector((store) => store.climbs);
   const adminTeams = useSelector((store) => store.adminTeamsReducer);
+  const user = useSelector((store) => store.user);
 
   const classes = useStyles();
+
+  const getCurrentLeagueId = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setSelectedLeague(league.id);
+        console.log('league Id', league.id);
+      } 
+    }
+  }
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -175,7 +160,7 @@ function AdminTeams() {
               selectedLeagueStart,
               selectedLeagueEnd,
               userClimbs,
-              conditionalData[0].byeWeek
+              team.byeWeek
             ).totalScore);
           }
         }
@@ -186,6 +171,8 @@ function AdminTeams() {
   };
 
   return (
+    user.authLevel === 'ADMIN' ?
+
     <>
     <Nav />
     <Grid
@@ -292,9 +279,10 @@ function AdminTeams() {
               <TableCell align="right">Climber</TableCell>
               <TableCell align="right">Color</TableCell>
               <TableCell align="right">Location</TableCell>
-              <TableCell align="right">Difficulty</TableCell>
-              <TableCell align="right">Attempts</TableCell>
+              <TableCell align="center">Difficulty</TableCell>
+              <TableCell align="center">Attempts</TableCell>
               <TableCell align="right">Date</TableCell>
+              <TableCell align="center">Submitted</TableCell>
             </TableRow>
           </TableHead>
         
@@ -305,10 +293,17 @@ function AdminTeams() {
                 <TableCell align="right">{climb.name}</TableCell>
                 <TableCell align="right">{climb.color}</TableCell>
                 <TableCell align="right">{climb.locationName}</TableCell>
-                <TableCell align="right">V{climb.level}</TableCell>
-                <TableCell align="right">{climb.attempts}</TableCell>
+                <TableCell align="center">V{climb.level}</TableCell>
+                <TableCell align="center">{climb.attempts}</TableCell>
                 <TableCell align="right">
                   {moment(climb.climbDate).format('MM-DD-YYYY')}
+                </TableCell>
+                <TableCell align="center">
+                  <Checkbox
+                    checked={climb.isSubmitted}
+                    disabled
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />
                 </TableCell>
               </TableRow>
             ))  }
@@ -320,6 +315,7 @@ function AdminTeams() {
       }
     </Grid>
     </>
+    : <h2>404  Page Not Found</h2>
   )
 
       {/* Don't show the table until there is a selected league and a selected team */}
@@ -381,6 +377,7 @@ function AdminTeams() {
               )}
             </TableBody> */}
       
+  
 }
 
 export default AdminTeams;

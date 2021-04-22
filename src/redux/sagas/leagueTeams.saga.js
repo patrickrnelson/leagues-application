@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 import axios from 'axios';
 
 function* fetchLeagueTeams() {
@@ -15,7 +15,10 @@ function* joinLeague(action) {
   // console.log('join league action', action.payload);
   try {
     yield axios.post(`/api/league/join`, action.payload);
-    yield put({ type: 'FETCH_LEAGUE_TEAMS'})
+    yield all([
+      put({ type: 'FETCH_CONDITIONAL' }),
+      put({ type: 'FETCH_TEAMS' }),
+    ]);
   } catch (err) {
     console.log('Error in joining teams saga', err);
   }

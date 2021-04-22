@@ -5,6 +5,9 @@ const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 
+/**
+ * GET Leagues
+ */
 router.get('/', rejectUnauthenticated, (req, res) => {
   let queryText = `
     SELECT * FROM "leagues"
@@ -21,9 +24,12 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * GET LeagueTeams
+ */
 router.get('/teams', rejectUnauthenticated, (req, res) => {
   let queryText = `
-    SELECT "teams".name AS "teamName", "teams".id AS "teamId","leaguesTeams"."isPaid", "leagues".name AS "leagueName", "leagues".id AS "leagueId"
+    SELECT "teams".name AS "teamName", "teams".id AS "teamId","leaguesTeams"."isPaid", "leaguesTeams"."byeWeek", "leagues".name AS "leagueName", "leagues".id AS "leagueId"
     FROM "leagues"
     JOIN "leaguesTeams" ON "leaguesTeams"."leagueId" = "leagues".id
     JOIN "teams" ON "leaguesTeams"."teamId" = "teams".id

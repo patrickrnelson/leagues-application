@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
+import { useRadioGroup } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 // This will show when the captain started the teams bye week and they are in that week
 function ByeWeek() {
@@ -9,6 +11,7 @@ function ByeWeek() {
 
   const conditionalData = useSelector(store => store.conditional);
   const leagues = useSelector(store => store.leaguesReducer);
+  const user = useSelector(store => store.user)
 
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
@@ -50,7 +53,17 @@ function ByeWeek() {
   return (
     <div className="container">
       <h2>Your team is on a bye this week. See ya next week!</h2>
-      <button onClick={cancelByeWeek}>Cancel Bye Week</button>
+      {
+        conditionalData[0].captainId === user.id  
+          ?  <Button 
+              onClick={cancelByeWeek}
+              variant='outlined'
+              color='secondary'
+              >
+                Cancel Bye Week
+              </Button>
+          : null
+      }
     </div>
   );
 }

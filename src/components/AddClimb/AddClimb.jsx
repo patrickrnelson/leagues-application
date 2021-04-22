@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -69,6 +69,7 @@ function AddClimb() {
   const teams = useSelector(store => store.teams);
   
   // local state to store climb info from inputs 
+  const [captainId, setCaptainId] = useState('')
   const [climber, setClimber] = useState(user.name)
   const [climberId, setClimberId] = useState(user.id)
   const [color, setColor] = useState('')
@@ -79,6 +80,11 @@ function AddClimb() {
   let colors = ['Black', 'Blue', 'Green', 'Red', 'White', 'Yellow']
   let locations = ['Left Barrel', 'Overhang', 'Right Barrel', 'Slab', 'Slight Overhang'] // can change this to live in the store eventually
   let difficulties = ['V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12']
+
+
+  useEffect(() => {
+    findCaptainId();
+  }, [])
 
   const handleAddClimb = () => {
     // make sure each input is selected
@@ -100,7 +106,7 @@ function AddClimb() {
     else {
       alert('Please select all inputs')
     }
-  }
+  } // end handleAddClimb
 
   // Used to find climberID since we can't pass it in the 'select' onChange
   // This will set both the climber and climberId state when the climber 'select' is changed
@@ -115,6 +121,12 @@ function AddClimb() {
     }
   }
 
+  const findCaptainId = () => {
+    for(let team of teams) {
+      setCaptainId(team.captainId)
+    }
+  }
+
   return (
     <>
     <div className={classes.top}>
@@ -125,17 +137,21 @@ function AddClimb() {
 
     <div className={classes.container}>
       {/* Captain Only - Select Climber */}
+
       <FormControl className={classes.climber}>
+        {captainId === user.id ?
+        <>
         <Typography style={{textAlign: 'left'}} variant="label" >Climber: </Typography>
           <NativeSelect style={{textAlign: 'right'}} className={classes.select} value={climber} onChange={(event) => findClimberId(event)}>
           {teams.map((team) => (
-            user.id === team.captainId ?
               <option>
                 {team.username}
               </option>
-            : null
+          
           ))}
           </NativeSelect>
+          </>
+          : null}
       </FormControl>
     
     <br/>

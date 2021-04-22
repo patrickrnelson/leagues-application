@@ -6,6 +6,7 @@ import './AdminCreate.css';
 import Nav from '../Nav/Nav';
 import { Grid } from '@material-ui/core';
 import moment from 'moment';
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -18,6 +19,7 @@ function AdminLeagues() {
   const history = useHistory();
 
   const leaguesInfo = useSelector((store) => store.leaguesReducer);
+  const user = useSelector((store) => store.user);
 
   const [open, setOpen] = React.useState(false);
 
@@ -55,7 +57,9 @@ function AdminLeagues() {
     setOpen(false);
   };
 
+
   return (
+    user.authLevel === 'ADMIN' ?
     <Grid
       container
       item
@@ -206,6 +210,9 @@ function AdminLeagues() {
         );
       })}
     </Grid>
+
+    
+    : <h2>404  Page Not Found</h2>
   );
 }
 
