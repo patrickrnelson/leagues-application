@@ -269,9 +269,10 @@ function AdminTeams() {
               <TableCell align="right">Climber</TableCell>
               <TableCell align="right">Color</TableCell>
               <TableCell align="right">Location</TableCell>
-              <TableCell align="right">Difficulty</TableCell>
-              <TableCell align="right">Attempts</TableCell>
+              <TableCell align="center">Difficulty</TableCell>
+              <TableCell align="center">Attempts</TableCell>
               <TableCell align="right">Date</TableCell>
+              <TableCell align="center">Submitted</TableCell>
             </TableRow>
           </TableHead>
         
@@ -282,10 +283,17 @@ function AdminTeams() {
                 <TableCell align="right">{climb.name}</TableCell>
                 <TableCell align="right">{climb.color}</TableCell>
                 <TableCell align="right">{climb.locationName}</TableCell>
-                <TableCell align="right">V{climb.level}</TableCell>
-                <TableCell align="right">{climb.attempts}</TableCell>
+                <TableCell align="center">V{climb.level}</TableCell>
+                <TableCell align="center">{climb.attempts}</TableCell>
                 <TableCell align="right">
                   {moment(climb.climbDate).format('MM-DD-YYYY')}
+                </TableCell>
+                <TableCell align="center">
+                  <Checkbox
+                    checked={climb.isSubmitted}
+                    disabled
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />
                 </TableCell>
               </TableRow>
             ))  }
