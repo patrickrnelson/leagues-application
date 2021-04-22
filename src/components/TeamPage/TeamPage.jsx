@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
@@ -17,6 +17,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 
 import Header from '../Header/Header';
 import './TeamPage.css';
+import useOnClickOutside from './use-onclick-outside';
 import {climberWeekCalc} from '../../scripts/climberWeekCalc';
 
 const useStyles = makeStyles({
@@ -49,6 +50,7 @@ function TeamPage() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const ref = useRef();
 
   const leagues = useSelector(store => store.leaguesReducer);
   const conditionalData = useSelector(store => store.conditional);
@@ -63,19 +65,16 @@ function TeamPage() {
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
   const [userTeam, setUserTeam] = useState('')
   const [showAccessCode, setShowAccessCode] = useState(false);
-
-  const toggleAccessCode = () => {
-
-    dispatch({ 
-      type: 'FETCH_ACCESS_CODE', 
-      payload: conditionalData[0].teamId
-    })
-    setShowAccessCode(!showAccessCode)
-  }
+  
+  useOnClickOutside(ref, () => setShowAccessCode(false));
 
   useEffect(() => {
     findUserTeam();
     getCurrentLeague();
+    dispatch({ 
+      type: 'FETCH_ACCESS_CODE', 
+      payload: conditionalData[0].teamId
+    })
   }, [])
 
   const getCurrentLeague = () => {
@@ -103,6 +102,7 @@ function TeamPage() {
   return (
     userTeam !== '' ?
       <>
+
       <div className="teamContainer">
         <Header />
         {conditionalData[0].teamName ?
@@ -136,7 +136,6 @@ function TeamPage() {
         <div className={`modalBackground modalShowing-${showAccessCode}`}>
           <div className="modalInner">
             <div className="modalText">
-              <button className="exitButton" onClick={() => toggleAccessCode()}>X</button>
               <p>This is your teams access code. You can provide the code to others for them to join your team.</p>
               <p>{accessCode}</p>
             </div>
@@ -147,6 +146,7 @@ function TeamPage() {
             variant="outlined"
             color="secondary"
             className={classes.btn} 
+            style={{ border: '2px solid' }}
             onClick={() => toggleAccessCode()}>
             Team Code
           </Button>

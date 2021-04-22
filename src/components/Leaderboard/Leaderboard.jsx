@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {climberWeekCalc} from '../../scripts/climberWeekCalc'
 import Header from '../Header/Header'
 import './Leaderboard.css'
@@ -85,11 +85,11 @@ function Leaderboard() {
   })
 
   return (
-    <div className="container">
+    <div className="container-leaderboard">
       <Header />
-
-      <h2 className="pageTitle">League Leaderboard</h2><br/>
-      <h3 className="leagueName">{currentLeague}</h3>
+      <h2 className="leagueName">{currentLeague}</h2>
+      <h3 className="pageTitle">League Leaderboard</h3>
+      
 
       {/* <h4>{currentWeek == '--Total--' ? '' : currentWeek}</h4>
       <FormControl className={classes.formControl}>

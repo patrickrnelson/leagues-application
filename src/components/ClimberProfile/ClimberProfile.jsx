@@ -11,8 +11,6 @@ import {climberWeekCalc} from '../../scripts/climberWeekCalc';
 
 const useStyles = makeStyles({
   btn: {
-    width: '185px',
-    height: '45px',
     fontSize: '12px',
   },
 });
