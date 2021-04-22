@@ -22,6 +22,10 @@ const useStyles = makeStyles({
     height: '30px',
     fontSize: '12px',
   },
+  btnCancel: {
+    fontSize: '12px',
+    color: '#ff1744',
+  },
   climber: {
     padding: '15px',
     paddingBottom: '25px',
@@ -130,7 +134,14 @@ function ClimberPage() {
 
       {/* check if user is a captain */}
       {user.id === conditionalData[0].captainId && climber !== user.name ?
-        <button onClick={() => removeTeamMember(climberId)}>Remove Climber from team</button> 
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btnCancel}
+          style={{ border: '2px solid' }}
+          onClick={() => removeTeamMember(climberId)}>
+          Remove Climber from team
+        </Button> 
       : <> </> 
       }
       <TableContainer>
@@ -159,6 +170,7 @@ function ClimberPage() {
           variant="outlined"
           color="secondary"
           className={classes.btn}
+          style={{ border: '2px solid' }}
           onClick={() => history.push('/team')}>
           Back to Team 
         </Button>

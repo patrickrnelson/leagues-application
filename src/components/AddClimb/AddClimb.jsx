@@ -12,10 +12,15 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 
 import Header from '../Header/Header'
 import './AddClimb.css'
+import boulderSeven from '../Images/boulder7.png';
 
 const useStyles = makeStyles((theme) => ({
   btn: {
     fontSize: '12px',
+  },
+  btnCancel: {
+    fontSize: '12px',
+    color: '#ff1744',
   },
   formControl: {
     minWidth: 120,
@@ -212,7 +217,7 @@ function AddClimb() {
         <Button
           variant="outlined"
           color="secondary"
-          className={classes.btn}
+          className={classes.btnCancel}
           style={{ border: '2px solid' }}
           onClick={() => history.push('/climb/session')}>
           Cancel
@@ -228,6 +233,7 @@ function AddClimb() {
           Submit!
         </Button>
       </div>
+      <img className="add-climb-image" src = {boulderSeven} alt="boulder" height="150px"  />
     </div>
     </>
   );

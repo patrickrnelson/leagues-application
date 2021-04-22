@@ -4,8 +4,8 @@ import React from 'react';
 function NotInLeagueUser() {
 
   return (
-    <div className="container">
-      <h2>Your team is not in a league. Tell your captain to join one</h2>
+    <div className="container-conditionals">
+      <h3>Your team is not in a league. Tell your captain to join one</h3>
     </div>
   );
 }
