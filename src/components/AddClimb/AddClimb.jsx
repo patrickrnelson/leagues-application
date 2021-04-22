@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     paddingTop: 30,
-    paddingLeft: 35,
-    paddingRight: 10,
+    paddingLeft: 25,
+    paddingRight: 25,
     alignItems: 'center',
     justifyContent: 'center',
     display: 'inline-flex',
@@ -213,8 +213,8 @@ function AddClimb() {
           color="secondary"
           className={classes.btn}
           style={{ border: '2px solid' }}
-          onClick={handleAddClimb}>
-          Submit!
+          onClick={() => history.push('/climb/session')}>
+          Cancel
         </Button>
       </div>
       <div className={classes.buttons}>
@@ -223,8 +223,8 @@ function AddClimb() {
           color="secondary"
           className={classes.btn}
           style={{ border: '2px solid' }}
-          onClick={() => history.push('/climb/session')}>
-          Cancel
+          onClick={handleAddClimb}>
+          Submit!
         </Button>
       </div>
     </div>

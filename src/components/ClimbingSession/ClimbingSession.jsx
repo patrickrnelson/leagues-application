@@ -240,6 +240,7 @@ function ClimbingSession() {
         variant="outlined"
         color="secondary"
         className={classes.btn}
+        style={{ border: '2px solid' }}
         onClick={() => history.push('/climb/add')}>
         Add a Climb
       </Button>
