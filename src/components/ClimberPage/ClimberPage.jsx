@@ -3,11 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
 import Header from '../Header/Header';
 import {climberWeekCalc} from '../../scripts/climberWeekCalc';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   btn: {
@@ -19,8 +26,14 @@ const useStyles = makeStyles({
     paddingBottom: '25px',
   },
   back: {
-    padding: '25px',
-  }
+    padding: '40px',
+  },
+  table: {
+    maxWidth: '400x',
+  },
+  tableHead: {
+    fontSize: '14px',
+  },
 });
 
 function ClimberPage() {
@@ -85,38 +98,40 @@ function ClimberPage() {
   }
 
   return (
-    <div className="container">
+    <div className="container-climber-profile">
       <Header />
       <h2>{climber}</h2>
 
-      <div className={classes.climber}>
+      {/* Button does not currently work to get team members profile pages */}
+      {/* <div className={classes.climber}>
         <Button
           variant="outlined"
           color="secondary"
           className={classes.btn}>
           {climber}'s Info
         </Button>
-      </div>
-      <table>
+      </div> */}
 
-        <thead>
-          <tr> 
-            <td>Total Score </td>
-            <td> Average Score </td>
-            <td> Last Week </td>
-            <td> Handicap </td>
-          </tr>
-          
-        </thead>
-        <tbody>
-          <tr>
-            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).totalScore} </td>
-            <td> {(climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).averageScore).toFixed(2)} </td>
-            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).lastWeekScore} </td>
-            <td> {climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap ? climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap : 'Not Set'}   </td>
-          </tr>
-        </tbody>
-      </table>
+      <TableContainer>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.tableHead} align="center">Total Score</TableCell>
+              <TableCell className={classes.tableHead} align="center">Average Score</TableCell>
+              <TableCell className={classes.tableHead} align="center">Last Week</TableCell>
+              <TableCell className={classes.tableHead} align="center">Handicap</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell align="center">{climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).totalScore}</TableCell>
+              <TableCell align="center">{(climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).averageScore).toFixed(2)}</TableCell>
+              <TableCell align="center">{climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs).lastWeekScore}</TableCell>
+              <TableCell align="center">{climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap ? climberWeekCalc(Number(id), currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap : 'Not Set'}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       <div className={classes.back}>
         <Button

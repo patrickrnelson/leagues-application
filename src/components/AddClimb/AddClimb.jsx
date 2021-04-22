@@ -2,21 +2,63 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
+
 import Header from '../Header/Header'
-
 import './AddClimb.css'
-import { useRadioGroup } from '@material-ui/core';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   btn: {
     fontSize: '12px',
   },
-});
+  formControl: {
+    minWidth: 120,
+    paddingBottom: 20,
+  },
+  top: {
+    textAlign: 'center',
+    paddingTop: 70,
+    paddingLeft: 20,
+    paddingRight: 20,
+    // alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+    padding: 30,
+    flexGrow: 1,
+  },
+  climber: {
+    display: 'inline-block',
+  },
+  color: {
+    display: 'inline-block',
+  },
+  location: {
+    display: 'inline-block',
+  },
+  difficulty: {
+    display: 'inline-block',
+  },
+  attempts: {
+    display: 'inline',
+    width: '50%',
+    justifyContent: 'space-around',
+  },
+  buttons: {
+    paddingTop: 30,
+    paddingLeft: 35,
+    paddingRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'inline-flex',
+  },
+}));
 
 function AddClimb() {
   const classes = useStyles();
@@ -74,70 +116,102 @@ function AddClimb() {
   }
 
   return (
-    <div className="container">
+    <>
+    <div className={classes.top}>
       <Header />
       <h2>Week 1</h2>
       <h3>Add a Climb</h3>
+    
 
+    <div className={classes.container}>
       {/* Captain Only - Select Climber */}
-      <h4>Climber:</h4>
-      <select value={climber} onChange={(event) => findClimberId(event)}>
-      {teams.map((team) => (
-        user.id === team.captainId ?
-          <option>
-            {team.username}
-          </option>
-      : null
-      ))}
-      </select>
+      <FormControl className={classes.climber}>
+        <Typography style={{textAlign: 'left'}} variant="label" >Climber: </Typography>
+          <NativeSelect style={{textAlign: 'right'}} className={classes.select} value={climber} onChange={(event) => findClimberId(event)}>
+          {teams.map((team) => (
+            user.id === team.captainId ?
+              <option>
+                {team.username}
+              </option>
+            : null
+          ))}
+          </NativeSelect>
+      </FormControl>
+    
+    <br/>
+    <br/>
 
       {/* Color Dropdown */}
-      <h4>Color:</h4>
-      <select  onChange={(event) => setColor(event.target.value)}>
-        <option value="starter" selected>--Select a Color--</option>
-        {colors.map(color => <option>{color}</option>)}
-      </select>
+      <div className={classes.color}>
+        <Typography variant="label">Color:  </Typography>
+          <NativeSelect  onChange={(event) => setColor(event.target.value)}>
+            <option value="" selected disabled>Select a Color</option>
+            {colors.map(color => <option>{color}</option>)}
+        </NativeSelect>
+      </div>
+
+      <br/>
+      <br/>
 
       {/* Location in gym Dropdown */}
-      <h4>Location:</h4>
-      <select onChange={(event) => setLocation(event.target.value)}>
-        <option value="starter" selected>--Select a Location--</option>
-        {locations.map(location => <option>{location}</option>)}
-      </select>
+      <FormControl className={classes.location}>
+        <Typography variant="label">Location: </Typography>
+          <NativeSelect onChange={(event) => setLocation(event.target.value)}>
+            <option value="starter" selected disabled>Select a Location</option>
+            {locations.map(location => <option>{location}</option>)}
+        </NativeSelect>
+      </FormControl>
+
+      <br/>
+      <br/>
 
       {/* Difficulty Dropdown */}
-      <h4>Difficulty:</h4>
-      <select onChange={(event) => setDifficulty(event.target.value)}>
-        <option value="starter" selected>--Select a Difficulty--</option>
-        {difficulties.map(difficulty => <option>{difficulty}</option>)}
-      </select>
+      <FormControl className={classes.difficulty}>
+        <Typography variant="label">Difficulty: </Typography>
+          <NativeSelect onChange={(event) => setDifficulty(event.target.value)}>
+            <option value="starter" selected disabled>Select a Difficulty</option>
+            {difficulties.map(difficulty => <option>{difficulty}</option>)}
+          </NativeSelect>
+      </FormControl>
+
+      <br/>
+      <br/>
 
       {/* Attempts clicker */}
-      <h4>Attempts</h4>
-      <div className="attemptsPicker">
-        <RemoveIcon onClick={() => attempts > 0 ? setAttempts(attempts - 1) : setAttempts(attempts)}/>
-        <p>{attempts}</p>
-        <AddIcon onClick={() => setAttempts(attempts + 1)}/>
+        <Typography variant="label">Attempts  </Typography>
+        <FormControl className={classes.attempts}>
+          <div className="attemptsPicker">
+          <RemoveIcon onClick={() => attempts > 0 ? setAttempts(attempts - 1) : setAttempts(attempts)}/>
+          <p>{attempts}</p>
+          <AddIcon onClick={() => setAttempts(attempts + 1)}/>
+          </div>
+      </FormControl>
+
       </div>
 
       {/* Submit or Cancel */}
-      <Button
-        variant="outlined"
-        color="secondary"
-        className={classes.btn}
-        style={{ border: '2px solid' }}
-        onClick={handleAddClimb}>
-        Submit!
-      </Button>
-      <Button
-        variant="outlined"
-        color="secondary"
-        className={classes.btn}
-        style={{ border: '2px solid' }}
-        onClick={() => history.push('/climb/session')}>
-        Cancel
-      </Button>
+      <div className={classes.buttons}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          style={{ border: '2px solid' }}
+          onClick={handleAddClimb}>
+          Submit!
+        </Button>
+      </div>
+      <div className={classes.buttons}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          style={{ border: '2px solid' }}
+          onClick={() => history.push('/climb/session')}>
+          Cancel
+        </Button>
+      </div>
     </div>
+    </>
   );
 }
 

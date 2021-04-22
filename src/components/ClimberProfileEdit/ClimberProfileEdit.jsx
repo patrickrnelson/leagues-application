@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 
 import Header from '../Header/Header'
 
@@ -11,6 +12,14 @@ const useStyles = makeStyles({
   btn: {
     fontSize: '12px',
   },
+  buttons: {
+    paddingTop: 30,
+    paddingLeft: 70,
+    paddingRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'inline-flex',
+  }
 });
 
 function ClimberProfileEdit() {
@@ -88,21 +97,25 @@ function ClimberProfileEdit() {
         onChange={(event) => setPhone(event.target.value)}
       />
       </div>
-      <div>
-      <Button
-        variant="outlined"
-        color="secondary"
-        className={classes.btn}
-        onClick={handleProfileEdit}>
-        Save
-      </Button>
-      <Button
-        variant="outlined"
-        color="secondary"
-        className={classes.btn}
-        onClick={() => history.push('/climberProfile')}>
-        Cancel
-      </Button>
+      <div className={classes.buttons}>
+        <Button
+          mt={1}
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          onClick={handleProfileEdit}>
+          Save
+        </Button>
+      </div>
+      <div className={classes.buttons}>
+        <Button
+          mt={1}
+          variant="outlined"
+          color="secondary"
+          className={classes.btn}
+          onClick={() => history.push('/climberProfile')}>
+          Cancel
+        </Button>
       </div>
       </>
   );

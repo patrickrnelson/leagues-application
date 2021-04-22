@@ -85,14 +85,14 @@ function Leaderboard() {
   })
 
   return (
-    <div className="container">
+    <div className="container-leaderboard">
       <Header />
 
       <h2 className="pageTitle">League Leaderboard</h2><br/>
       <h3 className="leagueName">{currentLeague}</h3>
 
       {/* <h4>{currentWeek == '--Total--' ? '' : currentWeek}</h4> */}
-      <FormControl className={classes.formControl}>
+      {/* <FormControl className={classes.formControl}>
         <NativeSelect onChange={(event) => setCurrentWeek(event.target.value)}> 
           <option>Total</option>
           {weeks.map((week) => { return (
@@ -100,7 +100,7 @@ function Leaderboard() {
           )})}
         </NativeSelect>
         <FormHelperText>Week</FormHelperText>
-      </FormControl>
+      </FormControl> */}
 
       <TableContainer>
         <Table className={classes.table}>

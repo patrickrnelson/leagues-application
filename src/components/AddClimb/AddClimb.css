@@ -1,5 +1,6 @@
 .attemptsPicker {
-  display: flex;
+  display: inline-flex;
   width: 50%;
   justify-content: space-around;
+  text-align: right;
 }
