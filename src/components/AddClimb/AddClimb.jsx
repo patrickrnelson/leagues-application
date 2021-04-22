@@ -12,6 +12,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 
 import Header from '../Header/Header'
 import './AddClimb.css'
+import boulderSeven from '../Images/boulder7.png';
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -232,6 +233,7 @@ function AddClimb() {
           Submit!
         </Button>
       </div>
+      <img className="add-climb-image" src = {boulderSeven} alt="boulder" height="150px"  />
     </div>
     </>
   );

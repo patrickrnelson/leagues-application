@@ -16,6 +16,11 @@ import Header from '../Header/Header';
 import './TeamPage.css';
 import useOnClickOutside from './use-onclick-outside';
 import {climberWeekCalc} from '../../scripts/climberWeekCalc';
+import boulderTwo from '../Images/boulder2.png';
+import boulderThree from '../Images/boulder3.png';
+import boulderFive from '../Images/boulder5.png';
+import boulderSeven from '../Images/boulder7.png';
+import boulderTen from '../Images/boulder10.png';
 
 const useStyles = makeStyles({
   btn: {
@@ -156,6 +161,8 @@ function TeamPage() {
         </div>
           }
       </div>
+      <img className="team-image" src = {boulderThree} alt="boulder" height="175px"  />
+      <img className="team-image-two" src = {boulderTen} alt="boulder" height="75px"  />
       </>
 
     : 
@@ -168,6 +175,10 @@ function TeamPage() {
         onClick={findUserTeam}>
         Go To Your Team
       </Button>
+      <img className="team-image-three" src = {boulderTwo} alt="boulder" height="125px"  />
+      <img className="team-image-five" src = {boulderFive} alt="boulder" height="120px"  />
+      <img className="team-image" src = {boulderThree} alt="boulder" height="130px"  />
+      <img className="team-image-four" src = {boulderSeven} alt="boulder" height="115px"  />
     </div>
   );
 }

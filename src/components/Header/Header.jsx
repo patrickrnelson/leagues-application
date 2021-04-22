@@ -114,7 +114,7 @@ function Header () {
   return (
     <header className='header'>
       <Link to="/home">
-      <img src = {logo} alt="Logo" width='50px'/>
+        <img src = {logo} alt="Logo" width='50px'/>
       </Link>
       <Typography className={classes.title} variant="h5">Nature of the North</Typography>
       {/* This section handles the hamburger menu and drawer */}

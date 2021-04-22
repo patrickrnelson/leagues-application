@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
 
-import Header from '../Header/Header'
+import Header from '../Header/Header';
+import boulderOne from '../Images/boulder1.png';
+import boulderTwo from '../Images/boulder2.png';
 
 const useStyles = makeStyles({
   btn: {
@@ -69,12 +71,13 @@ function ClimberProfileEdit() {
 
       {/* Name Input */}
       <label for="nameEditInput">Name:</label>
-      <input 
+      <TextField 
         type="text" 
         id="nameEditInput"
         minLength="2"
         required 
         value={name}
+        inputProps={{min: 0, style: { textAlign: 'center' }}}
         onChange={(event) => setName(event.target.value)}
       />
 
@@ -82,13 +85,14 @@ function ClimberProfileEdit() {
 
       {/* Email Input */}
       <label for="emailEditInput">Email:</label>
-      <input 
+      <TextField 
         type="email" 
         id="emailEditInput"
         minlength="3"
         maxlength="64"
         required
         value={email}
+        inputProps={{min: 0, style: { textAlign: 'center' }}}
         onChange={(event) => setEmail(event.target.value)}
       />
 
@@ -96,12 +100,13 @@ function ClimberProfileEdit() {
 
       {/* Phone Input */}
       <label for="phoneEditInput">Phone:</label>
-      <input 
+      <TextField 
         type="tel" 
         id="phoneEditInput" 
         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
         required
         value={phone}
+        inputProps={{min: 0, style: { textAlign: 'center' }}}
         onChange={(event) => setPhone(event.target.value)}
       />
 
@@ -127,6 +132,8 @@ function ClimberProfileEdit() {
           Save
         </Button>
       </div>
+      <img className="edit-image-two" src = {boulderTwo} alt="boulder" height="150px"  />
+      <img className="edit-image" src = {boulderOne} alt="boulder" height="150px"  />
       </div>
       </>
   );
