@@ -15,7 +15,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     FROM "climbs"
     JOIN "locations" ON "climbs"."locationId" = "locations".id
     JOIN "users" ON "climbs"."userId" = "users".id
-    ORDER BY "climbs"."climbDate", "climbs"."isSubmitted" DESC;
+    ORDER BY "climbs".level DESC;
   `
   pool.query(queryText)
   .then((dbRes) => {
@@ -35,6 +35,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
   JOIN "locations" ON "climbs"."locationId" = "locations".id
   JOIN "users" ON "climbs"."userId" = "users".id
   WHERE "users".id = $1
+  ORDER BY "climbs"."climbDate", "climbs"."isSubmitted" DESC;
   `
   pool.query(queryText, [req.params.id])
   .then((dbRes) => {
