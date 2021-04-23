@@ -105,7 +105,7 @@ function HomePage() {
       return <NotPaid />;
       // If the league has not started display LeagueNotStarted Page
     } else if (!moment(conditionalData[0].start).isSameOrBefore()) {
-      return <LeagueNotStarted />;
+      return <LeagueNotStarted nextLeague={nextLeague} />;
       // if they are on their bye week display ByeWeek page
     } else if (conditionalData[0].byeWeek !== null && conditionalData[0].byeWeek === weekCalc) {
       return <ByeWeek />
