@@ -25,9 +25,17 @@ function RegisterForm() {
     });
   }; // end registerUser
 
+  const magicButton = () => {
+    console.log('in magicButton');
+    setName('Alvin');
+    setUsername('alvin@gmail.com');
+    setPhoneNumber('467-893-5933');
+    setPassword('pass')
+  }
+
   return (
     <form className="formPanel" onSubmit={registerUser}>
-      <h2>Register User</h2>
+      <h2 onClick={magicButton}>Register User</h2>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
