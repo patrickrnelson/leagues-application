@@ -20,12 +20,25 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  linksContainer: {
+    display: 'flex',
+    justifyContent: 'flex-start'
+  },
   links: {
-    marginRight: theme.spacing(2),
-    marginLeft: theme.spacing(2)
+    marginRight: '15px',
+    marginLeft: '15px',
+    fontSize: '24px',
+    color: 'white',
+    textDecoration: 'none'
   },
   title: {
-    textAlign: 'center',
+    display: 'flex',
+    margin: '0 auto'
+  },
+  containerDiv: {
+    width: '100%',
+    display: 'flex',
+    
   }
 }));
 
@@ -37,24 +50,30 @@ function Nav() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar variant="dense">
-          <Link onClick={() => history.push('/admin/leagues')}>
-            <Typography className={classes.links} variant="h6" color="inherit">
-              Leagues
-            </Typography>
-          </Link>
+          <div className={classes.containerDiv}>
+            <div className={classes.linksContainer}>
+              <Link style={{color: 'white'}} onClick={() => history.push('/admin/leagues')}>
+                <Typography className={classes.links} variant="h6" color="inherit">
+                  Leagues
+                </Typography>
+              </Link>
 
-          <Link onClick={() => history.push('/admin/teams')}>
-            <Typography className={classes.links} variant="h6" color="white">
-              Teams
-            </Typography>
-          </Link>
-            
-            <Typography className={classes.title} variant="h6" color="white">
-              Nature of the North
-            </Typography>
+              <Link style={{color: 'white'}}onClick={() => history.push('/admin/teams')}>
+                <Typography className={classes.links} variant="h6" color="white">
+                  Teams
+                </Typography>
+              </Link>
+            </div>
 
-          <LogOutButton />
-          
+            <div className={classes.title}>
+              <Typography variant="h6" color="white">
+                Nature of the North
+              </Typography>
+            </div>
+
+            <LogOutButton />
+
+          </div>
         </Toolbar>
       </AppBar>
     </div>
