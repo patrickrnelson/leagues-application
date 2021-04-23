@@ -195,8 +195,8 @@ function AdminTeams() {
           <Select
             labelId="teams"
             id="teamList"
-            value={value}
-            onChange={handleChange}
+            value={selectedLeague}
+            
           >
             {leagues.map((league) => {
               return (
