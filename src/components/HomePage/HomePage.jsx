@@ -93,7 +93,6 @@ function HomePage() {
     }
   }
 
-
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
     if (conditionalData[0].teamId === null) {

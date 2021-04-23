@@ -1,3 +1,5 @@
 .headerTitle {
+  position: sticky;
   font-size: 20px;
+  z-index: 1;
 }

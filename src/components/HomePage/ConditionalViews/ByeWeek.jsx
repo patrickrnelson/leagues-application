@@ -5,6 +5,9 @@ import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+import boulderSix from '../../Images/boulder6.png';
+import boulderFour from '../../Images/boulder4.png';
+
 const useStyles = makeStyles({
   btn: {
     fontSize: '12px',
@@ -58,7 +61,7 @@ function ByeWeek() {
   }
 
   return (
-    <div className="container">
+    <div className="container-bye">
       <h2>Your team is on a bye this week. See ya next week!</h2>
       {
         conditionalData[0].captainId === user.id  
@@ -72,6 +75,8 @@ function ByeWeek() {
               </Button>
           : null
       }
+      <img className="bye-image-two" src = {boulderSix} alt="boulder" height="175px"  />
+      <img className="bye-image" src = {boulderFour} alt="boulder" height="150px"  />
     </div>
   );
 }

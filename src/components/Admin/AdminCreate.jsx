@@ -62,6 +62,9 @@ function handleSubmit() {
         alignItems="center"
       >
           {/* League name textbox */}
+        <Grid item xs={12}>
+          <p>League Name:</p>
+        </Grid>
         <Grid> 
           <TextField
             id="outlined-basic"

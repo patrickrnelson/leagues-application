@@ -13,9 +13,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import Header from '../Header/Header'
-import './ClimbingSession.css'
-import {climberWeekCalc} from '../../scripts/climberWeekCalc'
+import Header from '../Header/Header';
+import './ClimbingSession.css';
+import {climberWeekCalc} from '../../scripts/climberWeekCalc';
 
 const useStyles = makeStyles({
   btn: {
@@ -320,6 +320,7 @@ function ClimbingSession() {
       </>     
       }
     </div>
+    
   );
 }
 

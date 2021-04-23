@@ -12,10 +12,15 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 
 import Header from '../Header/Header'
 import './AddClimb.css'
+import boulderSeven from '../Images/boulder7.png';
 
 const useStyles = makeStyles((theme) => ({
   btn: {
     fontSize: '12px',
+  },
+  btnCancel: {
+    fontSize: '12px',
+    color: '#ff1744',
   },
   formControl: {
     minWidth: 120,
@@ -67,6 +72,7 @@ function AddClimb() {
 
   const user = useSelector(store => store.user);
   const teams = useSelector(store => store.teams);
+  const conditionalData = useSelector(store => store.conditional);
   
   // local state to store climb info from inputs 
   const [captainId, setCaptainId] = useState('')
@@ -139,7 +145,7 @@ function AddClimb() {
       {/* Captain Only - Select Climber */}
 
       <FormControl className={classes.climber}>
-        {captainId === user.id ?
+        {conditionalData[0].captainId === user.id ?
         <>
         <Typography style={{textAlign: 'left'}} variant="label" >Climber: </Typography>
           <NativeSelect style={{textAlign: 'right'}} className={classes.select} value={climber} onChange={(event) => findClimberId(event)}>
@@ -211,7 +217,7 @@ function AddClimb() {
         <Button
           variant="outlined"
           color="secondary"
-          className={classes.btn}
+          className={classes.btnCancel}
           style={{ border: '2px solid' }}
           onClick={() => history.push('/climb/session')}>
           Cancel
@@ -227,6 +233,7 @@ function AddClimb() {
           Submit!
         </Button>
       </div>
+      <img className="add-climb-image" src = {boulderSeven} alt="boulder" height="150px"  />
     </div>
     </>
   );

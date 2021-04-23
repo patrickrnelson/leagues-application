@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+import boulderTwo from '../../Images/boulder2.png';
+
 const useStyles = makeStyles({
   btn: {
     width: '120px',
@@ -50,6 +52,7 @@ function JoinCreateTeam() {
           Join Team
         </Button>
       </div>
+      <img className="welcome-image" src = {boulderTwo} alt="boulder" height="150px"  />
     </>
   );
 }

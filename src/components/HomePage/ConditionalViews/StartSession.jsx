@@ -3,7 +3,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
-import {climberWeekCalc} from '../../../scripts/climberWeekCalc'
+import {climberWeekCalc} from '../../../scripts/climberWeekCalc';
+import boulderFive from '../../Images/boulder5.png';
+import boulderEight from '../../Images/boulder8.png';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -139,7 +141,8 @@ function StartSession(props) {
           Initiate Bye Week
         </Button>}
       </div>
-
+      <img className="session-image-two" src = {boulderFive} alt="boulder" height="150px"  />
+      <img className="session-image" src = {boulderEight} alt="boulder" height="150px"  />
     </div>
   );
 }
