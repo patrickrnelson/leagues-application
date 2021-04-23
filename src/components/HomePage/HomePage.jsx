@@ -19,16 +19,39 @@ function HomePage() {
   // Grab our conditionalData from the store
   const conditionalData = useSelector(store => store.conditional);
   const leagues = useSelector(store => store.leaguesReducer);
+  const leaguesTeams = useSelector(store => store.leagueTeamReducer)
 
   const [climber, setClimber] = useState('')
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
+  const [inNextLeague, setInNextLeague] = useState(false)
+  const [nextLeague, setNextLeague] = useState('')
+  const [isPaid, setIsPaid] = useState(false);
 
   useEffect(() => {
     getCurrentLeague();
+    getNextLeague();
   }, [])
+
+  // get the next league
+  const getNextLeague = () => { 
+    for (let league of leagues) {
+      if (moment().isBefore(league.start)) {
+        setNextLeague(league);
+      }
+    }
+  } 
+
+  for(let league of leaguesTeams) {
+    if (league.teamId === conditionalData[0].teamId && league.id === nextLeague.id && !inNextLeague) {
+      setInNextLeague(true);
+    }
+  }
+
+  console.log('nextLeague', nextLeague)
+
 
   const getCurrentLeague = () => {
     for(let league of leagues) {
@@ -38,9 +61,10 @@ function HomePage() {
         setCurrentLeagueStart(league.start);
         setCurrentLeagueEnd(league.end);
         return;
-      } 
+      }
     }
   }
+
 
   // grab our start date and end date
   let from = new Date(conditionalData[0].start).getTime();
@@ -69,14 +93,13 @@ function HomePage() {
     }
   }
 
-  
 
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
     if (conditionalData[0].teamId === null) {
       return <JoinCreateTeam />;
       // if user's team is not in a league display LeagueStatus page - also check if current date is after league end date
-    } else if (conditionalData[0].leagueName === null) {
+    } else if (!inNextLeague) {
       return <LeagueStatus />;
       // if they are in a league but have not paid display NotPaid page
     } else if (conditionalData[0].isPaid === false) {

@@ -222,10 +222,6 @@ function ClimbingSession() {
     // keep track of total amount of submitted climbs
     let amountOfClimbs = climberOneCount + climberTwoCount + climberThreeCount;
 
-  console.log('climberOneCount', climberOneCount)
-  console.log('climberTwoCount', climberTwoCount)
-  console.log('climberThreeCount', climberThreeCount  )
-
   return (
     <div className="climbsContainer">
       <Header />
