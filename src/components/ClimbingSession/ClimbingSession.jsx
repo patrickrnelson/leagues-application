@@ -27,6 +27,7 @@ const useStyles = makeStyles({
   },
   tableHead: {
     fontSize: '14px',
+    backgroundColor: '#78AF61',
   },
 });
 
