@@ -230,13 +230,19 @@ function ClimbingSession() {
   return (
     <div className="climbsContainer">
       <Header />
-      <h2>Week {weekCalc} Climbing Session</h2>
+      <h2 style={{margin: '30px 0 0 0'}}>Week {weekCalc}</h2>
+      <p style={{margin: '5px 0 50px 0', fontSize: '18px'}}>Climbing Session</p>
       
-      {/* IF it's the first week (weekCalc = 0) display 'Determined by this week's submissions
+      {/* IF it's the first week (weekCalc = 1) display 'Calculated after this week's submissions
           ELSE Display the handicap from our big function */}
       {user.id !== conditionalData[0].captainId ?
-      <p>{weekCalc === 1 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap}`}</p>
+      <p>{weekCalc === 1 ? 'Handicap: Calculated after this weeks submission' : `Handicap: ${climberWeekCalc(user.id, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap}`}</p>
         : null}
+      
+
+      {user.id === conditionalData[0].captainId ?
+      <>
+      <p style={{marginTop: '50px', fontSize: '20px', fontWeight: 'bold'}}>{amountOfClimbs} / 10 Climbs Submitted</p>
       <Button
         variant="outlined"
         color="secondary"
@@ -245,11 +251,7 @@ function ClimbingSession() {
         onClick={() => history.push('/climb/add')}>
         Add a Climb
       </Button>
-
-      {user.id === conditionalData[0].captainId ?
-      <>
-      <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber.</p>
-      <p>You have {amountOfClimbs} / 10 climbs submitted</p>
+      <p style={{margin: '20px 0 50px 0'}}>Each climber has to submit 3 climbs. The 10th climb can be submitted by any climber.</p>
       </>
       : null}
       
@@ -258,8 +260,8 @@ function ClimbingSession() {
       
       teammates.map((mate) => (
         <>
-        <h3>{mate.username}</h3>
-        <p>{weekCalc === 1 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap}`}</p>
+        <h3 style={{marginTop: '40px', marginBottom: '0'}}>{mate.username}</h3>
+        <p style={{margin: '15px 0', fontSize: '17px'}}>{weekCalc === 1 ? 'Handicap: Calculated after this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap}`}</p>
 
         <TableContainer>
           <Table className={classes.table}>
