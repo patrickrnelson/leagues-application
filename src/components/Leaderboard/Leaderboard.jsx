@@ -24,6 +24,7 @@ const useStyles = makeStyles({
   },
   tableHead: {
     fontSize: '18px',
+    backgroundColor: '#78AF61',
   },
   formControl: {
     minWidth: '120',
