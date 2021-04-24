@@ -40,6 +40,7 @@ function HomePage() {
     for (let league of leagues) {
       if (moment().isBefore(league.start)) {
         setNextLeague(league);
+        return;
       }
     }
   } 
@@ -104,14 +105,14 @@ function HomePage() {
     } else if (conditionalData[0].isPaid === false) {
       return <NotPaid />;
       // If the league has not started display LeagueNotStarted Page
-    } else if (!moment(conditionalData[0].start).isSameOrBefore()) {
+    } else if (currentLeague === '' && moment().isBefore(nextLeague.start)) {
       return <LeagueNotStarted nextLeague={nextLeague} />;
       // if they are on their bye week display ByeWeek page
     } else if (conditionalData[0].byeWeek !== null && conditionalData[0].byeWeek === weekCalc) {
       return <ByeWeek />
     } else {
       // else return StartSession page  
-      return <StartSession weekCalc={weekCalc} />
+      return <StartSession/>
     }
   }
 

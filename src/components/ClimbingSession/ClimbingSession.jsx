@@ -242,7 +242,8 @@ function ClimbingSession() {
       </Button>
 
       {user.id === conditionalData[0].captainId ?
-      <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber</p>
+      <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber.</p>
+
       : null}
       
       {user.id === conditionalData[0].captainId ? 
