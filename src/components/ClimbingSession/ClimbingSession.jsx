@@ -247,7 +247,10 @@ function ClimbingSession() {
       </Button>
 
       {user.id === conditionalData[0].captainId ?
-      <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber</p>
+      <>
+      <p>Please select 3 climbs for 2 climbers and 4 climbs for the remaining climber.</p>
+      <p>You have {amountOfClimbs} / 10 climbs submitted</p>
+      </>
       : null}
       
       {user.id === conditionalData[0].captainId ? 
@@ -255,8 +258,8 @@ function ClimbingSession() {
       
       teammates.map((mate) => (
         <>
-        <h4>{mate.username}</h4>
-        <h4>{weekCalc === 1 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap}`}</h4>
+        <h3>{mate.username}</h3>
+        <p>{weekCalc === 1 ? 'Handicap: Determined by this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap}`}</p>
 
         <TableContainer>
           <Table className={classes.table}>
