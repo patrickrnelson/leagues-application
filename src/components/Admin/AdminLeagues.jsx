@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import './AdminCreate.css';
+import './Admin.css';
 import Nav from '../Nav/Nav';
 import { Grid } from '@material-ui/core';
 import moment from 'moment';
@@ -67,7 +67,6 @@ function AdminLeagues() {
     user.authLevel === 'ADMIN' ?
     <Grid
       container
-      item
       xs={12}
       direction="row"
       justify="center"
@@ -121,6 +120,9 @@ function AdminLeagues() {
         <Grid item xs={2}>
           <h2>Status</h2>
         </Grid>
+
+        <Grid item xs={2}>
+        </Grid>
       </Grid>
 
       {/* iLeagues stands for individual leagues */}
@@ -134,25 +136,24 @@ function AdminLeagues() {
             justify="center"
             alignItems="center"
           >
-            <Grid item xs={2} key={iLeagues.name}>
-              {/* Season League */}
-              <h3>{iLeagues.name}</h3>
+            {/* League Name */}
+            <Grid item xs={2} key={iLeagues.name} >
+              <h3 className="leagueTitle">{iLeagues.name}</h3>
             </Grid>
 
+            {/* Start Date */}
             <Grid item xs={2} key={iLeagues.start}>
-              {/* Start Date */}
               <p>{moment(iLeagues.start).format('MM-DD-YYYY')}</p>
             </Grid>
 
+            {/* End Date */}
             <Grid item xs={2} key={iLeagues.end}>
-              {/* End Date */}
               <p>{moment(iLeagues.end).format('MM-DD-YYYY')}</p>
             </Grid>
 
+            {/* Status */}
             <Grid item xs={2}>
-              {/* Status */}
               {/* Compare today's date to the start and end dates of the leagues to find out if it is 'In Progress', 'Completed', or 'Not Started' */}
-              
                 {moment().isBefore(iLeagues.start)
                   ? <p>Not Started</p>
                   : moment().isSameOrAfter(iLeagues.start) &&
@@ -161,10 +162,9 @@ function AdminLeagues() {
                   : moment().isAfter(iLeagues.end)
                   ? <p>Completed</p>
                   : <p>Something is wrong</p>}
-              
             </Grid>
 
-            <Grid item={2}>
+            <Grid item xs={1}>
               <Button
                 variant="outlined"
                 color="primary"
@@ -174,7 +174,7 @@ function AdminLeagues() {
               </Button>
             </Grid>
 
-            <Grid item={2}>
+            <Grid item xs={1} >
               <Button
                 variant="outlined"
                 color="secondary"
@@ -182,6 +182,9 @@ function AdminLeagues() {
               >
                 Delete
               </Button>
+            </Grid>
+
+              {/* Dialog Box for Delete confirmation */}
               <Dialog
                 open={open}
                 onClose={handleClose}
@@ -210,7 +213,8 @@ function AdminLeagues() {
                   </Button>
                 </DialogActions>
               </Dialog>
-            </Grid>
+
+            
           </Grid>
         );
       })}
