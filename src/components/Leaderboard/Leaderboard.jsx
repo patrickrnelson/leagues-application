@@ -30,6 +30,11 @@ const useStyles = makeStyles({
     minWidth: '120',
     paddingBottom: '20px',
   },
+  myTeam: {
+    fontWeight: 'bolder',
+    color: 'black ',
+    backgroundColor: '#ad0c0ca1'
+  }
 });
 
 function Leaderboard() {
@@ -46,12 +51,14 @@ function Leaderboard() {
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
+  const [userTeam, setUserTeam] = useState('')
 
   const weeks = ['Week 1', 'Week 2', , 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7']
 
   let teamsInLeague = [];
 
   useEffect(() => {
+    findUserTeam();
     getCurrentLeague();
   }, [])
 
@@ -64,6 +71,17 @@ function Leaderboard() {
         setCurrentLeagueEnd(league.end);
         return;
       } 
+    }
+  }
+
+
+  // loop through teams to get team for current climber
+  const findUserTeam = () => {
+    console.log('In Find User Team');
+    for(let climber of teams) {
+      if (climber.userId === user.id) {
+        setUserTeam(climber.teamName)
+      }
     }
   }
 
@@ -117,10 +135,19 @@ function Leaderboard() {
           <TableBody>
           {teamsInLeague.map((team, index) => {
             // if(team.leagueName === currentLeague) {
+              
             return (
+              team.teamName === userTeam ?
+              <TableRow>
+                <TableCell className={classes.myTeam} align="center"> {index + 1} </TableCell>
+                  <TableCell className={classes.myTeam} align="center"> {team.teamName} </TableCell>
+                <TableCell className={classes.myTeam} align="center"> {team.teamScore} </TableCell>
+              </TableRow>
+              : 
+
               <TableRow>
                 <TableCell align="center"> {index + 1} </TableCell>
-                <TableCell align="center"> {team.teamName} </TableCell>
+                  <TableCell align="center"> {team.teamName} </TableCell>
                 <TableCell align="center"> {team.teamScore} </TableCell>
               </TableRow>
             )

@@ -263,8 +263,8 @@ function ClimbingSession() {
       
       teammates.map((mate) => (
         <>
-        <h4 style={{marginTop: '40px', marginBottom: '0'}}>{mate.username}</h4>
-        <p style={{margin: '15px 0', fontSize: '17px'}}>{weekCalc === 1 ? 'Handicap: Calculated after this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap}`}</p>
+        <h4 style={{marginTop: '40px', marginBottom: '0', fontSize: '16px'}}>{mate.username}</h4>
+        <p style={{margin: '15px 0', fontSize: '14px'}}>{weekCalc === 1 ? 'Handicap: Calculated after this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap}`}</p>
 
         <TableContainer className={classes.tableContainer}>
           <Table className={classes.table}>
@@ -303,7 +303,7 @@ function ClimbingSession() {
       ))
       :
       <>
-      <h4 style={{marginTop: '40px', marginBottom: '20px'}}>My Climbs</h4>
+      <h4 style={{marginTop: '40px', marginBottom: '20px', fontSize: '16px'}}>My Climbs</h4>
       <div className="climbsContainer">
         <TableContainer className={classes.tableContainer}>
           <Table className={classes.table}>

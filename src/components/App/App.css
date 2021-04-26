@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700&display=swap');
+
 html,
 body,
 #react-root {
@@ -5,7 +7,7 @@ body,
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Spartan', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0px;
 }
 
