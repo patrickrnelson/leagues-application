@@ -40,10 +40,25 @@ function HomePage() {
     for (let league of leagues) {
       if (moment().isBefore(league.start)) {
         setNextLeague(league);
-        return;
+        if(nextLeague !== '') {
+          break;
+        };
       }
     }
   } 
+
+  // check if team has paid for this league
+  for(let paidTeam of leaguesTeams) {
+    if(paidTeam.leagueId == nextLeague.id) {
+      if(paidTeam.teamId == conditionalData[0].teamId && paidTeam.isPaid == true) {
+        setIsPaid(true);
+        break;
+      }
+    }
+  }
+
+
+  console.log('isPaid', isPaid)
 
   for(let league of leaguesTeams) {
     if (league.teamId === conditionalData[0].teamId && league.id === nextLeague.id && !inNextLeague) {
@@ -94,6 +109,7 @@ function HomePage() {
     }
   }
 
+  
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
     if (conditionalData[0].teamId === null) {
@@ -102,7 +118,7 @@ function HomePage() {
     } else if (!inNextLeague) {
       return <LeagueStatus />;
       // if they are in a league but have not paid display NotPaid page
-    } else if (conditionalData[0].isPaid === false) {
+    } else if (!isPaid) {
       return <NotPaid />;
       // If the league has not started display LeagueNotStarted Page
     } else if (currentLeague === '' && moment().isBefore(nextLeague.start)) {
