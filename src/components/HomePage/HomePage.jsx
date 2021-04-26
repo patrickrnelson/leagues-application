@@ -28,7 +28,8 @@ function HomePage() {
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
   const [inNextLeague, setInNextLeague] = useState(false)
   const [nextLeague, setNextLeague] = useState('')
-  const [isPaid, setIsPaid] = useState(false);
+
+  let isPaid = false;
 
   useEffect(() => {
     getCurrentLeague();
@@ -48,18 +49,15 @@ function HomePage() {
   } 
 
   // check if team has paid for this league
-  for(let paidTeam of leaguesTeams) {
-    if(paidTeam.leagueId == nextLeague.id) {
-      if(paidTeam.teamId == conditionalData[0].teamId && paidTeam.isPaid == true) {
-        setIsPaid(true);
-        break;
+    for(let paidTeam of leaguesTeams) {
+      if(paidTeam.leagueId == nextLeague.id || currentLeagueId) {
+        if(paidTeam.teamId == conditionalData[0].teamId && paidTeam.isPaid == true) {
+          isPaid = true;
+          break;
+        }
       }
     }
-  }
-
-
-  console.log('isPaid', isPaid)
-
+  
   for(let league of leaguesTeams) {
     if (league.teamId === conditionalData[0].teamId && league.id === nextLeague.id && !inNextLeague) {
       setInNextLeague(true);
@@ -67,7 +65,6 @@ function HomePage() {
   }
 
   console.log('nextLeague', nextLeague)
-
 
   const getCurrentLeague = () => {
     for(let league of leagues) {
@@ -109,16 +106,15 @@ function HomePage() {
     }
   }
 
-  
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
     if (conditionalData[0].teamId === null) {
       return <JoinCreateTeam />;
-      // if user's team is not in a league display LeagueStatus page - also check if current date is after league end date
+      // if user's team is not in a league display LeagueStatus page
     } else if (!inNextLeague) {
       return <LeagueStatus />;
       // if they are in a league but have not paid display NotPaid page
-    } else if (!isPaid) {
+    } else if (isPaid === false) {
       return <NotPaid />;
       // If the league has not started display LeagueNotStarted Page
     } else if (currentLeague === '' && moment().isBefore(nextLeague.start)) {
