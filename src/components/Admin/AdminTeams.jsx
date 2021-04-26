@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Nav from '../Nav/Nav'
-import './AdminTeams.css'
+import './Admin.css'
 
 import { Grid, makeStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
@@ -65,12 +65,7 @@ function AdminTeams() {
         break;
       }
     }
-    
-    console.log('start date', from);
 
-    for(let week of allWeeks) {
-      console.log('allWeeks', week);
-    }
   }
   
 
@@ -104,6 +99,8 @@ function AdminTeams() {
     for(let league of leagues) {
       if(moment().isBetween(league.start, league.end)) {
         setSelectedLeague(league.id);
+        setSelectedLeagueStart(league.start);
+        setSelectedLeagueEnd(league.end)
         console.log('league Id', league.id);
       } 
     }
@@ -151,6 +148,7 @@ function AdminTeams() {
 
   const findTeamScore = (teamId) => {
     let teamScore = 0;
+    console.log('selectedLeagueStart', selectedLeagueStart);
     for (let team of leagueTeams) {
       if (team.teamId === teamId) {
         for (let climber of climbers) {

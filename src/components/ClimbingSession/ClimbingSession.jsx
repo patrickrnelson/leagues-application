@@ -22,6 +22,9 @@ const useStyles = makeStyles({
     height: '45px',
     fontSize: '12px',
   },
+  tableContainer: {
+    width: '300px',
+  },
   table: {
     minWidth: '250px',
   },
@@ -228,7 +231,7 @@ function ClimbingSession() {
   console.log('climberThreeCount', climberThreeCount  )
 
   return (
-    <div className="climbsContainer">
+    <div className="climbsSessionContainer">
       <Header />
       <h2 style={{margin: '30px 0 0 0'}}>Week {weekCalc}</h2>
       <p style={{margin: '5px 0 50px 0', fontSize: '18px'}}>Climbing Session</p>
@@ -241,8 +244,8 @@ function ClimbingSession() {
       
 
       {user.id === conditionalData[0].captainId ?
-      <>
       <p style={{marginTop: '50px', fontSize: '20px', fontWeight: 'bold'}}>{amountOfClimbs} / 10 Climbs Submitted</p>
+      : null}
       <Button
         variant="outlined"
         color="secondary"
@@ -251,8 +254,8 @@ function ClimbingSession() {
         onClick={() => history.push('/climb/add')}>
         Add a Climb
       </Button>
+      {user.id === conditionalData[0].captainId ?
       <p style={{margin: '20px 0 50px 0'}}>Each climber has to submit 3 climbs. The 10th climb can be submitted by any climber.</p>
-      </>
       : null}
       
       {user.id === conditionalData[0].captainId ? 
@@ -260,10 +263,10 @@ function ClimbingSession() {
       
       teammates.map((mate) => (
         <>
-        <h3 style={{marginTop: '40px', marginBottom: '0'}}>{mate.username}</h3>
+        <h4 style={{marginTop: '40px', marginBottom: '0'}}>{mate.username}</h4>
         <p style={{margin: '15px 0', fontSize: '17px'}}>{weekCalc === 1 ? 'Handicap: Calculated after this weeks submission' : `Handicap: ${climberWeekCalc(mate.userId, currentLeagueStart, currentLeagueEnd, climbs, conditionalData[0].byeWeek).handicap}`}</p>
 
-        <TableContainer>
+        <TableContainer className={classes.tableContainer}>
           <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -300,16 +303,16 @@ function ClimbingSession() {
       ))
       :
       <>
-      <h4>My Climbs</h4>
+      <h4 style={{marginTop: '40px', marginBottom: '20px'}}>My Climbs</h4>
       <div className="climbsContainer">
-        <TableContainer>
+        <TableContainer className={classes.tableContainer}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell className={classes.tableHead} align="center">Color</TableCell>
                 <TableCell className={classes.tableHead} align="center">Location</TableCell>
-                <TableCell className={classes.tableHead} align="center">Attempts</TableCell>
                 <TableCell className={classes.tableHead} align="center">Level</TableCell>
+                <TableCell className={classes.tableHead} align="center">Attempts</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -317,8 +320,8 @@ function ClimbingSession() {
               <TableRow key={climb.climbId}>  
               <TableCell align="center"> {climb.color} </TableCell>
               <TableCell align="center"> {climb.locationName} </TableCell>
-              <TableCell align="center"> {climb.attempts} </TableCell>
               <TableCell align="center"> {climb.level} </TableCell>
+              <TableCell align="center"> {climb.attempts} </TableCell>
             </TableRow>
             :
             <TableRow></TableRow>

@@ -1,4 +1,11 @@
 .climbsContainer {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.climbsSessionContainer {
   padding: 30px;
   align-items: center;
   text-align: center;
