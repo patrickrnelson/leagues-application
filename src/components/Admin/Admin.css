@@ -1,3 +1,18 @@
+.climberNameContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.climberTeamName {
+  font-size: 22px;
+  font-weight: normal;
+}
+
 .teamNameContainer {
   width: 80%;
   display: flex;
@@ -55,4 +70,10 @@
 .climberNameLink:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+/* Admin Leagues Page */
+
+.leagueTitle {
+  font-size: 19px;
 }

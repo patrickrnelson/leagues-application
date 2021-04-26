@@ -111,7 +111,7 @@ function TeamPage() {
         {conditionalData[0].teamName ?
         <>
         <h2 className="teamName">{userTeam}</h2><br/>
-        <h3 className="leagueName">League: {currentLeague}</h3>
+        <h3 className="leagueName">{currentLeague}</h3>
 
         <TableContainer className={classes.container}>
           <Table className={classes.table}>

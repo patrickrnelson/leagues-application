@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -33,12 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: 'flex',
-    margin: '0 auto'
-  },
-  containerDiv: {
-    width: '100%',
-    display: 'flex',
-    
+    margin: '0 29%'
   }
 }));
 
@@ -50,8 +46,19 @@ function Nav() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar variant="dense">
-          <div className={classes.containerDiv}>
-            <div className={classes.linksContainer}>
+          <Grid container
+            xs={12}
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+            <Grid 
+              container 
+              item
+              xs={4}
+              direction="row"
+              justify="flex-start"
+              alignItems="center">
               <Link style={{color: 'white'}} onClick={() => history.push('/admin/leagues')}>
                 <Typography className={classes.links} variant="h6" color="inherit">
                   Leagues
@@ -63,17 +70,31 @@ function Nav() {
                   Teams
                 </Typography>
               </Link>
-            </div>
+            </Grid>
 
-            <div className={classes.title}>
+            <Grid 
+              container
+              item
+              xs={4}
+              direction="row"
+              justify="center"
+              alignItems="center">
               <Typography variant="h6" color="white">
                 Nature of the North
               </Typography>
-            </div>
+            </Grid>
 
-            <LogOutButton />
+            <Grid
+              container 
+              item
+              xs={4}
+              direction="row"
+              justify="flex-end"
+              alignItems="center">
+              <LogOutButton />
+            </Grid>
 
-          </div>
+          </Grid>
         </Toolbar>
       </AppBar>
     </div>
