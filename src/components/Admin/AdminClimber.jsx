@@ -15,7 +15,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import moment from 'moment';
 
-
 import { climberWeekCalc } from '../../scripts/climberWeekCalc';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,62 +28,111 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AdminClimber() {
+  const classes = useStyles();
+  // Grab the ID from the params
+  let { id } = useParams();
+
+  // Redux Store
+  const adminClimbs = useSelector((store) => store.adminClimbsReducer)
+  const climberInfo = useSelector((store) => store.teams);
+  const leagues = useSelector((store) => store.leaguesReducer);
+  const leagueTeams = useSelector((store) => store.leagueTeamReducer);
+  const user = useSelector((store) => store.user);
   const userClimbs = useSelector((store) => store.climbs);
 
-  const climberInfo = useSelector((store) => store.teams);
-
-  const adminClimbs = useSelector((store) => store.adminClimbsReducer)
-  const user = useSelector((store) => store.user);
-
+  // State Variables
+  const [climberByeWeek, setClimberByeWeek] = useState(0);
   const [climberName, setClimberName] = useState('');
-
+  const [climberTeam, setClimberTeam] = useState('')
+  const [climberScore, setClimberScore] = useState(0);
   const [climberStats, setClimberStats] = useState('');
-
-  const [selectedClimber, setSelectedClimber] = useState('');
+  const [leagueName, setLeagueName] = useState('');
+  const [leagueStart, setLeagueStart] = useState('');
+  const [leagueEnd, setLeagueEnd] = useState('');
+  
+  // const [selectedClimber, setSelectedClimber] = useState('');
 
   useEffect(() => {
+    getCurrentLeague();
     findClimber();
-    testMap();
+    // testMap();
   }, []);
 
+  const getCurrentLeague = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setLeagueName(league.id);
+        setLeagueStart(league.start);
+        setLeagueEnd(league.end)
+        console.log('league Id', league.id);
+      } 
+    }
+  }
+
   const findClimber = () => {
+    let teamId = 0;
+    let byeWeek = 0;
     for (let climber of climberInfo) {
       if (climber.userId == id) {
         console.log('got a climber');
         setClimberName(climber.username);
+        setClimberTeam(climber.teamName);
+        teamId = climber.teamId
       }
     }
+    for (let team of leagueTeams) {
+      if (team.teamId === teamId) {
+        byeWeek = team.byeWeek;
+      }
+    }
+    setClimberByeWeek(byeWeek)
+    console.log('bye week', byeWeek);
+    findClimberScore(byeWeek);
   };
-const testMap = () => {
-  {userClimbs.map((climb) => {
-    console.log('userIDDD', climb.userId)
-    return (
-      <h1>{climb.userId}</h1>
-    )
-  })}
-}
 
-  console.log('user', userClimbs);
-  let { id } = useParams();
-  console.log('getting', id);
-  const classes = useStyles();
+  const findClimberScore = (byeWeek) => {
+    console.log('league start', leagueStart);
+    console.log('league end', leagueEnd);
+
+    let score = climberWeekCalc(
+        id,
+        leagueStart,
+        leagueEnd,
+        userClimbs,
+        byeWeek
+      ).totalScore;
+    setClimberScore(score);
+    console.log('score', score);
+
+  };
+
+
+// const testMap = () => {
+//   {userClimbs.map((climb) => {
+//     console.log('userIDDD', climb.userId)
+//     return (
+//       <h1>{climb.userId}</h1>
+//     )
+//   })}
+// }
+
   return (
+
     user.authLevel === 'ADMIN' ?
     <>
     <Nav />
-      <h1 className="climberNameContainer">Climber Profile</h1>
-      <h2 className="climberNameContainer">Team Cullen</h2>
-      <h3 className="climberNameContainer">{climberName}</h3>
 
-      
+      <div className="climberNameContainer">
+        <h1>Climber Profile</h1>
+        <h2>{climberName}</h2>
+        <h3 className="climberTeamName">Team: {climberTeam}</h3>
+      </div>
 
-      
-      <p className="climberNameContainer">Week 2</p>
+      <p className="climberNameContainer">Score: {climberWeekCalc(Number(id), leagueStart, leagueEnd, userClimbs, climberByeWeek).totalScore}</p>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              {/* <TableCell></TableCell> */}
               <TableCell align="right">Climber</TableCell>
               <TableCell align="right">Color</TableCell>
               <TableCell align="right">Location</TableCell>
@@ -96,8 +144,6 @@ const testMap = () => {
           <TableBody>
             
             {adminClimbs.map((climb) => {
-              console.log(climb.userId)
-              console.log(id)
               return (
                 <TableRow key={climb.climbId}>
                   {/* <TableCell></TableCell> */}
