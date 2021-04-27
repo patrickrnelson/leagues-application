@@ -65,6 +65,8 @@ function HomePage() {
   }
 
   console.log('nextLeague', nextLeague)
+  console.log('currentLeagueId', currentLeagueId)
+
 
   const getCurrentLeague = () => {
     for(let league of leagues) {
@@ -106,6 +108,21 @@ function HomePage() {
     }
   }
 
+  let byeWeekNumber = null;
+
+  for (let team of leaguesTeams) {
+    if(conditionalData[0].teamId === team.teamId) {
+      if(team.leagueId === currentLeagueId) {
+        if(team.byeWeek !== null) {
+          byeWeekNumber = team.byeWeek;
+        }
+      }
+    }
+  }
+
+  console.log('byeWeekNumber', byeWeekNumber)
+  console.log('weekCalc', weekCalc)
+
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
     if (conditionalData[0].teamId === null) {
@@ -120,7 +137,7 @@ function HomePage() {
     } else if (currentLeague === '' && moment().isBefore(nextLeague.start)) {
       return <LeagueNotStarted nextLeague={nextLeague} />;
       // if they are on their bye week display ByeWeek page
-    } else if (conditionalData[0].byeWeek !== null && conditionalData[0].byeWeek === weekCalc) {
+    } else if (byeWeekNumber === weekCalc + 1) {
       return <ByeWeek />
     } else {
       // else return StartSession page  
