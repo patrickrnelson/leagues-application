@@ -29,7 +29,6 @@ function HomePage() {
   const [inNextLeague, setInNextLeague] = useState(false)
   const [nextLeague, setNextLeague] = useState('')
 
-  let isPaid = false;
 
   useEffect(() => {
     getCurrentLeague();
@@ -49,6 +48,8 @@ function HomePage() {
   } 
 
   // check if team has paid for this league
+  let isPaid = false;
+
     for(let paidTeam of leaguesTeams) {
       if(paidTeam.leagueId == nextLeague.id || currentLeagueId) {
         if(paidTeam.teamId == conditionalData[0].teamId && paidTeam.isPaid == true) {
