@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
   climbsSubmittedReducer,
   accessCodeReducer,
   adminClimbsReducer,
-  adminTeamsReducer
+  adminTeamsReducer,
 });
 
 export default rootReducer;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 
+// Material-UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -19,10 +20,12 @@ function ByeWeek() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  // Redux Store
   const conditionalData = useSelector(store => store.conditional);
   const leagues = useSelector(store => store.leaguesReducer);
   const user = useSelector(store => store.user)
 
+  // State Variables
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
@@ -42,7 +45,7 @@ function ByeWeek() {
         return;
       } 
     }
-  }
+  }; // end getCurrentLeague
 
   const cancelByeWeek = () => {
     let teamId = conditionalData[0].teamId;
@@ -58,7 +61,7 @@ function ByeWeek() {
         captainId: conditionalData[0].captainId
       }
     })
-  }
+  }; //end cancelByeWeek
 
   return (
     <div className="container-bye">

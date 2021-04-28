@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import Nav from '../Nav/Nav'
-import './Admin.css'
-
+// Material-UI imports
 import { TableContainer } from '@material-ui/core';
 import { Grid, makeStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
@@ -15,6 +13,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import moment from 'moment';
 
+// Custom Components
+import Nav from '../Nav/Nav'
+import './Admin.css'
 import { climberWeekCalc } from '../../scripts/climberWeekCalc';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,13 +50,11 @@ function AdminClimber() {
   const [leagueName, setLeagueName] = useState('');
   const [leagueStart, setLeagueStart] = useState('');
   const [leagueEnd, setLeagueEnd] = useState('');
-  
-  // const [selectedClimber, setSelectedClimber] = useState('');
+
 
   useEffect(() => {
     getCurrentLeague();
     findClimber();
-    // testMap();
   }, []);
 
   const getCurrentLeague = () => {
@@ -67,14 +66,13 @@ function AdminClimber() {
         console.log('league Id', league.id);
       } 
     }
-  }
+  }; // end getCurrentLeague
 
   const findClimber = () => {
     let teamId = 0;
     let byeWeek = 0;
     for (let climber of climberInfo) {
       if (climber.userId == id) {
-        console.log('got a climber');
         setClimberName(climber.username);
         setClimberTeam(climber.teamName);
         teamId = climber.teamId
@@ -86,13 +84,10 @@ function AdminClimber() {
       }
     }
     setClimberByeWeek(byeWeek)
-    console.log('bye week', byeWeek);
     findClimberScore(byeWeek);
-  };
+  }; // end findClimber
 
   const findClimberScore = (byeWeek) => {
-    console.log('league start', leagueStart);
-    console.log('league end', leagueEnd);
 
     let score = climberWeekCalc(
         id,
@@ -102,19 +97,8 @@ function AdminClimber() {
         byeWeek
       ).totalScore;
     setClimberScore(score);
-    console.log('score', score);
+  }; // end findClimberScore
 
-  };
-
-
-// const testMap = () => {
-//   {userClimbs.map((climb) => {
-//     console.log('userIDDD', climb.userId)
-//     return (
-//       <h1>{climb.userId}</h1>
-//     )
-//   })}
-// }
 
   return (
 
@@ -146,7 +130,6 @@ function AdminClimber() {
             {adminClimbs.map((climb) => {
               return (
                 <TableRow key={climb.climbId}>
-                  {/* <TableCell></TableCell> */}
                   <TableCell align="right">{climb.name}</TableCell>
                   <TableCell align="right">{climb.color}</TableCell>
                   <TableCell align="right">{climb.locationName}</TableCell>

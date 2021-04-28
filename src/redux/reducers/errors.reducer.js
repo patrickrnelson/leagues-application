@@ -45,7 +45,7 @@ const joinTeamMessage = (state = '', action) => {
     default:
       return state;
   }
-}
+};
 
 // make one object that has keys loginMessage, registrationMessage
 // these will be on the redux state at:

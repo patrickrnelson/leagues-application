@@ -7,15 +7,9 @@ import {
   Switch,
 } from 'react-router-dom';
 
-// import ReactModal from 'react-modal';
-
 import { useDispatch } from 'react-redux';
-
-// import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
-
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-
 import AboutPage from '../AboutPage/AboutPage';
 import AddClimb from '../AddClimb/AddClimb';
 import AdminClimber from '../Admin/AdminClimber';
@@ -60,7 +54,6 @@ function App() {
     dispatch({ type: 'FETCH_CONDITIONAL' });
   }, [dispatch]);
 
-  // ReactModal.setAppElement('#root');
   return (
     <ThemeProvider theme={theme}>
     <Router>
@@ -171,32 +164,6 @@ function App() {
           >
             <HomePage />
           </ProtectedRoute>
-
-          {/* When a value is supplied for the authRedirect prop the user will
-            be redirected to the path supplied when logged in, otherwise they will
-            be taken to the component and path supplied. */}
-          {/* <ProtectedRoute
-            // with authRedirect:
-            // - if logged in, redirects to "/user"
-            // - else shows LoginPage at /login
-            exact
-            path="/login"
-            authRedirect="/user"
-          >
-            <LoginPage />
-          </ProtectedRoute>
-          */}
-          {/* <ProtectedRoute
-            // with authRedirect:
-            // - if logged in, redirects to "/user"
-            // - else shows RegisterPage at "/registration"
-            exact
-            path="/home"
-            user.authLevel === 'Admin' ?
-            authRedirect="/user"
-          >
-            <RegisterPage />
-          </ProtectedRoute>  */}
 
           <ProtectedRoute
             // with authRedirect:

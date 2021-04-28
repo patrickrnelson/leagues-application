@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
+// Material-UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +14,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 
+// Custom Components
 import Header from '../Header/Header';
 import './Leaderboard.css';
 import {climberWeekCalc} from '../../scripts/climberWeekCalc';
@@ -40,6 +42,7 @@ const useStyles = makeStyles({
 function Leaderboard() {
   const classes = useStyles();
 
+  // Redux Store
   const leagues = useSelector(store => store.leaguesReducer);
   const leagueTeams = useSelector(store => store.leagueTeamReducer);
   const climbs = useSelector(store => store.climbs)
@@ -47,6 +50,7 @@ function Leaderboard() {
   const conditionalData = useSelector(store => store.conditional);
   const teams = useSelector(store => store.teams);
 
+  // State Variables
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
@@ -60,7 +64,7 @@ function Leaderboard() {
   useEffect(() => {
     findUserTeam();
     getCurrentLeague();
-  }, [])
+  }, []);
 
   const getCurrentLeague = () => {
     for(let league of leagues) {
@@ -72,7 +76,7 @@ function Leaderboard() {
         return;
       } 
     }
-  }
+  }; // end getCurrentLeague
 
 
   // loop through teams to get team for current climber
@@ -83,7 +87,7 @@ function Leaderboard() {
         setUserTeam(climber.teamName)
       }
     }
-  }
+  }; // end findUserTeam
 
   // loop through teams in league and get their total scores
   for(let team of leagueTeams) {
@@ -96,14 +100,14 @@ function Leaderboard() {
     }
     teamsInLeague.push({teamName: team.teamName, teamId: team.teamId, teamScore: teamScore})
   }
-}
+};
 
   // console.log('teamsInLeague', teamsInLeague)
 
   // sort teams by score
   teamsInLeague.sort((a, b) => {
     return b.teamScore - a.teamScore;
-  })
+  });
 
   return (
     <div className="container-leaderboard">

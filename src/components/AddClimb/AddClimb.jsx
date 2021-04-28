@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+// Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -10,6 +11,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 
+// Custom Components
 import Header from '../Header/Header'
 import './AddClimb.css'
 import boulderSeven from '../Images/boulder7.png';
@@ -70,11 +72,12 @@ function AddClimb() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  // Redux Store
   const user = useSelector(store => store.user);
   const teams = useSelector(store => store.teams);
   const conditionalData = useSelector(store => store.conditional);
   
-  // local state to store climb info from inputs 
+  // State Variables
   const [captainId, setCaptainId] = useState('')
   const [climber, setClimber] = useState(user.name)
   const [climberId, setClimberId] = useState(user.id)
@@ -112,7 +115,7 @@ function AddClimb() {
     else {
       alert('Please select all inputs')
     }
-  } // end handleAddClimb
+  }; // end handleAddClimb
 
   // Used to find climberID since we can't pass it in the 'select' onChange
   // This will set both the climber and climberId state when the climber 'select' is changed
@@ -125,13 +128,13 @@ function AddClimb() {
         }
       }
     }
-  }
+  }; // end findClimberId
 
   const findCaptainId = () => {
     for(let team of teams) {
       setCaptainId(team.captainId)
     }
-  }
+  }; // end findCaptainId
 
   return (
     <>

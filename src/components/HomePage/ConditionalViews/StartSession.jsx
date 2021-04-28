@@ -3,12 +3,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
+// Material-UI imports
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+// Custom Components
 import {climberWeekCalc} from '../../../scripts/climberWeekCalc';
 import boulderFive from '../../Images/boulder5.png';
 import boulderEight from '../../Images/boulder8.png';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   btn: {
@@ -32,13 +34,13 @@ function StartSession(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-
-  // Grab our conditionalData from the store
+  // Redux Store
   const conditionalData = useSelector(store => store.conditional);
   const user = useSelector(store => store.user)
   const climbs = useSelector(store => store.climbs)
   const leagues = useSelector(store => store.leaguesReducer);
 
+  // State Variables
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
@@ -58,7 +60,7 @@ function StartSession(props) {
         return;
       } 
     }
-  }
+  }; // end getCurrentLeague
 
   let from = new Date(currentLeagueStart).getTime();
   let to = new Date(currentLeagueEnd).getTime();
@@ -108,7 +110,7 @@ function StartSession(props) {
         captainId: conditionalData[0].captainId
       }
     })
-  }
+  }; // end initiateByeWeek
 
   return (
     <div className="container-start">

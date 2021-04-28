@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LogOutButton from '../LogOutButton/LogOutButton';
-import './Nav.css';
 import {useSelector} from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
+// Material-UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,6 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { AutorenewTwoTone } from '@material-ui/icons';
+
+// Custom Components
+import LogOutButton from '../LogOutButton/LogOutButton';
+import './Nav.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {

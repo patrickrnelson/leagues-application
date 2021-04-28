@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {useSelector} from 'react-redux';
+import { useDispatch, useSelector  } from 'react-redux';
 
+// Material-UI imports
 import TextField from '@material-ui/core/TextField';
 
-
 function LoginForm() {
+  const dispatch = useDispatch();
+
+  // Redux Store
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  // State Variables
   const errors = useSelector(store => store.errors);
-  const dispatch = useDispatch();
 
   const login = (event) => {
     event.preventDefault();

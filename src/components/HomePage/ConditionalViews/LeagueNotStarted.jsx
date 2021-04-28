@@ -1,6 +1,4 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import { useState } from 'react';
 
 // this will show when your are in a league and it has not started
 function LeagueNotStarted() {

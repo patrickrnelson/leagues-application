@@ -17,11 +17,9 @@ function* fetchTeams() {
 function* fetchAccessCode(action) {
   try {
     // gets the characteristics from the DB
-
     // console.log('action in saga', action.payload);
     let teamCode = yield axios.get(`/api/team/access/${action.payload}`);
     // console.log('GET access code', teamCode.data[0].accessCode);
-
     yield put({
       type: 'SET_ACCESS_CODE',
       payload: teamCode.data[0].accessCode,
@@ -48,22 +46,10 @@ function* fetchAdminTeams(action) {
   try {
     let adminTeams = yield axios.get(`api/admin/${action.payload}`)
     yield put({type: 'SET_ADMIN_TEAMS', payload: adminTeams.data})
-  }
-  catch (err) {
+  } catch (err) {
     console.log("Error if admin_get_teams:", err);
   }
 }
-
-// function* getLeagueViewInfo() {
-//   try{
-//     let leagueInfo = yield axios.get(`/api/league`)
-//     console.log('Get League info', leagueInfo.data);
-//     yield put ({type: 'FETCH_LEAGUE_INFO', payload: leagueInfo.data});
-//   }
-//   catch (error) {
-//     console.log('Error getting the league info', error)
-//   }
-// }
 
 function* joinTeam(action) {
   try {
@@ -93,8 +79,7 @@ function* removeFromTeam(action) {
   try {
     yield axios.delete(`/api/team/delete/${action.payload.climberId}/${action.payload.captainId}`);
     yield put({ type: 'FETCH_TEAMS'})
-  }
-  catch (error) {
+  } catch (error) {
     console.log('Error deleting team', error)
   }
 }
@@ -105,7 +90,7 @@ function* teamsSaga() {
   yield takeLatest('JOIN_TEAM', joinTeam);
   yield takeLatest('FETCH_ACCESS_CODE', fetchAccessCode);
   yield takeLatest('FETCH_ADMIN_TEAMS', fetchAdminTeams);
-  yield takeLatest('REMOVE_TEAM_MEMBER', removeFromTeam)
+  yield takeLatest('REMOVE_TEAM_MEMBER', removeFromTeam);
 }
 
 export default teamsSaga;

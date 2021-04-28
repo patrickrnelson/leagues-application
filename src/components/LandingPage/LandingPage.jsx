@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
+// Custom Components
+import LoginForm from '../LoginForm/LoginForm';
+import RegisterForm from '../RegisterForm/RegisterForm';
 import './LandingPage.css';
 import logo from '../Images/notn.png';
 import Background from '../Images/bouldering.png';
 
-// CUSTOM COMPONENTS
-import LoginForm from '../LoginForm/LoginForm';
-import RegisterForm from '../RegisterForm/RegisterForm';
-
 
 function LandingPage() {
-  const [heading, setHeading] = useState('Nature of The North');
   const history = useHistory();
+
+  // State Variables
+  const [heading, setHeading] = useState('Nature of The North');
   const [formChange, setFormChange] = useState(true);
 
   const onRegister = () => {
     setFormChange(!formChange);
-  };
+  }; // end onRegister
 
   return (
     <div className="landing">
@@ -49,7 +51,7 @@ function LandingPage() {
           </>
           )}
         </div>
-    </div>
+      </div>
     </div>
   );
 }

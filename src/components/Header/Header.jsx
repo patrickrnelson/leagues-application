@@ -68,7 +68,7 @@ function Header () {
   };
 
 
-
+// This is what is inside the hamburger menu.
   const list = (
     <div className={classes.fullList}>
       <List
@@ -109,7 +109,7 @@ function Header () {
         </ListItem>
       </List>
     </div>
-  ) // end list
+  ); // end list
 
   return (
     <header className='header'>

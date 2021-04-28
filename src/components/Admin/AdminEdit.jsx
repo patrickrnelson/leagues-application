@@ -16,8 +16,10 @@ function AdminEdit() {
   const dispatch = useDispatch();
   let { id } = useParams() // this is the param id
 
+  // Redux Store
   const leaguesInfo = useSelector ((store) => store.leaguesReducer);
 
+  // State Variables
   const [leagueName, setLeagueName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('')
@@ -33,7 +35,7 @@ function AdminEdit() {
       }
     })
     history.push('/admin/leagues')
-  }
+  }; // end saveRsults
 
   useEffect(() => {
     findLeague();
@@ -49,7 +51,7 @@ function AdminEdit() {
         setEndDate(moment(league.end).format('YYYY-MM-DD'))
       }
     }
-  }
+  }; // end findLeague
 
   return (
     <>

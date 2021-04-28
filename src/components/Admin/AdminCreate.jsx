@@ -3,8 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './Admin.css';
 
-// import { AppBar, Grid, Toolbar, Typography } from '@material-ui/core';
-// import { Menu } from '@material-ui/core'
 
 import { Grid } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,6 +15,7 @@ function AdminCreate() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  // State Variables
   const [leagueName, setLeagueName] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
@@ -27,7 +26,7 @@ function handleSubmit() {
     payload: { leagueName, startDate, endDate }
   })
     history.push(`/admin/leagues`)
-}
+} // end handleSubmit
 
   return (
     <>

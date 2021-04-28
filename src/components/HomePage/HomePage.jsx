@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
-import Header from '../Header/Header'
-
+import Header from '../Header/Header';
 import JoinCreateTeam from './ConditionalViews/JoinCreateTeam';
 import LeagueStatus from './ConditionalViews/LeagueStatus/LeagueStatus';
 import NoLeague from './ConditionalViews/LeagueStatus/NoLeague';
@@ -13,13 +12,11 @@ import ByeWeek from './ConditionalViews/ByeWeek';
 import StartSession from './ConditionalViews/StartSession';
 
 function HomePage() {
-
-  const dispatch = useDispatch();
-
-  // Grab our conditionalData from the store
+  // Redux Store
   const conditionalData = useSelector(store => store.conditional);
   const leagues = useSelector(store => store.leaguesReducer);
 
+  // State Variables
   const [climber, setClimber] = useState('')
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
@@ -40,7 +37,7 @@ function HomePage() {
         return;
       } 
     }
-  }
+  }; // end getCurrentLeague
 
   // grab our start date and end date
   let from = new Date(conditionalData[0].start).getTime();
@@ -57,7 +54,7 @@ function HomePage() {
   // loop over weeks array to add each end of  week date to allWeeks array
   for (let i = 0; i < weeks; i++){
     allWeeks.push(new Date(from += week).toLocaleDateString())
-  }
+  };
 
   // Loop to determine the index of the week so we can check if today is before the end of that week
   // this is so we can render the bye week page
@@ -67,7 +64,7 @@ function HomePage() {
     weekCalc = i;
     break;
     }
-  }
+  };
 
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
@@ -89,7 +86,7 @@ function HomePage() {
       // else return StartSession page  
       return <StartSession weekCalc={weekCalc} />
     }
-  }
+  }; // end ConditionalDisplay
 
   return (
     <div className="container">

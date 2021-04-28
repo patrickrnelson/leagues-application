@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+// Material-UI imports
 import TextField from '@material-ui/core/TextField';
 
 function RegisterForm() {
+  const dispatch = useDispatch();
+
+  // Redux Store
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+
+  // State Variables
   const errors = useSelector((store) => store.errors);
-  const dispatch = useDispatch();
 
   const registerUser = (event) => {
     event.preventDefault();
@@ -24,14 +29,6 @@ function RegisterForm() {
       },
     });
   }; // end registerUser
-
-  const magicButton = () => {
-    console.log('in magicButton');
-    setName('Alvin');
-    setUsername('alvin@gmail.com');
-    setPhoneNumber('467-893-5933');
-    setPassword('pass')
-  }
 
   return (
     <form className="formPanel" onSubmit={registerUser}>

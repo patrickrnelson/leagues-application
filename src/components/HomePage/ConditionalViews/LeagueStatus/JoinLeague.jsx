@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 
+// Material-UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -15,17 +16,17 @@ const useStyles = makeStyles({
 function JoinLeague(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  // Redux Store
   const teamData = useSelector(store => store.teams);
   const user = useSelector(store => store.user);
+
+  // State Variables
   const [teamId, setTeamId] = useState('');
   
-  // console.log('leagueData from props', props.leagueData);
-  // console.log('league id', props.leagueData.id);
-  // console.log('team id', teamId);
-
   useEffect(() => {
     findTeamId();
-  }, [dispatch])
+  }, [dispatch]);
 
   const findTeamId = () => {
     for(let team of teamData) {
@@ -33,7 +34,7 @@ function JoinLeague(props) {
         setTeamId(team.teamId)
       }
     }
-  }
+  }; // end findTeamId
 
   const joinLeague = () => {
     dispatch({
@@ -43,7 +44,7 @@ function JoinLeague(props) {
         teamId: teamId
       }
     });
-  }
+  }; // end joinLeague
 
   return (
     <div className="container-conditionals">

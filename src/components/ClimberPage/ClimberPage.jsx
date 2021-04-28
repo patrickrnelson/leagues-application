@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 
+// Material-UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
@@ -13,9 +14,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import Header from '../Header/Header';
-
 import {climberWeekCalc} from '../../scripts/climberWeekCalc';
-
 
 const useStyles = makeStyles({
   btn: {
@@ -46,6 +45,7 @@ function ClimberPage() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  // Redux Store
   const climberTeams = useSelector((store) => store.teams);
   const conditionalData = useSelector((store) => store.conditional);
   const user = useSelector((store) => store.user);
@@ -53,6 +53,7 @@ function ClimberPage() {
   const leagues = useSelector((store) => store.leaguesReducer);
   let { id } = useParams();
 
+  // State Variables
   const [climber, setClimber] = useState('');
   const [climberId, setClimberId] = useState('');
   const [climberPhone, setClimberPhone] = useState('');
@@ -74,11 +75,10 @@ function ClimberPage() {
       if (climber.userId == id) {
         setClimber(climber.username);
         setClimberId(climber.userId);
-        // setClimberPhone(climber.phone);
-        // setClimberEmail(climber.Email);
+        
       }
     }
-  };
+  }; // end findClimber
 
   // sets the correct information for a league that is currently in place
   const getCurrentLeague = () => {
@@ -91,7 +91,7 @@ function ClimberPage() {
         return;
       }
     }
-  }
+  }; // end getCurrentLeague
   
   // captain view only
   // used to remove a team mate from the team
@@ -105,33 +105,13 @@ function ClimberPage() {
       }
     })
     history.push('/team')
-  }
+  }; // end removeTeamMember
 
   return (
     <div className="container-climber-profile">
       <Header />
       <h2>{climber}</h2>
-      {/* Button does not currently work to get team members profile pages */}
-      {/* <div className={classes.climber}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          className={classes.btn}>
-          {climber}'s Info
-        </Button>
-      </div> */}
-      {/* <ReactModal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        key={user.id}
-      >
-        <p>Name: {climber}</p>
-        <p>Phone: {climber.phone}</p>
-        <p>Email: {climber.username}</p> 
-        <button onClick={() => setModalIsOpen(false)}>X</button>
-      </ReactModal> */}
-      {/* <button onClick={() => setModalIsOpen(true)}>{climber}'s Info</button> */}
-
+    
       {/* check if user is a captain */}
       {user.id === conditionalData[0].captainId && climber !== user.name ?
         <Button

@@ -1,11 +1,12 @@
 import React from 'react';
 
-import Header from '../Header/Header'
-
 // Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+
+// Custom Components
+import Header from '../Header/Header'
 
 function AboutPage() {
 

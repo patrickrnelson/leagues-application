@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+// Material-UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -30,8 +31,11 @@ function CreateTeam() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [teamCode, setTeamCode] = useState('');
+  // Redux Store
   const errors = useSelector(store => store.errors);
+
+  // State Variables
+  const [teamCode, setTeamCode] = useState('');
   
 
   useEffect(() => {
@@ -50,7 +54,7 @@ function CreateTeam() {
     } else {
       dispatch({ type: 'ACCESS_CODE_INPUT_ERROR' })
     }
-  } 
+  }; // end joinTeam
 
   return (
     <>

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import './Admin.css';
-import Nav from '../Nav/Nav';
+
+// Material-UI imports
 import { Grid } from '@material-ui/core';
 import moment from 'moment';
 import Button from '@material-ui/core/Button';
@@ -14,32 +13,31 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
+import './Admin.css';
+import Nav from '../Nav/Nav';
+
 function AdminLeagues() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // Redux Store
   const leaguesInfo = useSelector((store) => store.leaguesReducer);
   const user = useSelector((store) => store.user);
 
+  // State Variables
   const [open, setOpen] = useState(false);
-
   const [deleteId, setDeleteId] = useState(0);
   const [deleteName, setDeleteName] = useState('');
 
-  // console.log('leaguesInfo', leaguesInfo);
+
   function createNewLeague() {
     history.push(`/admin/leagues/new`);
-  }
+  }; // end createNewLeague
 
-  //  /admin/leagues
 
   function handleEdit(leagueId) {
-    // dispatch({
-    //   type: 'EDIT_RESULTS'
-    // })
-
     history.push(`/admin/leagues/edit/${leagueId}`);
-  }
+  }; // end handleEdit
 
   function handleDelete(leagueId) {
     console.log('what is the id', leagueId);
@@ -48,7 +46,7 @@ function AdminLeagues() {
       payload: leagueId,
     });
     handleClose();
-  }
+  }; // end handleDelete
 
   const handleClickOpen = (leaguesID, leagueName) => {
     console.log('what is the id in handleClickOpen', leaguesID);
@@ -56,14 +54,15 @@ function AdminLeagues() {
     setDeleteId(leaguesID)
     setDeleteName(leagueName)
     setOpen(true);
-  };
+  }; // end handleClickOpen
 
   const handleClose = () => {
     setOpen(false);
-  };
+  }; // end handleClose
 
 
   return (
+
     user.authLevel === 'ADMIN' ?
     <Grid
       container
@@ -219,8 +218,6 @@ function AdminLeagues() {
         );
       })}
     </Grid>
-
-    
     : <h2>404  Page Not Found</h2>
   );
 }

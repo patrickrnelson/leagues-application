@@ -24,7 +24,7 @@ router.get('/conditional', rejectUnauthenticated, (req, res) => {
     FULL OUTER JOIN "climbs" ON "users".id = "climbs"."userId"
     FULL OUTER JOIN "leagues" ON "leaguesTeams"."leagueId" = "leagues".id
     WHERE "users".id = $1;
-  `
+  `;
   pool.query(queryText, [req.user.id])
     .then((dbRes) => { 
       res.send(dbRes.rows);
@@ -44,8 +44,10 @@ router.post('/register', (req, res, next) => {
   const phone = req.body.phoneNumber;
   const password = encryptLib.encryptPassword(req.body.password);
 
-  const queryText = `INSERT INTO "users" (name, username, phone, password)
-    VALUES ($1, $2, $3, $4) RETURNING id`;
+  const queryText = `
+    INSERT INTO "users" (name, username, phone, password)
+    VALUES ($1, $2, $3, $4) RETURNING id
+  `;
   pool
     .query(queryText, [name, username, phone, password])
     .then(() => res.sendStatus(201))
@@ -79,8 +81,7 @@ router.put('/', rejectUnauthenticated, (req, res) => {
     UPDATE "users" 
     SET "name" = $1, "username" = $2, "phone" = $3
     WHERE "users".id = $4;
-  `
-
+  `;
   pool.query(queryText, [name, username, phone, req.user.id])
     .then(() => { 
       console.log('Successful user PUT');

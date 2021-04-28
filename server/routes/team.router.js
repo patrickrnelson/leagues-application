@@ -9,15 +9,14 @@ const {
  * GET all Teams and Climbers on those Teams
  *  */ 
 router.get('/', rejectUnauthenticated, (req, res) => {
-  // console.log('in teams GET router');
   let queryText = `
     SELECT "users".name as userName, 
       "usersTeams"."userId", "usersTeams"."teamId", 
       "teams".name as "teamName", "teams".id as "teamId", "teams"."captainId", "teams"."accessCode"
     FROM "users"
     JOIN "usersTeams" ON "users".id = "usersTeams"."userId"
-    JOIN "teams" ON "teams".id = "usersTeams"."teamId"
-    ;`
+    JOIN "teams" ON "teams".id = "usersTeams"."teamId"; 
+  `;
   pool
     .query(queryText)
     .then((result) => {
@@ -33,7 +32,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  * GET all Teams in a specific League (leagueTeams)
  *  */ 
 router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
-  // console.log('test1', req.body);
   let queryText = `SELECT * FROM teams WHERE "teams"."leagueId" = $1`;
   pool.query(queryText, [req.params.id])
   .then((result) => {
@@ -46,11 +44,10 @@ router.get('/leagueTeam/:id', rejectUnauthenticated, (req, res) => {
 });
 
 /**
- * GET access codes?
+ * GET access codes for a specific team
  */
 router.get('/access/:id', rejectUnauthenticated, (req, res) => {
   let queryText = `SELECT "teams"."accessCode" FROM "teams" WHERE "teams".id = $1;`;
-  // console.log('access code in router', req.params.id);
   pool.query(queryText, [req.params.id])
   .then((result) => {
     res.send(result.rows);
@@ -67,9 +64,6 @@ router.get('/access/:id', rejectUnauthenticated, (req, res) => {
 router.post('/', rejectUnauthenticated, async (req, res) => {
   let accessCode = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 6).toUpperCase();
   const connection = await pool.connect();
-  // console.log('what is my access code?', accessCode);
-  // console.log('name', req.body.teamName);
-  // console.log('user id', req.user.id);
   try {
     await connection.query(`BEGIN`);
     let dbRes = await connection.query(`
@@ -95,7 +89,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
 });
 
 /**
- * JOIN a Team
+ * JOIN a Team via access code
  */
 router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
   const connection = await pool.connect();
@@ -136,8 +130,6 @@ router.post('/join/:accessCode', rejectUnauthenticated, async (req, res) => {
  * UPDATE Bye Week
  */
 router.put('/bye', rejectUnauthenticated, (req, res) => {
-  console.log('req.body', req.body, 'req.user', req.user);
-  
   // Only team captain can start a bye week and only for their team
   if (req.user.id !== req.body.captainId) {
     res.sendStatus(403);
@@ -150,7 +142,7 @@ router.put('/bye', rejectUnauthenticated, (req, res) => {
     UPDATE "leaguesTeams"
     SET "byeWeek" = $1
     WHERE "leagueId" = $3 AND "teamId" = $2;
-  `
+  `;
   pool.query(queryText, [req.body.byeWeek, req.body.teamId, req.body.leagueId])
     .then((results) => {
       console.log('Updated Bye Week');
@@ -179,7 +171,7 @@ router.put('/paid', rejectUnauthenticated, (req, res) => {
     UPDATE "leaguesTeams"
     SET "isPaid" = $1
     WHERE "leagueId" = $3 AND "teamId" = $2;
-  `
+  `;
   pool.query(queryText, [req.body.paidStatus, req.body.teamId, req.body.leagueId])
     .then((results) => {
       console.log('Updated Paid Status');
@@ -195,10 +187,6 @@ router.put('/paid', rejectUnauthenticated, (req, res) => {
  * DELETE a User from a Team
  */
 router.delete('/delete/:climberId/:captainId', rejectUnauthenticated, (req, res) => {
-
-  console.log('req body', req.params.climberId, req.params.captainId)
-
-
   // Only team captain can remove a teammate and only for their team
   if (req.user.id != req.params.captainId) {
     res.sendStatus(403);
@@ -208,10 +196,9 @@ router.delete('/delete/:climberId/:captainId', rejectUnauthenticated, (req, res)
   }
 
   let queryText = `
-  DELETE FROM "usersTeams"
-  WHERE $1 = "userId"
-  `
-  
+    DELETE FROM "usersTeams"
+    WHERE $1 = "userId"
+  `;
   pool.query(queryText, [req.params.climberId])
   .then((result) => {
     console.log('user removed')
@@ -222,6 +209,5 @@ router.delete('/delete/:climberId/:captainId', rejectUnauthenticated, (req, res)
     res.sendStatus(500)
   });
 });
-
 
 module.exports = router;

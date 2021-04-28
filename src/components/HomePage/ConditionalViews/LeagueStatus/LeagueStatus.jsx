@@ -8,6 +8,7 @@ import NotInLeague from './NotInLeagueUser'
 
 function LeagueStatus() {
 
+  // Redux Store
   const conditionalData = useSelector(store => store.conditional);
   const leagueData = useSelector(store => store.leaguesReducer);
 
@@ -18,7 +19,7 @@ function LeagueStatus() {
     if ( moment().isSameOrBefore(moment(leagueData[i].start).add(7, 'd')) ) {
       openLeague = leagueData[i];
     }
-  }
+  };
 
   const ConditionalLeagueDisplay = () => {
     // if there isn't an open league display NoLeague page
@@ -31,7 +32,7 @@ function LeagueStatus() {
     } else {
       return <NotInLeague />
     }
-  }
+  }; // end ConditionalLeagueDisplay
 
   return (
     <div>

@@ -45,6 +45,9 @@ router.get('/teams', rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * POST to join a league
+ */
 router.post('/join', rejectUnauthenticated, (req, res) => {
 
   let queryText = `
@@ -62,6 +65,9 @@ router.post('/join', rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * POST to create a league
+ */
 router.post('/', rejectUnauthenticated, (req, res) => {
 
   // Only admins can add a league
@@ -78,7 +84,6 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     INSERT INTO "leagues" ( "name", "start", "end")
     VALUES ($1, $2, $3);
   `;
-
   pool
     .query(queryText, [
       req.body.leagueName,
@@ -94,8 +99,10 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * PUT to edit a league
+ */
 router.put('/saveEdits', rejectUnauthenticated, (req, res) => {
-
   // Only admins can edit leagues
   if (req.user.authLevel !== 'ADMIN') {
     res.sendStatus(403);
@@ -109,8 +116,6 @@ router.put('/saveEdits', rejectUnauthenticated, (req, res) => {
     SET "name" = $1, "start" = $2, "end" = $3
     WHERE "id" = $4 ;
   `;
-
-
   pool.query(queryText, [req.body.leagueName, req.body.startDate, req.body.endDate, req.body.leagueId])
   .then(() => {
     res.sendStatus(201);
@@ -121,7 +126,9 @@ router.put('/saveEdits', rejectUnauthenticated, (req, res) => {
   });
 });
 
-
+/**
+ * DELETE to remove a league
+ */
 router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   
   // Only admins can delete a league
@@ -133,7 +140,6 @@ router.delete('/delete/:id', rejectUnauthenticated, (req, res) => {
   }
 
   const deleteQuery = `DELETE FROM "leagues" WHERE "id" = $1;`;
-
   pool
     .query(deleteQuery, [req.params.id])
     .then((result) => {

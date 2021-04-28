@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
+// Material-UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
@@ -12,6 +13,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+// Custom Components
 import Header from '../Header/Header';
 import './TeamPage.css';
 import useOnClickOutside from './use-onclick-outside';
@@ -55,6 +57,7 @@ function TeamPage() {
   const dispatch = useDispatch();
   const ref = useRef();
 
+  // Redux Store
   const leagues = useSelector(store => store.leaguesReducer);
   const conditionalData = useSelector(store => store.conditional);
   const climbs = useSelector(store => store.climbs)
@@ -62,6 +65,7 @@ function TeamPage() {
   const user = useSelector(store => store.user);
   const accessCode = useSelector(store => store.accessCodeReducer);
   
+  // State Variables
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
@@ -74,7 +78,7 @@ function TeamPage() {
   useEffect(() => {
     findUserTeam();
     getCurrentLeague();
-  }, [])
+  }, []);
 
   const getCurrentLeague = () => {
     for(let league of leagues) {
@@ -86,11 +90,10 @@ function TeamPage() {
         return;
       } 
     }
-  }
+  }; // end getCurrentLeague
 
   // loop through teams to get team for current climber
   const findUserTeam = () => {
-    console.log('In Find User Team');
     for(let climber of climberTeams) {
       if (climber.userId === user.id) {
         setUserTeam(climber.teamName)
@@ -100,7 +103,7 @@ function TeamPage() {
       type: 'FETCH_ACCESS_CODE', 
       payload: conditionalData[0].teamId
     });
-  }
+  }; // end findUserTeam
 
   return (
     userTeam !== '' ?
