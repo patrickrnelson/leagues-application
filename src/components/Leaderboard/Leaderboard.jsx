@@ -147,6 +147,7 @@ function Leaderboard() {
                   <TableCell className={classes.myTeam} align="center"> {team.teamName} </TableCell>
                 <TableCell className={classes.myTeam} align="center"> {team.teamScore} </TableCell>
               </TableRow>
+
               : 
 
               <TableRow>

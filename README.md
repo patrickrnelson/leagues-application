@@ -29,33 +29,52 @@ To start this project please have these set of software programs downloaded to y
 - [postgreSQL] (https://www.postgresql.org/)
 - [Node.js](https://nodejs.org/en/)
 - [Postico] (https://eggerapps.at/postico/) 
-- List other prerequisites here
 
 ## Installation
 
-How do you get your application up and running? This is a step by step list for how another developer could get this project up and running. The good target audience in terms of knowledge, would be a fellow Primer from another cohort being able to spin up this project. Note that you do not need a paragraph here to intro Installation. It should be step-by-step.
-
-If your application has secret keys (for example --  Twilio), make sure you tell them how to set that up, both in getting the key and then what to call it in the `.env` file.
-
-1. Download the code from GitHub.
+1. Clone code from Github
 2. Open the project folder in an editor of your choice. 
-3. Create a database named `notn`.
-4. The queries in the `database.sql` file are set up to create all the necessary tables and populate the needed data to allow the application to run correctly. The project is built on [Postgres](https://www.postgresql.org/download/), so you will need to make sure to have that installed. We recommend using Postico to run those queries.
-5. Open a terminal and navigate to the project folder. Run an `npm install`
-6. Run `npm run server` in your terminal
-7. Run `npm run client` in your terminal
-8. The project will open in a new tab in your default browser!
+3. Create a `.env` file at the root of the project and paste this line into the file:
+  ```
+  SERVER_SESSION_SECRET=superDuperSecret
+  ```
+  While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
+4. Open your database application of choice. This project is built with [Postgres](https://www.postgresql.org/download/), so you will need to make sure to have that installed. We recommend using
+   Postico create a database and to run the queries.
+4a. Create a database named `notn`.
+5. The queries in the `database.sql` file are set up to create all the necessary tables and populate the needed data to allow the application to run correctly. 
+6. Open a terminal and navigate to the project folder. Run an `npm install`
+7. Run `npm run server` in your terminal
+8. Run `npm run client` in your terminal
+9. The project will open in a new tab in your default browser! If not navigate in your local browser to `localhost:3000`
 
 ## Usage
 How does someone use this application? Tell a user story here.
 
+### Admin
+1. Login using the provided Admin login. 
+2. Create a new league using the 'Create League' button. Name the league, and choose the start and end dates for the league. 
+3. Once you have created a league, you have the option to edit the league information (name and dates) with the 'Edit' button or delete the league with the 'Delete' button. If you click the 'Delete' button a dialogue will pop up asking you to confirm the league that you want to delete. 
+4. Clicking on the 'Teams' link in the navigation bar will navigate you to a page that lists the teams that are in the current league. 
+5. There is a dropdown that allows you to select past leagues. 
+6. Clicking on a team name will show the climbers on that team, the paid status of the team, and all of the climbs that team has done.
+7. If a team has not paid, an indicator will show beneath the team name that says 'Has not paid'. The admin will be able to click into the team and change the paid status of the team. 
+
+### Climber
 1. Register for an account.
 2. Click the 'Create a Team' button and enter in a new team name.
-3. 
-4. xxx
-5. xxx
-6. xxx
-
+3a. If a league is open, click 'Join League' on the home page.
+3b. If a league is not open, the app will say so and you can check back later. 
+4. When you join a league you must pay the league dues to NOTN, and they will mark your team as paid in the admin view.
+5. Once your team has paid and the league has started, you and your team will be able to start a climbing session.
+6. In the climbing session, click 'Add climbs' to add your climbs for the week. You can add as many climbs as you would like. 
+7. Once you and your team have completed all of your climbs, the team captain can click the 'submit' checkbox on 10 of the climbs.
+  -Each climber must have 3 climbs submitted, and the 10th climb can come from any climber
+8. Click on the 'team' link in the menu to see the climbers on your team and their total score for the current league.
+9. Click on the 'leaderboard' link in the menu to see all of the teams in the current league and their respective scores. Your team will be highlighted. 
+10. The 'Rules' page in the menu lists the rules for the league. 
+11. The 'About' page in the menu lists information about NOTN and the leagues.
+12. The 'Profile' link in the menu will take you to a page where you can see and edit the information associated with your user profile.
 
 ## Built With
 
@@ -88,8 +107,8 @@ SOFTWARE.
 
 
 ## Acknowledgement
-Thank you to [Prime Digital Academy](www.primeacademy.io) who gave us the opportunity and taught us the skills needed to create an application for [Nature Of The North] (http://natureofthenorth.co/). We also wanted to take a moment to thank our cohort, Cullen, for being supportive and taking time to help one another every step of the way. 
+Thank you to [Prime Digital Academy](www.primeacademy.io) who gave us the opportunity and taught us the skills needed to create an application for [Nature Of The North] (http://natureofthenorth.co/). We wanted to take a moment to thank our cohort, Cullen, for being supportive and taking time to help one another every step of the way. Our instructors Edan and Chad for being adaptive and understanding of our own challenges and struggles throughout our own journey's. 
 
 
 ## Support
-If you have suggestions or issues, please email me at [youremail@whatever.com](www.google.com)
+If you have suggestions or issues, please email [SeniorDevs@gmail.com](www.google.com)
