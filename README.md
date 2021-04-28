@@ -25,10 +25,10 @@ Include one or two screen shots of your project here (optional). Remove if unuse
 
 ### Prerequisites
 To start this project please have these set of software programs downloaded to your computer. 
-- a Code editor of choice [VS Code ] (https://code.visualstudio.com/) OR [Sublime Text] (https://www.sublimetext.com/)
-- [postgreSQL] (https://www.postgresql.org/)
+- a Code editor of choice [VS Code ](https://code.visualstudio.com/) OR [Sublime Text](https://www.sublimetext.com/)
+- [postgreSQL](https://www.postgresql.org/)
 - [Node.js](https://nodejs.org/en/)
-- [Postico] (https://eggerapps.at/postico/) 
+- [Postico](https://eggerapps.at/postico/) 
 
 ## Installation
 
