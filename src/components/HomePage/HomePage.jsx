@@ -13,27 +13,33 @@ import StartSession from './ConditionalViews/StartSession';
 
 function HomePage() {
 
-  const dispatch = useDispatch();
-
   // Grab our conditionalData from the store
   const conditionalData = useSelector(store => store.conditional);
   const leagues = useSelector(store => store.leaguesReducer);
   const leaguesTeams = useSelector(store => store.leagueTeamReducer)
 
-  const [climber, setClimber] = useState('')
   const [currentLeague, setCurrentLeague] = useState('')
   const [currentLeagueId, setCurrentLeagueId] = useState(0)
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
-  const [inNextLeague, setInNextLeague] = useState(false)
-  const [inCurrentLeague, setInCurrentLeague] = useState(false);
   const [nextLeague, setNextLeague] = useState('')
-
 
   useEffect(() => {
     getCurrentLeague();
     getNextLeague();
-  }, [])
+  })
+
+  const getCurrentLeague = () => {
+    for(let league of leagues) {
+      if(moment().isBetween(league.start, league.end)) {
+        setCurrentLeague(league.name);
+        setCurrentLeagueId(league.id);
+        setCurrentLeagueStart(league.start);
+        setCurrentLeagueEnd(league.end);
+        return;
+      }
+    }
+  }
 
   // get the next league
   const getNextLeague = () => { 
@@ -47,6 +53,28 @@ function HomePage() {
     }
   } 
 
+  let from = new Date(currentLeagueStart).getTime();
+  let to = new Date(currentLeagueEnd).getTime();
+  let week = 604800000;
+  let day = 86400000;
+  let allWeeks = [currentLeagueStart];
+  let current =  1;
+  // determine the number of weeks in the league
+  let weeks = (to-from)/day/7
+
+  // loop over weeks array to add each end of  week date to allWeeks array
+  for (let i = 0; i < weeks; i++){
+    allWeeks.push(new Date(from += week).toLocaleDateString())
+  }
+
+  let weekCalc = 0;
+  for (let i = 0; i < allWeeks.length; i++) {
+    if (moment().isSameOrBefore(allWeeks[i])) {
+    weekCalc = i;
+    break;
+    }
+  }
+
   // check if team has paid for this league
   let isPaid = false;
     for(let paidTeam of leaguesTeams) {
@@ -57,60 +85,21 @@ function HomePage() {
         }
       }
     }
-  
+
+  let inNextLeague = false;  
   for(let league of leaguesTeams) {
-    if (league.teamId === conditionalData[0].teamId && league.id === nextLeague.id && !inNextLeague) {
-      setInNextLeague(true);
-    }
-  }
-
-  console.log('nextleague', nextLeague)
-  console.log('inNextLeage', inNextLeague);
-  console.log('currentLeague', currentLeague)
-
-  const getCurrentLeague = () => {
-    for(let league of leagues) {
-      if(moment().isBetween(league.start, league.end)) {
-        setCurrentLeague(league.name);
-        setCurrentLeagueId(league.id);
-        setCurrentLeagueStart(league.start);
-        setCurrentLeagueEnd(league.end);
-        return;
-      }
-      if(league.teamId === conditionalData[0].teamId) {
-        setInCurrentLeague(true);
+    if (league.teamId === conditionalData[0].teamId && league.leagueId === nextLeague.id && !inNextLeague) {
+      inNextLeague = true;
       }
     }
-  }
-
-
-  // grab our start date and end date
-  let from = new Date(conditionalData[0].start).getTime();
-  let start = new Date(currentLeagueStart).getTime();
-  let to = new Date(conditionalData[0].end).getTime();
-  let week = 604800000;
-  let day = 86400000;
-  let allWeeks = [currentLeagueStart];
-  let current =  1;
-  let today = moment();
-  // determine the number of weeks in the league
-  let weeks = (to-from)/day/7
-
-  // loop over weeks array to add each end of  week date to allWeeks array
-  for (let i = 0; i < weeks; i++){
-    allWeeks.push(new Date(from += week).toLocaleDateString())
-  }
-
-  // Loop to determine the index of the week so we can check if today is before the end of that week
-  // this is so we can render the bye week page
-  let weekCalc = 0;
-  for (let i = 0; i < allWeeks.length; i++) {
-    if (moment().isSameOrBefore(allWeeks[i])) {
-    weekCalc = i;
-    break;
+  
+  let inCurrentLeague = false;  
+  for(let league of leaguesTeams) {
+    if (league.teamId === conditionalData[0].teamId && league.leagueId === currentLeagueId && !inCurrentLeague) {
+      inCurrentLeague = true;
     }
   }
-
+    
   let byeWeekNumber = null;
 
   for (let team of leaguesTeams) {
@@ -123,27 +112,27 @@ function HomePage() {
     }
   }
 
-  console.log('inCurrentLeague', inCurrentLeague)
-
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
     if (conditionalData[0].teamId === null) {
       return <JoinCreateTeam />;
       // if user's team is not in a league display LeagueStatus page
-    } else if (!inNextLeague) {
-      return <LeagueStatus />;
-      // if they are in a league but have not paid display NotPaid page
-    } else if (isPaid === false) {
+    } 
+    if (!isPaid && (inCurrentLeague || inNextLeague)) {
       return <NotPaid />;
-      // If the league has not started display LeagueNotStarted Page
-    } else if (!inCurrentLeague) {
-      return <LeagueNotStarted nextLeague={nextLeague} />;
-      // if they are on their bye week display ByeWeek page
-    } else if (byeWeekNumber === weekCalc + 1) {
-      return <ByeWeek />
-    } else {
-      // else return StartSession page  
-      return <StartSession/>
+    } 
+    if (inCurrentLeague) {
+      if (byeWeekNumber === weekCalc) {
+        return <ByeWeek />
+      } else {
+        return <StartSession/>
+      }
+    } 
+    if (inNextLeague) {
+      return <LeagueNotStarted nextLeague={nextLeague} />;   
+    } 
+    if (!inCurrentLeague && !inNextLeague) {
+      return <LeagueStatus />;
     }
   }
 
