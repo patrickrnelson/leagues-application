@@ -6,7 +6,6 @@ import Header from '../Header/Header'
 
 import JoinCreateTeam from './ConditionalViews/JoinCreateTeam';
 import LeagueStatus from './ConditionalViews/LeagueStatus/LeagueStatus';
-import NoLeague from './ConditionalViews/LeagueStatus/NoLeague';
 import NotPaid from './ConditionalViews/NotPaid';
 import LeagueNotStarted from './ConditionalViews/LeagueNotStarted';
 import ByeWeek from './ConditionalViews/ByeWeek';
@@ -27,6 +26,7 @@ function HomePage() {
   const [currentLeagueStart, setCurrentLeagueStart] = useState('')
   const [currentLeagueEnd, setCurrentLeagueEnd] = useState('')
   const [inNextLeague, setInNextLeague] = useState(false)
+  const [inCurrentLeague, setInCurrentLeague] = useState(false);
   const [nextLeague, setNextLeague] = useState('')
 
 
@@ -49,7 +49,6 @@ function HomePage() {
 
   // check if team has paid for this league
   let isPaid = false;
-
     for(let paidTeam of leaguesTeams) {
       if(paidTeam.leagueId == nextLeague.id || currentLeagueId) {
         if(paidTeam.teamId == conditionalData[0].teamId && paidTeam.isPaid == true) {
@@ -65,9 +64,9 @@ function HomePage() {
     }
   }
 
-  console.log('nextLeague', nextLeague)
-  console.log('currentLeagueId', currentLeagueId)
-
+  console.log('nextleague', nextLeague)
+  console.log('inNextLeage', inNextLeague);
+  console.log('currentLeague', currentLeague)
 
   const getCurrentLeague = () => {
     for(let league of leagues) {
@@ -77,6 +76,9 @@ function HomePage() {
         setCurrentLeagueStart(league.start);
         setCurrentLeagueEnd(league.end);
         return;
+      }
+      if(league.teamId === conditionalData[0].teamId) {
+        setInCurrentLeague(true);
       }
     }
   }
@@ -121,8 +123,7 @@ function HomePage() {
     }
   }
 
-  console.log('byeWeekNumber', byeWeekNumber)
-  console.log('weekCalc', weekCalc)
+  console.log('inCurrentLeague', inCurrentLeague)
 
   const ConditionalDisplay = () => {
     // If user is not on a team display the JoinCreateTeam page
@@ -135,7 +136,7 @@ function HomePage() {
     } else if (isPaid === false) {
       return <NotPaid />;
       // If the league has not started display LeagueNotStarted Page
-    } else if (currentLeague === '' && moment().isBefore(nextLeague.start)) {
+    } else if (!inCurrentLeague) {
       return <LeagueNotStarted nextLeague={nextLeague} />;
       // if they are on their bye week display ByeWeek page
     } else if (byeWeekNumber === weekCalc + 1) {
