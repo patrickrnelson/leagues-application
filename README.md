@@ -15,11 +15,11 @@ To see the fully functional site, please visit: [DEPLOYED VERSION OF APP](www.he
 
 ## Screen Shot
 
+<img src="./public/images/Start_Session.jpg" alt="Home page where user can start a climb session" width="280"/> 
 
+<img src="./public/images/Climb_Session.jpg" alt="Captain view of the climb session" width="280"/> 
 
-Include one or two screen shots of your project here (optional). Remove if unused.
-
-
+<img src="./public/images/Leaderboard.jpg" alt="Leaderboard of the league" width="280"/> 
 
 
 
@@ -34,21 +34,22 @@ To start this project please have these set of software programs downloaded to y
 
 1. Clone code from Github
 2. Open the project folder in an editor of your choice. 
-3. Create a `.env` file at the root of the project and paste this line into the file:
+3. Open a terminal and navigate to the project folder. Run an `npm install`
+4. Create a `.env` file at the root of the project and paste this line into the file:
   ```
   SERVER_SESSION_SECRET=superDuperSecret
   ```
   While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
 
-4. Open your database application of choice. This project is built with [Postgres](https://www.postgresql.org/download/), so you will need to make sure to have that installed. We recommend using Postico create a database and to run the queries.
+5. Open your database application of choice. This project is built with [Postgres](https://www.postgresql.org/download/), so you will need to make sure to have that installed. We recommend using Postico create a database and to run the queries.
 
-4. Create a database named `notn`.
+6. Create a database named `notn`.
 
-5. The queries in the `database.sql` file are set up to create all the necessary tables and populate the needed data to allow the application to run correctly. 
-6. Open a terminal and navigate to the project folder. Run an `npm install`
-7. Run `npm run server` in your terminal
-8. Run `npm run client` in your terminal
-9. The project will open in a new tab in your default browser! If not navigate in your local browser to `localhost:3000`
+7. The queries in the `database.sql` file are set up to create all the necessary tables and populate the needed data to allow the application to run correctly. 
+
+8. Run `npm run server` in your terminal
+9. Run `npm run client` in your terminal
+10. The project will open in a new tab in your default browser! If not navigate in your local browser to `localhost:3000`
 
 ## Usage
 
@@ -84,6 +85,14 @@ To start this project please have these set of software programs downloaded to y
 HTML, CSS, JavaScript, Express.js, Node.js, React, Redux, Sagas, Material-UI, Moment.js
 <!-- List technologies and frameworks here -->
 
+## Known Bugs
+
+- Logging out as an admin and trying to login as a user will direct you to a 404. Simply change the URL in the address bar to be only the base URL (notnleagues.herokuapp.com) to go back to the home screen of the app.
+- ADMIN - Refreshing the 'Edit League' page will cause the league information to disappear.
+- ADMIN - The list of teams on the 'Teams' page will sometimes re-order when changing the paid status of a team. 
+- CLIMBER - The list of climbs in the 'Climbing Session' page will sometimes re-order when changing the submitted status of a climb. 
+- CAPTAIN - Deleting a climber from your team while your team is in the middle of a climbing session will break the scoring for that session. 
+
 ## License
 
 MIT License
@@ -110,4 +119,4 @@ SOFTWARE.
 
 
 ## Acknowledgement
-Thank you to [Prime Digital Academy](www.primeacademy.io) who gave us the opportunity and taught us the skills needed to create an application for [Nature Of The North] (http://natureofthenorth.co/). We wanted to take a moment to thank our cohort, Cullen, for being supportive and taking time to help one another every step of the way. Our instructors Edan and Chad for being adaptive and understanding of our own challenges and struggles throughout our own journey's. 
+Thank you to [Prime Digital Academy](www.primeacademy.io) who gave us the opportunity and taught us the skills needed to create an application for [Nature Of The North](http://natureofthenorth.co/). We wanted to take a moment to thank our cohort, Cullen, for being supportive and taking time to help one another every step of the way. Our instructors Edan and Chad for being adaptive and understanding of our own challenges and struggles throughout our own journey's. 
