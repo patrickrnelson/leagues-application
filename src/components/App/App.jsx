@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   HashRouter as Router,
   Route,
@@ -7,7 +7,11 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+// Material-UI imports
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+
+// Custom Components
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import AboutPage from '../AboutPage/AboutPage';
@@ -28,9 +32,6 @@ import LandingPage from '../LandingPage/LandingPage';
 import Leaderboard from '../Leaderboard/Leaderboard';
 import RulesPage from '../RulesPage/RulesPage';
 import TeamPage from '../TeamPage/TeamPage';
-
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -47,6 +48,7 @@ const theme = createMuiTheme({
 function App() {
   const dispatch = useDispatch();
 
+  // Redux Store
   const user = useSelector((store) => store.user);
 
   useEffect(() => {

@@ -61,6 +61,7 @@ function ByeWeek() {
         captainId: conditionalData[0].captainId
       }
     })
+    window.location.reload()
   }; //end cancelByeWeek
 
   return (

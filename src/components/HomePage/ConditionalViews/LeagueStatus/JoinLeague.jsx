@@ -44,6 +44,7 @@ function JoinLeague(props) {
         teamId: teamId
       }
     });
+  window.location.reload()
   }; // end joinLeague
 
   return (

@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+// Custom Components
 import Header from '../Header/Header';
 import boulderFour from '../Images/boulder4.png';
 
@@ -37,7 +38,6 @@ function CreateTeam() {
   // State Variables
   const [teamCode, setTeamCode] = useState('');
   
-
   useEffect(() => {
     dispatch({ type: 'CLEAR_JOIN_ERROR' });
   },[dispatch]);

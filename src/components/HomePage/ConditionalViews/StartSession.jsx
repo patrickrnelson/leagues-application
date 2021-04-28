@@ -29,7 +29,7 @@ const useStyles = makeStyles({
   },
 });
 
-function StartSession(props) {
+function StartSession() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -110,6 +110,7 @@ function StartSession(props) {
         captainId: conditionalData[0].captainId
       }
     })
+    window.location.reload()
   }; // end initiateByeWeek
 
   return (
@@ -119,7 +120,7 @@ function StartSession(props) {
       <p style={{fontStyle: 'italic', color: 'green'}}>{currentClimbs.length === 0 ? '' : 'Session In Progress'}</p>
       <h4>Team: {conditionalData[0].teamName}</h4>
 
-      <h4>Week {props.weekCalc}</h4>
+      <h4>Week {weekCalc}</h4>
 
       <div className={classes.start}>
         <Button

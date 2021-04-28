@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import './Admin.css';
-
-import Nav from '../Nav/Nav'
-import { Grid } from '@material-ui/core';
-import { Box } from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
 import {useDispatch, useSelector} from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
+
+// Material-UI imports
+import { Grid } from '@material-ui/core';
+import { Box } from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
+// Custom Components
+import './Admin.css';
+import Nav from '../Nav/Nav'
 
 function AdminEdit() {
   const history = useHistory();
@@ -35,7 +38,7 @@ function AdminEdit() {
       }
     })
     history.push('/admin/leagues')
-  }; // end saveRsults
+  }; // end saveResults
 
   useEffect(() => {
     findLeague();
