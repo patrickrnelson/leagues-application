@@ -76,12 +76,12 @@ function HomePage() {
   }
 
   // check if team has paid for this league
+  console.log('currentLeagueId', currentLeagueId)
   let isPaid = false;
     for(let paidTeam of leaguesTeams) {
-      if(paidTeam.leagueId == nextLeague.id || currentLeagueId) {
-        if(paidTeam.teamId == conditionalData[0].teamId && paidTeam.isPaid == true) {
+      if(paidTeam.leagueId === nextLeague.id || currentLeagueId) {
+        if(paidTeam.teamId == conditionalData[0].teamId && paidTeam.isPaid) {
           isPaid = true;
-          break;
         }
       }
     }
@@ -117,21 +117,17 @@ function HomePage() {
     if (conditionalData[0].teamId === null) {
       return <JoinCreateTeam />;
       // if user's team is not in a league display LeagueStatus page
-    } 
-    if (!isPaid && (inCurrentLeague || inNextLeague)) {
+    } else if (!isPaid && (inCurrentLeague || inNextLeague)) {
       return <NotPaid />;
-    } 
-    if (inCurrentLeague) {
+    } else if (inCurrentLeague) {
       if (byeWeekNumber === weekCalc) {
         return <ByeWeek />
       } else {
         return <StartSession/>
       }
-    } 
-    if (inNextLeague) {
+    } else if (inNextLeague) {
       return <LeagueNotStarted nextLeague={nextLeague} />;   
-    } 
-    if (!inCurrentLeague && !inNextLeague) {
+    } else {
       return <LeagueStatus />;
     }
   }
