@@ -16,10 +16,10 @@ To see the fully functional site, please visit: [DEPLOYED VERSION OF APP](www.he
 ## Screen Shot
 
 <img src="./public/images/Start_Session.jpg" alt="Home page where user can start a climb session" width="280"/> 
-
 <img src="./public/images/Climb_Session.jpg" alt="Captain view of the climb session" width="280"/> 
-
 <img src="./public/images/Leaderboard.jpg" alt="Leaderboard of the league" width="280"/> 
+
+<img src="./public/images/Admin_Teams.jpg" alt="Admin view of the teams page" width="900">
 
 
 
