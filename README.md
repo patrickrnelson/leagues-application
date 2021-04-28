@@ -25,7 +25,7 @@ Include one or two screen shots of your project here (optional). Remove if unuse
 
 ### Prerequisites
 To start this project please have these set of software programs downloaded to your computer. 
-- a Code editor of choice [VS Code ](https://code.visualstudio.com/) OR [Sublime Text](https://www.sublimetext.com/)
+- A code editor of your choice [VS Code ](https://code.visualstudio.com/) OR [Sublime Text](https://www.sublimetext.com/)
 - [postgreSQL](https://www.postgresql.org/)
 - [Node.js](https://nodejs.org/en/)
 - [Postico](https://eggerapps.at/postico/) 
@@ -39,9 +39,11 @@ To start this project please have these set of software programs downloaded to y
   SERVER_SESSION_SECRET=superDuperSecret
   ```
   While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
-4. Open your database application of choice. This project is built with [Postgres](https://www.postgresql.org/download/), so you will need to make sure to have that installed. We recommend using
-   Postico create a database and to run the queries.
-4a. Create a database named `notn`.
+
+4. Open your database application of choice. This project is built with [Postgres](https://www.postgresql.org/download/), so you will need to make sure to have that installed. We recommend using Postico create a database and to run the queries.
+
+4. Create a database named `notn`.
+
 5. The queries in the `database.sql` file are set up to create all the necessary tables and populate the needed data to allow the application to run correctly. 
 6. Open a terminal and navigate to the project folder. Run an `npm install`
 7. Run `npm run server` in your terminal
@@ -49,7 +51,6 @@ To start this project please have these set of software programs downloaded to y
 9. The project will open in a new tab in your default browser! If not navigate in your local browser to `localhost:3000`
 
 ## Usage
-How does someone use this application? Tell a user story here.
 
 ### Admin
 1. Login using the provided Admin login. 
@@ -63,13 +64,15 @@ How does someone use this application? Tell a user story here.
 ### Climber
 1. Register for an account.
 2. Click the 'Create a Team' button and enter in a new team name.
-3a. If a league is open, click 'Join League' on the home page.
-3b. If a league is not open, the app will say so and you can check back later. 
+3. If a league is open, click 'Join League' on the home page.
+3. If a league is not open, the app will say so and you can check back later. 
 4. When you join a league you must pay the league dues to NOTN, and they will mark your team as paid in the admin view.
 5. Once your team has paid and the league has started, you and your team will be able to start a climbing session.
 6. In the climbing session, click 'Add climbs' to add your climbs for the week. You can add as many climbs as you would like. 
 7. Once you and your team have completed all of your climbs, the team captain can click the 'submit' checkbox on 10 of the climbs.
-  -Each climber must have 3 climbs submitted, and the 10th climb can come from any climber
+
+- Each climber must have 3 climbs submitted, and the 10th climb can come from any climber
+
 8. Click on the 'team' link in the menu to see the climbers on your team and their total score for the current league.
 9. Click on the 'leaderboard' link in the menu to see all of the teams in the current league and their respective scores. Your team will be highlighted. 
 10. The 'Rules' page in the menu lists the rules for the league. 
@@ -78,7 +81,7 @@ How does someone use this application? Tell a user story here.
 
 ## Built With
 
-- HTML, CSS, JavaScript, Express.js, Node.js, React, Redux, Sagas, Material-UI, Moment.js
+HTML, CSS, JavaScript, Express.js, Node.js, React, Redux, Sagas, Material-UI, Moment.js
 <!-- List technologies and frameworks here -->
 
 ## License
@@ -108,7 +111,3 @@ SOFTWARE.
 
 ## Acknowledgement
 Thank you to [Prime Digital Academy](www.primeacademy.io) who gave us the opportunity and taught us the skills needed to create an application for [Nature Of The North] (http://natureofthenorth.co/). We wanted to take a moment to thank our cohort, Cullen, for being supportive and taking time to help one another every step of the way. Our instructors Edan and Chad for being adaptive and understanding of our own challenges and struggles throughout our own journey's. 
-
-
-## Support
-If you have suggestions or issues, please email [SeniorDevs@gmail.com](www.google.com)
