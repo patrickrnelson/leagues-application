@@ -11,7 +11,7 @@ _Duration: 2 Week Sprint_
 
 Client project for Prime Digital Academy. We worked with Nature of the North to develop an application for their bouldering leagues. The client wanted climbers in the league to be able to track their climbs every week and submit certain climbs to go towards their team's score. They also wanted a leaderboard so the teams would have visibility into how their team is doing in comparison to other teams in the league. There is also admin functionality that allows the admin to see each team, their climbers, all of the climbs, and mark whether or not the team has paid their league dues. 
 
-To see the fully functional site, please visit: [DEPLOYED VERSION OF APP](www.heroku.com)
+To see the fully functional site, please visit the [deployed version of the app](https://notn-leagues.herokuapp.com/)
 
 ## Screen Shot
 
